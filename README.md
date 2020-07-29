@@ -1,4 +1,4 @@
-# Bald-Warrior <img src="BaldWarrior.png"height="64px" width="64px">
+# Bald-Warrior <img src="BaldWarrior.png" height="64px" width="64px">
  CS246 final project
 
 ## Introduction
