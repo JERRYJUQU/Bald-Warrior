@@ -9,7 +9,7 @@ See UML here https://app.lucidchart.com/invitations/accept/8a72bed1-27da-45e9-87
 
 ## Run
 To run the program, execute the command in the repository:
-  make
+    eee
 
 ## Releases
 No releases available
