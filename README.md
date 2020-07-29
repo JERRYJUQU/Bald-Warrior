@@ -1,4 +1,4 @@
-# Bald-Warrior ![](BaldWarrior.png)
+# Bald-Warrior ![](BaldWarrior.png = 128x128)
  CS246 final project
 
 ## Introduction
