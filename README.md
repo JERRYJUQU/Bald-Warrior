@@ -4,6 +4,9 @@
 ## Introduction
 This is an implementation of the game ChamberCrawler3000 for the final project of CS246 Fall 2020.
 
+## Plan-of-Attack
+The plan of attack is currently under the Google doc: https://docs.google.com/document/d/1_OjW9sLRQMAcANL5a7lCWj5IUhWTBeMBsWmY4eQoMBU/edit?usp=sharing
+
 ## Content
 ![](UML_Class.jpeg)
 ![](Item_Subclasses.jpeg)
