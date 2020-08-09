@@ -9,7 +9,7 @@ PoisonHealth::PoisonHealth(int x, int y,
 void PoisonHealth::effect(Hero &hero) {
     int tempHealth = hero.getHP() - 10;
     if (tempHealth < 0) {
-        hero.setHP(tempHealth + 10);
+        hero.setHP(0);
     }
     else {
         hero.setHP(tempHealth);

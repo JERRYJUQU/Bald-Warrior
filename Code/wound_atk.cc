@@ -9,7 +9,7 @@ WoundAtk::WoundAtk(int x, int y,
 void WoundAtk::effect(Hero &hero) {
     int tempAtk = hero.getAtk() - 5;
     if (tempAtk < 1) {
-        hero.setAtk(1);
+        hero.setAtk(0);
         return;
     }
     hero.setAtk(tempAtk);
