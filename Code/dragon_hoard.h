@@ -11,6 +11,7 @@ public:
     DragonHoard(int x, int y,
         std::shared_ptr <Observer> display);
     virtual void effect(Hero& hero) override;
+    void notifyDeath();
 };
 
 #endif
