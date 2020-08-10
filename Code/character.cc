@@ -33,7 +33,7 @@ void Character::setAtk(int atk){
         this->atk = atk;
         return;
 }
-void Character::setDef(){
+void Character::setDef(int def){
         this->def  = def;
         return;
 }
@@ -41,4 +41,3 @@ void Character::attach(shared_ptr<Observer> observer){
         observers.push_back(observer);
         return;
 }
-
