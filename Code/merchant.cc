@@ -1,4 +1,4 @@
-#include "human.h"
+#include "merchant.h"
 
 Merchant::Merchant(Position pos): Enemy{pos} {
     hp = 30;
