@@ -1,5 +1,5 @@
 #include "troll.h"
-Troll::Troll(Position pos): Hero{pos} {
+Troll::Troll(Position pos): Hero{pos, HeroType::troll} {
     hp = 120;
     atk = 25;
     def = 15;
@@ -39,13 +39,9 @@ void Troll::attack(Dragon & dragon){
 }
         
 void Troll::defend(Halfling & halfling){
-    50%
-    halfling.incHP(-((100/(100+halfling.getDef()))*(this->getAtk())));
+    int miss = std::rand() % (1);
+    if(!miss){
+        halfling.incHP(-((100/(100+halfling.getDef()))*(this->getAtk())));
+    }
 }
 
-void Troll::notifyObservers(){
-        for(auto p:observers){
-                p.notify(*this);
-        }
-        return;
-}
