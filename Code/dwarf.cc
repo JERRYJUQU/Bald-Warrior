@@ -4,6 +4,7 @@ Dwarf::Dwarf(Position pos): Hero{pos, EnemyType::dwarf} {
     hp = 100;
     atk = 20;
     def = 30;
+    
 }
     
 void Dwarf::defend(Hero & hero){
