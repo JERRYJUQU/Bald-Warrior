@@ -11,7 +11,6 @@ public:
     void attack(Vampire & vampire) override;
     void attack(Troll & troll) override;
     void attack(Goblin & goblin) override;
-    void notifyObservers() override;
 };
 
 #endif
