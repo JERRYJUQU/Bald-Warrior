@@ -1,5 +1,5 @@
 #include "goblin.h"
-Goblin::Goblin(Position pos): Hero{pos} {
+Goblin::Goblin(Position pos): Hero{pos, HeroType::goblin} {
     hp = 110;
     atk = 15;
     def = 20;
@@ -39,13 +39,9 @@ void Goblin::attack(Dragon & dragon){
 }
         
 void Goblin::defend(Halfling & halfling){
-    50%
-    halfling.incHP(-((100/(100+halfling.getDef()))*(this->getAtk())));
+    int miss = std::rand() % 1;
+    if(!miss){
+        halfling.incHP(-((100/(100+halfling.getDef()))*(this->getAtk())));
+    }
 }
 
-void Goblin::notifyObservers(){
-        for(auto p:observers){
-                p.notify(*this);
-        }
-        return;
-}
