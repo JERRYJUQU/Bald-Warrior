@@ -3,6 +3,7 @@
 #include "character.h"
 #include <string>
 using namespace std;
+enum class HeroType { shade, drow, vampire, troll, goblin };
 
 class Enemy;
 class Human;
@@ -20,8 +21,9 @@ class Hero : public Character{
 protected:
         int gold;
         int maxHP;
+        HeroType type;
 public:
-        Hero(Position pos);
+        Hero(Position pos, HeroType type);
         int getGold();
         void incGold(int gold);
         int getMaxHP();

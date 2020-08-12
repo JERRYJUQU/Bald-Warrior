@@ -1,11 +1,13 @@
 #include "floor.h"
 #include "tile.h"
+#include <random>
 
 Floor::Floor() : name{""} {
   td = std::make_shared<TextDisplay>();
   std::istringstream ss(map);
   std::string s;
   int r = 0;
+
   while(getline(ss, s)){
     std::vector<std::shared_ptr<Tile>> row;
     for (int c = 0; c < 79; c++){

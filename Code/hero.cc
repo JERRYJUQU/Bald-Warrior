@@ -1,7 +1,8 @@
 #include "hero.h"
 #include "floor.h"
+#include "character.h"
 
-Hero::Hero(Position pos):Character{pos}, gold{0}, maxHP{0} {}
+Hero::Hero(Position pos, HeroType type):Character{pos, CharacterType::hero}, type{type}, gold{0}, maxHP{0} {}
 
 int Hero::getGold() { return gold; };
 int Hero::getMaxHP() { return maxHP; };

@@ -3,6 +3,8 @@
 #include "textdisplay.h"
 #include "subject.h"
 #include "tile.h"
+#include "character.h"
+
 void TextDisplay::generateRows(char c){
   std::vector<char> row;
   row.emplace_back('|');
@@ -16,7 +18,11 @@ void TextDisplay::generateRows(char c){
 void TextDisplay::notify( Subject & whoNotified ) {
   ObjType ot = whoNotified.getType();
   switch(ot){
-    case ObjType::character: break;
+    case ObjType::character:
+      auto character = dynamic_cast<Character*> (&whoNotified);//Cast the subject to tile
+      CharacterType ct = character->getCharacterType();
+
+      break;
     case ObjType::item: break;
     case ObjType::tile:
       auto tile = dynamic_cast<Tile*> (&whoNotified);//Cast the subject to tile

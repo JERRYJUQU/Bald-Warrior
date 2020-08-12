@@ -5,6 +5,7 @@
 #include "position.h"
 #include "subject.h"
 using namespace std;
+enum class CharacterType { hero, enemy };
 
 class Observer;
 enum class Direction;
@@ -12,10 +13,11 @@ enum class Direction;
 class Character : public Subject{
 protected:
         Position pos;
+        CharacterType type;
         int hp, atk, def;
         vector<shared_ptr<Observer>> observers;
 public:
-        Character(Position pos);
+        Character(Position pos, CharacterType type);
         Position getPos();
         int getHP();
         int getAtk();
@@ -27,7 +29,7 @@ public:
         void setDef(int def);
         void attach(shared_ptr<Observer> observer);
         void move(Direction dir);
-
+        CharacterType getCharacterType();
 };
 
 #endif

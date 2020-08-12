@@ -3,6 +3,7 @@
 #include "character.h"
 #include <string>
 using namespace std;
+enum class EnemyType { human, dwarf, elf, orcs, merchant, dragon, halfling };
 
 class Hero;
 class Shade;
@@ -15,8 +16,9 @@ enum class Direction;
 class Enemy : public Character{
 protected:
         bool neutral;
+        EnemyType type;
 public:
-        Enemy(Position pos);
+        Enemy(Position pos, EnemyType type);
         virtual void defend(Hero & hero) = 0;
         virtual void attack(Shade & shade) = 0;
         virtual void attack(Drow & drow) = 0;
