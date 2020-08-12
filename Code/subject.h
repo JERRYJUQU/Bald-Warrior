@@ -2,6 +2,7 @@
 #define SUBJECT_H
 #include <iostream>
 #include <vector>
+#include <memory>
 #include "position.h"
 enum class ObjType { character, item, tile };
 
