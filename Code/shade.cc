@@ -39,7 +39,7 @@ void Shade::attack(Dragon & dragon){
 }
         
 void Shade::defend(Halfling & halfling){
-    int miss = rand() % (1);
+    int miss = std::rand() % (1);
     if(!miss){
         halfling.incHP(-((100/(100+halfling.getDef()))*(this->getAtk())));
     }
