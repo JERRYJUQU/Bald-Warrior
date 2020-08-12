@@ -4,6 +4,9 @@
 #include "subject.h"
 #include "tile.h"
 #include "character.h"
+#include "enemy.h"
+#include "hero.h"
+#include "item.h"
 
 void TextDisplay::generateRows(char c){
   std::vector<char> row;
@@ -18,13 +21,35 @@ void TextDisplay::generateRows(char c){
 void TextDisplay::notify( Subject & whoNotified ) {
   ObjType ot = whoNotified.getType();
   switch(ot){
-    case ObjType::character:
+    case ObjType::character:{
       auto character = dynamic_cast<Character*> (&whoNotified);//Cast the subject to tile
       CharacterType ct = character->getCharacterType();
-
+      switch(ct){
+        case CharacterType::hero: theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = '@'; break;
+        case CharacterType::enemy:
+          auto enemy = dynamic_cast<Enemy*> (&whoNotified);//Cast the subject to tile
+          EnemyType et = enemy->getEnemyType();
+          switch(et){
+            case EnemyType::human: theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = 'H'; break;
+            case EnemyType::dwarf: theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = 'W'; break;
+            case EnemyType::elf: theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = 'E'; break;
+            case EnemyType::orcs: theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = 'O'; break;
+            case EnemyType::merchant: theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = 'M'; break;
+            case EnemyType::dragon: theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = 'D'; break;
+            case EnemyType::halfling: theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = 'L'; break;
+          }
+      }
       break;
-    case ObjType::item: break;
-    case ObjType::tile:
+    }
+    case ObjType::item:{
+      auto item = dynamic_cast<Item*> (&whoNotified);//Cast the subject to tile
+      ItemType it = item->getItemType();
+      switch(it){
+        case ItemType::treasure:  theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = 'G'; break;
+        case ItemType::potion:  theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = 'P'; break;
+      }
+    }
+    case ObjType::tile:{
       auto tile = dynamic_cast<Tile*> (&whoNotified);//Cast the subject to tile
       TileType tt = tile->getTileType();
       switch(tt){
@@ -35,8 +60,10 @@ void TextDisplay::notify( Subject & whoNotified ) {
         case TileType::hpassage: theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = '#'; break;
         case TileType::vpassage: theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = '#'; break;
         case TileType::empty: theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = ' '; break;
+        case TileType::stair: theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = '\\'; break;
       }
       break;
+    }
   }
 };
 

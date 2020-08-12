@@ -27,6 +27,7 @@ public:
         int getGold();
         void incGold(int gold);
         int getMaxHP();
+        HeroType getHeroType();
         virtual void defend(Enemy & enemy) = 0;
         virtual void attack(Human & human) = 0;
         virtual void attack(Dwarf & dwarf) = 0;

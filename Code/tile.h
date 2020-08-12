@@ -3,7 +3,7 @@
 #include <vector>
 #include "position.h"
 #include "subject.h"
-enum class TileType { ground, hwall, vwall, doorway, hpassage, vpassage, empty };
+enum class TileType { ground, hwall, vwall, doorway, hpassage, vpassage, empty, stair };
 
 class Tile : public Subject{
   TileType type;

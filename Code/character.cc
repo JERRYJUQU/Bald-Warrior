@@ -22,6 +22,7 @@ void Character::incHP(int hp){
 
         return;
 }
+CharacterType Character::getCharacterType(){return type; };
 void Character::setHP(int hp){
         if(hp < 0){
                 this->hp = 0;
