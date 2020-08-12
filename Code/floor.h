@@ -12,8 +12,6 @@
 #include "character.h"
 #include "item.h"
 
-enum class Direction { no,so,ea,we,ne,nw,se,sw };
-
 class Observer;
 class Stair;
 
