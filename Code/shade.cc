@@ -45,9 +45,4 @@ void Shade::defend(Halfling & halfling){
     }
 }
 
-void Shade::notifyObservers(){
-        for(auto p:observers){
-                p.notify(*this);
-        }
-        return;
-}
+
