@@ -6,17 +6,23 @@
 #include <memory>
 #include "tile.h"
 #include "textdisplay.h"
+#include "treasure.h"
+#include "hero.h"
+#include "enemy.h"
+#include "character.h"
+#include "item.h"
 
-enum class Direction { up, down, left, right };
+enum class Direction { no,so,ea,we,ne,nw,se,sw };
 
 class Observer;
 
 class Floor {
   std::string name;
-  //std::shared_ptr<Hero> hero;
+  std::shared_ptr<Hero> hero;
   std::vector<std::vector<std::shared_ptr<Tile>>> tiles;
-  //std::vector<std::shared_ptr<Enemy>> enemies;
-  //std::vector<std::shared_ptr<Item>> items;
+  std::vector<std::vector<std::shared_ptr<Enemy>>> enemies;
+  std::vector<std::shared_ptr<Potion>> potions;
+  std::vector<std::vector<std::shared_ptr<Treasure>>> treasures;
   std::shared_ptr<TextDisplay> td;
 
   std::string map =
@@ -46,6 +52,11 @@ class Floor {
   "|                                                                             |\n"
   "|-----------------------------------------------------------------------------|"; //The map in text form
 
+  //Private methods
+  bool checkCollision(Position pos, std::string type);
+  bool guarded(std::shared_ptr<Treasure> treasue);
+  Position getNewPos(Position oldPos, Direction dir);
+  void attackEnemy( Direction dir );
 
 public:
   Floor();
