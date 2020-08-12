@@ -1,7 +1,7 @@
 #include "enemy.h"
 #include "character.h"
 
-Enemy::Enemy(Position pos, EnemyType type): Character{pos, CharacterType::enemy}, type{type}, neutral{false}{}
+Enemy::Enemy(Position pos, EnemyType type): Character{pos, CharacterType::enemy}, neutral{false}, type{type}{}
 EnemyType Enemy::getEnemyType(){ return type; };
 /*
 void Enemy::move(Direction direction){
