@@ -1,5 +1,5 @@
 #include "shade.h"
-Shade::Shade(Position pos): Hero{pos} {
+Shade::Shade(Position pos): Hero{pos, HeroType::shade} {
     hp = 125;
     atk = 25;
     def = 25;
@@ -39,13 +39,10 @@ void Shade::attack(Dragon & dragon){
 }
         
 void Shade::defend(Halfling & halfling){
-    50%
-    halfling.incHP(-((100/(100+halfling.getDef()))*(this->getAtk())));
+    int miss = std::rand() % 2;
+    if(!miss){
+        halfling.incHP(-((100/(100+halfling.getDef()))*(this->getAtk())));
+    }
 }
 
-void Shade::notifyObservers(){
-        for(auto p:observers){
-                p.notify(*this);
-        }
-        return;
-}
+

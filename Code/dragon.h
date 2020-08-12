@@ -16,7 +16,7 @@ public:
     void attack(Troll & troll) override;
     void attack(Goblin & goblin) override;
     void notifyDeath() override;
-    void notifyObservers() override;
+    DragonHoard getHoard();
 };
 
 

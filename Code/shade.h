@@ -14,7 +14,6 @@ public:
         void attack(Merchant & merchant) override;
         void attack(Dragon & dragon) override;
         void attack(Halfling & halfling) override;
-        void notifyObservers() override;
 };
 
 #endif

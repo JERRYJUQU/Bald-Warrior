@@ -46,9 +46,11 @@ void Vampire::attack(Dragon & dragon){
 }
 
 void Vampire::defend(Halfling & halfling){
-    50%
-    halfling.incHP(-((100/(100+halfling.getDef()))*(this->getAtk())));
-    hp+=5;
+    int miss = std::rand() % (1);
+    if(!miss){
+        halfling.incHP(-((100/(100+halfling.getDef()))*(this->getAtk())));
+        hp+=5;
+    }    
 }
 
 void Vampire::notifyObservers(){

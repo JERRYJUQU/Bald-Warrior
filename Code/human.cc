@@ -1,9 +1,10 @@
 #include "human.h"
 
-Human::Human(Position pos): Enemy{pos} {
+Human::Human(Position pos): Enemy{pos, EnemyType::Human} {
     hp = 140;
     atk = 20;
     def = 20;
+    maxHP = 140;
 }
     
 void Human::defend(Enemy & enemy){
@@ -11,34 +12,43 @@ void Human::defend(Enemy & enemy){
 }
     
 void Human::attack(Shade & shade){
-    shade.incHP(-(this->getAtk()));
+    int miss = std::rand()%2;
+    if(!miss){
+        shade.incHP(-((100/(100+shade.getDef()))*(this->getAtk())));
+    }
 }
     
 void Human::attack(Drow & drow){
-    drow.incHP(-(this->getAtk()));
+    int miss = std::rand()%2;
+    if(!miss){
+        drow.incHP(-((100/(100+drow.getDef()))*(this->getAtk())));
+    }
 }
 
 void Human::attack(Vampire & vampire){
-    vampire.incHP(-(this->getAtk()));
+    int miss = std::rand()%2;
+    if(!miss){
+        vampire.incHP(-((100/(100+vampire.getDef()))*(this->getAtk())));
+    }
 }
 
 void Human::attack(Troll & troll){
-    troll.incHP(-(this->getAtk()));
+    int miss = std::rand()%2;
+    if(!miss){
+        troll.incHP(-((100/(100+troll.getDef()))*(this->getAtk())));
+    }
 }
 
 void Human::attack(Goblin & goblin){
-    goblin.incHP(-(this->getAtk()));
+    int miss = std::rand()%2;
+    if(!miss){
+        goblin.incHP(-((100/(100+goblin.getDef()))*(this->getAtk())));
+    }
 }
+
 
 void Human::notifyDeath(){
     for (auto p : observers){
         p.notifyDeath(*this);
     }
-}
-
-void Human::notifyObservers(){
-        for(auto p:observers){
-                p.notify(*this);
-        }
-        return;
 }
