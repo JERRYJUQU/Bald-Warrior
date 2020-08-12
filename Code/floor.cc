@@ -1,5 +1,9 @@
 #include "floor.h"
 #include "tile.h"
+#include "hero.h"
+#include "enemy.h"
+#include "potion.h"
+#include "stair.h"
 #include <random>
 
 Floor::Floor() : name{""} {
@@ -29,15 +33,137 @@ Floor::Floor() : name{""} {
       std::shared_ptr<Tile> tile = std::make_shared<Tile>(type, pos);
       tile->attach(td);
       tile->notifyObservers();
-      row.emplace_back();
+      row.emplace_back(tile);
     }
     tiles.emplace_back(row);
     ++r;
   }
 
+
+  //Initialize maps
+  for(int r = 0; r < 25; r++){
+    std::vector<std::shared_ptr<Enemy>> row;
+    for(int c = 0; c < 79; c++){
+      row.empalce_back()
+    }
+    enemies.empalce_back(row)
+  }
+
+  for(int r = 0; r < 25; r++){
+    std::vector<std::shared_ptr<Potion>> row;
+    for(int c = 0; c < 79; c++){
+      row.empalce_back()
+    }
+    potions.empalce_back(row)
+  }
+
+  for(int r = 0; r < 25; r++){
+    std::vector<std::shared_ptr<Treasure>> row;
+    for(int c = 0; c < 79; c++){
+      row.empalce_back()
+    }
+    treasures.empalce_back(row)
+  }
+
+  spawn();
+  //struct Position pos = { 10, 10 };
+  //Hero hero = Hero(pos, HeroType::shade);
 }
 void Floor::spawn(){
-  
+
+  std::vector<std::shared_ptr<Tile>> valid;
+  for(auto &row : tiles){
+    for(auto &col : row){
+      TileType tt = col->getTileType();
+      if(tt == TileType::ground){
+        valid.emplace_back(col);
+      }
+    }
+  }
+
+  //Generate stair
+  int i = (rand()%valid.size());
+  stair = make_shared<Stair>( valid[i]->getPos() );
+  stair->attach(td);
+  stair->notifyObservers();
+  valid.erase(valid.begin()+i);
+
+  //Generate Hero
+  i = (rand()%valid.size());
+  hero = make_shared<Shade>( valid[i]->getPos() );
+  hero->attach(td);
+  hero->notifyObservers();
+  valid.erase(valid.begin()+i);
+
+  //Generate enemies
+  for(int j = 0; j < 20; j++){
+    i = (rand()%valid.size());//Generate a random element in the valid tiles
+
+    struct Position validPos = valid[i]->getPos();
+    int t = rand()%18;//Get a random number between 0 to 18
+    std::shared_ptr<Enemy> enemy;
+    if(t < 4){// 2/9 chance of being human
+      enemy = make_shared<Human>( validPos );
+    }else if(t < 7){// 3/18 chance of being dwarf
+      enemy = make_shared<Dwarf>( validPos );
+    }else if(t < 12){// 5/18 chance of being halfing
+      enemy = make_shared<Halfling>( validPos );
+    }else if(t < 14){// 1/9 chance of being elf
+      enemy = make_shared<Elf>( validPos );
+    }else if(t < 16){// 1/9 chance of being orc
+      enemy = make_shared<Orc>( validPos );
+    }else{// 1/9 chance of being merchant
+      enemy = make_shared<Merchant>( validPos );
+    }
+    enemy->attach(td);
+    enemy->notifyObservers();
+    enemies[validPos.x][validPos.y] = enemy;
+    valid.erase(valid.begin()+i);
+  }
+
+  //Generate potions
+  for(int j = 0; j < 10; j++){
+    i = (rand()%valid.size());
+
+    struct Position validPos = valid[i]->getPos();
+    int t = rand()%6;//Get a random number between 0 to 18
+    std::shared_ptr<Potion> potion;
+    switch(t){
+      case 0: potion = make_shared<RestoreHealth>( validPos ); break;
+      case 1: potion = make_shared<BoostAtk>( validPos ); break;
+      case 2: potion = make_shared<BoostDef>( validPos ); break;
+      case 3: potion = make_shared<PoisonHealth>( validPos ); break;
+      case 4: potion = make_shared<WoundAtk>( validPos ); break;
+      case 5: potion = make_shared<WoundDef>( validPos ); break;
+    }
+
+    potion->attach(td);
+    potion->notifyObservers();
+    potions[validPos.x][validPos.y] = enemy;
+    valid.erase(valid.begin()+i);
+  }
+
+  //Generate treasures
+  for(int j = 0; j < 10; j++){
+    i = (rand()%valid.size());
+
+    struct Position validPos = valid[i]->getPos();
+    int t = rand()%8;//Get a random number between 0 to 18
+    std::shared_ptr<Treasure> treasure;
+
+    if(t < 5){// 2/9 chance of being human
+      treasure = make_shared<Normal>( validPos );
+    }else if(t < 6){// 3/18 chance of being dwarf
+      treasure = make_shared<DragonHoard>( validPos );
+    }else{// 1/9 chance of being merchant
+      treasure = make_shared<SmallHoard>( validPos );
+    }
+
+    treasure->attach(td);
+    treasure->notifyObservers();
+    treasure[validPos.x][validPos.y] = enemy;
+    valid.erase(valid.begin()+i);
+  }
 };
 
 bool Floor::checkCollision(Position pos, std::string type){

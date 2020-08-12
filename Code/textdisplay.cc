@@ -6,6 +6,7 @@
 #include "character.h"
 #include "enemy.h"
 #include "hero.h"
+#include "item.h"
 
 void TextDisplay::generateRows(char c){
   std::vector<char> row;
@@ -40,7 +41,14 @@ void TextDisplay::notify( Subject & whoNotified ) {
       }
       break;
     }
-    case ObjType::item: break;
+    case ObjType::item:{
+      auto item = dynamic_cast<Item*> (&whoNotified);//Cast the subject to tile
+      ItemType it = item->getItemType();
+      switch(it){
+        case ItemType::treasure:  theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = 'G'; break;
+        case ItemType::potion:  theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = 'P'; break;
+      }
+    }
     case ObjType::tile:{
       auto tile = dynamic_cast<Tile*> (&whoNotified);//Cast the subject to tile
       TileType tt = tile->getTileType();
@@ -52,6 +60,7 @@ void TextDisplay::notify( Subject & whoNotified ) {
         case TileType::hpassage: theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = '#'; break;
         case TileType::vpassage: theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = '#'; break;
         case TileType::empty: theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = ' '; break;
+        case TileType::stair: theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = '\\'; break;
       }
       break;
     }

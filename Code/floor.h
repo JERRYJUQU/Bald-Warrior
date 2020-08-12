@@ -15,15 +15,19 @@
 enum class Direction { no,so,ea,we,ne,nw,se,sw };
 
 class Observer;
+class Stair;
 
 class Floor {
   std::string name;
   std::shared_ptr<Hero> hero;
+  std::shared_ptr<Stair> stair;
   std::vector<std::vector<std::shared_ptr<Tile>>> tiles;
   std::vector<std::vector<std::shared_ptr<Enemy>>> enemies;
   std::vector<std::shared_ptr<Potion>> potions;
   std::vector<std::vector<std::shared_ptr<Treasure>>> treasures;
+
   std::shared_ptr<TextDisplay> td;
+
 
   std::string map =
   "|-----------------------------------------------------------------------------|\n"
