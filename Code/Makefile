@@ -1,6 +1,6 @@
 CXX = g++                   # compiler
 CXXFLAGS = -std=c++14 -g -Wall -MMD # compiler flags
-OBJECTS =  subject.o textdisplay.o tile.o floor.o main.o    # object files for the executable
+OBJECTS =  subject.o item.o potion.o treasure.o character.o hero.o enemy.o textdisplay.o tile.o floor.o main.o    # object files for the executable
 EXEC = baldwarrior                 # executable name
 DEPENDS = ${OBJECTS:.o=.d}  # substitute ".o" with ".d"
 

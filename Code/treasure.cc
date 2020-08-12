@@ -1,8 +1,9 @@
 #include "treasure.h"
+#include "position.h"
+#include "floor.h"
 
-Treasure::Treasure(int x, int y,
-	std::shared_ptr <Observer> display, bool canPickUp)
-	: Item(x, y, display),
+Treasure::Treasure(Position pos, bool canPickUp)
+	: Item(pos),
 	canPickUp{canPickUp}
 {}
 

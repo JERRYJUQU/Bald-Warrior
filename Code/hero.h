@@ -3,6 +3,7 @@
 #include "character.h"
 #include <string>
 using namespace std;
+enum class HeroType { shade, drow, vampire, troll, goblin };
 
 class Enemy;
 class Human;
@@ -14,13 +15,15 @@ class Dragon;
 class Halfling;
 class Potion;
 class Treasure;
+enum class Direction;
 
 class Hero : public Character{
 protected:
         int gold;
         int maxHP;
+        HeroType type;
 public:
-        Hero(Position pos);
+        Hero(Position pos, HeroType type);
         int getGold();
         void incGold(int gold);
         int getMaxHP();
@@ -32,9 +35,9 @@ public:
         virtual void attack(Merchant & merchant) = 0;
         virtual void attack(Dragon & dragon) = 0;
         virtual void attack(Halfling & halfling) = 0;
-        virtual void usePotion(Potion & potion);
+        virtual void usePotion(Potion & potion) = 0;
         void pickUpTreasure(Treasure & treasure);
-        void move(string direction);
+        //void move(Direction direction);
         virtual void notifyObservers() = 0;
         void notifyDeath();
 };

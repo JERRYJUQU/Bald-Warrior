@@ -1,8 +1,9 @@
 #include "enemy.h"
+#include "character.h"
 
-Enemy::Enemy(Position pos): Character{pos}, neutral{false}{}
-
-void Character::move(string direction){
+Enemy::Enemy(Position pos, EnemyType type): Character{pos, CharacterType::enemy}, type{type}, neutral{false}{}
+/*
+void Enemy::move(Direction direction){
         if(direction == "no"){
                 pos.y -= 1;
         }else if(direction == "so"){
@@ -24,4 +25,5 @@ void Character::move(string direction){
                 pos.x -= 1;
                 pos.y += 1;
         }
-}
+}*/
+

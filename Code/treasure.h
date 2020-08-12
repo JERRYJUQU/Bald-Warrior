@@ -2,14 +2,15 @@
 #define TREASRUE_H
 
 #include "item.h"
+struct Position;
+
 class Treasure :
     public Item
 {
 protected:
     bool canPickUp;
 public:
-    Treasure(int x, int y,
-        std::shared_ptr <Observer> display, bool canPickUp = true);
+    Treasure(Position pos, bool canPickUp = true);
     virtual void effect(Hero &hero) = 0;
     bool pickUp();
 };
