@@ -19,6 +19,7 @@ void Character::incHP(int hp){
         }else{
                 this->hp = tmp;
         }
+
         return;
 }
 void Character::setHP(int hp){

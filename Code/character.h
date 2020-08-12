@@ -2,6 +2,7 @@
 #define CHARACTER_H
 #include <vector>
 #include <memory>
+
 #include "position.h"
 #include "subject.h"
 using namespace std;
@@ -30,6 +31,7 @@ public:
         void attach(shared_ptr<Observer> observer);
         void move(Direction dir);
         CharacterType getCharacterType();
+
 };
 
 #endif
