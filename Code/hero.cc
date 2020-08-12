@@ -9,6 +9,7 @@ int Hero::getMaxHP() { return maxHP; };
 void Hero::incGold(int gold){
         this->gold += gold;
 }
+HeroType Hero::getHeroType(){ return type; };
 void Hero::pickUpTreasure(Treasure & treasure){
         treasure.effect(*this);
 }

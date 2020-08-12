@@ -19,6 +19,7 @@ protected:
         EnemyType type;
 public:
         Enemy(Position pos, EnemyType type);
+        EnemyType getEnemyType();
         virtual void defend(Hero & hero) = 0;
         virtual void attack(Shade & shade) = 0;
         virtual void attack(Drow & drow) = 0;

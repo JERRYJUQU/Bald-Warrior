@@ -37,7 +37,7 @@ Floor::Floor() : name{""} {
 
 }
 void Floor::spawn(){
-
+  
 };
 
 bool Floor::checkCollision(Position pos, std::string type){
