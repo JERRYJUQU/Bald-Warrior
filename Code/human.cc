@@ -1,9 +1,10 @@
 #include "human.h"
 
-Human::Human(Position pos): Enemy{pos} {
+Human::Human(Position pos): Enemy{pos, EnemyType::Human} {
     hp = 140;
     atk = 20;
     def = 20;
+    maxHP = 140;
 }
     
 void Human::defend(Enemy & enemy){
@@ -11,34 +12,42 @@ void Human::defend(Enemy & enemy){
 }
     
 void Human::attack(Shade & shade){
-    shade.incHP(-(this->getAtk()));
+    int miss = std::rand()%1;
+    if(!miss){
+        shade.incHP(-(this->getAtk()));
+    }
 }
     
 void Human::attack(Drow & drow){
-    drow.incHP(-(this->getAtk()));
+    int miss = std::rand()%1;
+    if(!miss){
+        drow.incHP(-(this->getAtk()));
+    }
 }
 
 void Human::attack(Vampire & vampire){
-    vampire.incHP(-(this->getAtk()));
+    int miss = std::rand()%1;
+    if(!miss){
+        vampire.incHP(-(this->getAtk()));
+    }
 }
 
 void Human::attack(Troll & troll){
-    troll.incHP(-(this->getAtk()));
+    int miss = std::rand()%1;
+    if(!miss){
+        troll.incHP(-(this->getAtk()));
+    }
 }
 
 void Human::attack(Goblin & goblin){
-    goblin.incHP(-(this->getAtk()));
+    int miss = std::rand()%1;
+    if(!miss){
+        goblin.incHP(-(this->getAtk()));
+    }
 }
 
 void Human::notifyDeath(){
     for (auto p : observers){
         p.notifyDeath(*this);
     }
-}
-
-void Human::notifyObservers(){
-        for(auto p:observers){
-                p.notify(*this);
-        }
-        return;
 }
