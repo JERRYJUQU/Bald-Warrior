@@ -27,3 +27,4 @@ void Enemy::move(Direction direction){
                 pos.y += 1;
         }
 }*/
+

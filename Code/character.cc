@@ -19,6 +19,7 @@ void Character::incHP(int hp){
         }else{
                 this->hp = tmp;
         }
+
         return;
 }
 CharacterType Character::getCharacterType(){return type; };

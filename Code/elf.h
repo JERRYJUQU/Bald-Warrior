@@ -1,15 +1,10 @@
-#ifndef DRAGON_H
-#define DRAGON_H
-#include "enemy.h"
-#include <memory>
-using namespace std;
-class DrgonHoard;
+#ifndef ELF_H
+#define ELF_H
 
-class Dragon : public Enemy{
-    shared_ptr<DragonHoard> hoard;
+class Elf : public Enemy{
 public:
-    Dragon(Position pos, shared_ptr<DragonHoard> hoard);
-    void defend(Enemy & enemy) override;
+    Elf(Position pos);
+    void defend(Hero & hero) override;
     void attack(Shade & shade) override;
     void attack(Drow & drow) override;
     void attack(Vampire & vampire) override;
@@ -18,6 +13,5 @@ public:
     void notifyDeath() override;
     void notifyObservers() override;
 };
-
 
 #endif
