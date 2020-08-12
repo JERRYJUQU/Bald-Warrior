@@ -1,6 +1,6 @@
 #include "drow.h"
 
-Drow::Drow(Position pos): Hero{pos} {
+Drow::Drow(Position pos): Hero{pos, HeroType::drow} {
     hp = 150;
     atk = 25;
     def = 15;
@@ -40,13 +40,8 @@ void Drow::attack(Dragon & dragon){
 }
         
 void Drow::defend(Halfling & halfling){
-    50%
-    halfling.incHP(-((100/(100+halfling.getDef()))*(this->getAtk())));
-}
-
-void Drow::notifyObservers(){
-        for(auto p:observers){
-                p.notify(*this);
-        }
-        return;
+    int miss = std::rand() % (1);
+    if(!miss){
+        halfling.incHP(-((100/(100+halfling.getDef()))*(this->getAtk())));
+    }
 }
