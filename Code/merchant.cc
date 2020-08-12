@@ -4,6 +4,7 @@ Merchant::Merchant(Position pos): Enemy{pos} {
     hp = 30;
     atk = 70;
     def = 5;
+    
     neutral = true;
 }
     
