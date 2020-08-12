@@ -1,6 +1,6 @@
 #include "dragon.h"
 
-Dragon::Dragon(Position pos, shared_ptr<DragonHoard> hoard): Enemy{pos}, hoard{hoard}{
+Dragon::Dragon(Position pos, shared_ptr<DragonHoard> hoard): Enemy{pos, EnemyType::dragon}, hoard{hoard}{
     hp = 150;
     atk = 20;
     def = 20;
