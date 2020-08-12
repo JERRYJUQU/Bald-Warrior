@@ -1,6 +1,6 @@
 #include "character.h"
 
-Character::Character(Position pos, CharacterType type): Subject{pos, ObjType::character}, type{type}, hp{0}, atk{0},def{0} {}
+Character::Character(Position pos, CharacterType type): Subject{pos, ObjType::character}, type{type}, hp{0}, atk{0},def{0}, maxHP{0} {}
 
 Position Character::getPos() { return pos; }
 int Character::getHP() { return hp; }
