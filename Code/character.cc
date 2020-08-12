@@ -1,8 +1,4 @@
 #include "character.h"
-#include "position.h"
-#include "observer.h"
-#include "subject.h"
-#include "floor.h"
 
 Character::Character(Position pos, CharacterType type): Subject{pos, ObjType::character}, type{type}, hp{0}, atk{0},def{0} {}
 
@@ -15,7 +11,7 @@ void Character::incHP(int hp){
         if(tmp < 0){
                 this->hp = 0;
         }else if(tmp > getMaxHP()){
-                this->hp = getMaxHP();
+                this->hp = maxHP;
         }else{
                 this->hp = tmp;
         }
@@ -27,7 +23,7 @@ void Character::setHP(int hp){
         if(hp < 0){
                 this->hp = 0;
         }else if(hp > getMaxHP()){
-                this->hp = getMaxHP();
+                this->hp = maxHP;
         }else{
                 this->hp = hp;
         }
