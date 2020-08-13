@@ -271,26 +271,32 @@ void Floor::turn() {
                 if (enemies[i][j]->getHP() <= 0) {
                     enemies[i][j]->notifyDeath();
                     switch (enemies[i][j]->getEnemyType()) {
+                    case EnemyType::dwarf :
+                        
+                        break;
                     case EnemyType::human:
                         hero->incGold(4); // increase gold instead of dropping hoard, may need to change
                         break;
                     case EnemyType::dragon:
                         enemies[i][j]->notifyDeath();
+                        break;
                     case EnemyType::merchant:
                         hero->incGold(4); //increase gold instead of dropping hoard, may need to change
+                        break;
                     }
                     enemies[i][j] = nullptr;
                 }
                 else if (abs(hero->getPos().x - enemies[i][j]->getPos().x) < 2 &&
-                    abs(hero->getPos().y - enemies[i][j]->getPos().y) < 2) {
-                     enemies[i][j]->attack(*hero);
+                    abs(hero->getPos().y - enemies[i][j]->getPos().y) < 2 &&
+                    !enemies[i][j]->getNeutral()) {
+                     hero->defend(*enemies[i][j]);
                 }
                 else {
                     enemies[i][j]->move(enumRand<Direction>());
                 }
             }
         }
-     }
+    }
 }
 
 std::ostream & operator<<( std::ostream & out, const Floor & f ){
