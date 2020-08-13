@@ -27,7 +27,7 @@ public:
         virtual void attack(Vampire & vampire) = 0;
         virtual void attack(Troll & troll) = 0;
         virtual void attack(Goblin & goblin) = 0;
-        virtual void notifyDeath() = 0;
+        void notifyDeath();
         //void move(Direction direction);
 };
 

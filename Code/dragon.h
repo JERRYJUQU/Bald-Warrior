@@ -17,6 +17,7 @@ public:
     void attack(Goblin & goblin) override;
 //    void notifyDeath() override;
     DragonHoard getHoard();
+    void notifyHoard();
 };
 
 
