@@ -39,7 +39,7 @@ void Troll::attack(Dragon & dragon){
 }
         
 void Troll::defend(Halfling & halfling){
-    int miss = std::rand() % (1);
+    int miss = std::rand() % 2;
     if(!miss){
         halfling.incHP(-((100/(100+halfling.getDef()))*(this->getAtk())));
     }
