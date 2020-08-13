@@ -3,11 +3,14 @@
 #include "floor.h"
 #include "item.h"
 
-Treasure::Treasure(Position pos, bool canPickUp)
+Treasure::Treasure(Position pos, TreasureType type, bool canPickUp)
 	: Item(pos, ItemType::treasure),
-	canPickUp{canPickUp}
+	  type{type},
+	  canPickUp{canPickUp}
 {}
 
 bool Treasure::pickUp() {
 	return canPickUp;
 }
+
+TreasureType Treasure::getTreasureType() { return type; }

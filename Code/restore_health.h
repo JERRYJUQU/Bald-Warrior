@@ -5,8 +5,7 @@
 class RestoreHealth :
     public Potion
 {
-    RestoreHealth(int x, int y,
-        std::shared_ptr <Observer> display);
+    RestoreHealth(Position pos);
     void effect(Hero &hero) override;
 };
 

@@ -265,7 +265,7 @@ T Floor::enumRand() {
 }
 
 void Floor::moveEnemy(Enemy & enemy, Direction dir){
-    Position oldPos = enemy->getPos();
+    Position oldPos = enemy.getPos();
     Position newPos = getNewPos(oldPos, dir);
   //check weather new position is valid
     if(newPos.x < 0 || newPos.y > 0){
@@ -278,7 +278,6 @@ void Floor::moveEnemy(Enemy & enemy, Direction dir){
     enemy->notifyObservers();
     return;
 }
-
 void Floor::turn() {
     for (int i = 0; i < 25; i++) {
         for (int j = 0; j < 79; j++) {

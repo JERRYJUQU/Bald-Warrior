@@ -8,8 +8,7 @@ class SmallHoard :
 {
     int amount = 1;
 public:
-    SmallHoard(int x, int y, 
-        std::shared_ptr <Observer> display);
+    SmallHoard(Position pos);
     virtual void effect(Hero& hero) override;
 };
 

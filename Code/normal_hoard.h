@@ -8,8 +8,7 @@ class NormalHoard :
 {
     int amount = 2;
 public:
-    NormalHoard(int x, int y,
-        std::shared_ptr <Observer> display);
+    NormalHoard(Position pos);
     virtual void effect(Hero& hero) override;
 };
 

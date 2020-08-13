@@ -71,6 +71,7 @@ class Floor {
   Position getNewPos(Position oldPos, Direction dir);
   void attackEnemy( Direction dir );
   template<typename T> T enumRand();
+  void moveEnemy(Enemy& enemy, Direction dir);
 
 public:
   Floor();
