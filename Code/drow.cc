@@ -1,4 +1,11 @@
 #include "drow.h"
+#include "human.h"
+#include "dwarf.h"
+#include "elf.h"
+#include "orcs.h"
+#include "merchant.h"
+#include "dragon.h"
+#include "halfling.h"
 
 Drow::Drow(Position pos): Hero{pos, HeroType::drow} {
     hp = 150;
@@ -6,10 +13,10 @@ Drow::Drow(Position pos): Hero{pos, HeroType::drow} {
     def = 15;
     maxHP = 150;
 }
-
+/*
 void usePotion(Potion & potion){
     potion.effect(*this);
-}
+}*/
 
 void Drow::defend(Enemy & enemy){
     enemy.attack(*this);
@@ -39,7 +46,7 @@ void Drow::attack(Dragon & dragon){
     dragon.incHP(-((100/(100+dragon.getDef()))*(this->getAtk())));
 }
         
-void Drow::defend(Halfling & halfling){
+void Drow::attack(Halfling & halfling){
     int miss = std::rand() % 2;
     if(!miss){
         halfling.incHP(-((100/(100+halfling.getDef()))*(this->getAtk())));

@@ -5,13 +5,13 @@
 class Orcs : public Enemy{
 public:
     Orcs(Position pos);
-    void defend(Enemy & enemy) override;
+    void defend(Hero & hero) override;
     void attack(Shade & shade) override;
     void attack(Drow & drow) override;
     void attack(Vampire & vampire) override;
     void attack(Troll & troll) override;
     void attack(Goblin & goblin) override;
-    void notifyDeath() override;
+//    void notifyDeath() override;
 };
 
 #endif

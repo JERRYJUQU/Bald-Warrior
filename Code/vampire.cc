@@ -1,4 +1,11 @@
 #include "vampire.h"
+#include "human.h"
+#include "dwarf.h"
+#include "elf.h"
+#include "orcs.h"
+#include "merchant.h"
+#include "dragon.h"
+#include "halfling.h"
 
 Vampire::Vampire(Position pos): Hero{pos, HeroType::vampire} {
     hp = 50;
@@ -6,10 +13,10 @@ Vampire::Vampire(Position pos): Hero{pos, HeroType::vampire} {
     def = 25;
     maxHP = 10000;
 }
-
+/*
 void usePotion(Potion & potion){
     potion.effect(*this);
-}
+}*/
 
 void Vampire::defend(Enemy & enemy){
     enemy.attack(*this);
@@ -45,7 +52,7 @@ void Vampire::attack(Dragon & dragon){
     hp+=5;
 }
 
-void Vampire::defend(Halfling & halfling){
+void Vampire::attack(Halfling & halfling){
     int miss = std::rand() % 2;
     if(!miss){
         halfling.incHP(-((100/(100+halfling.getDef()))*(this->getAtk())));

@@ -1,6 +1,6 @@
 #ifndef ELF_H
 #define ELF_H
-
+#include "enemy.h"
 class Elf : public Enemy{
 public:
     Elf(Position pos);
@@ -10,7 +10,7 @@ public:
     void attack(Vampire & vampire) override;
     void attack(Troll & troll) override;
     void attack(Goblin & goblin) override;
-    void notifyDeath() override;
+//    void notifyDeath() override;
 };
 
 #endif

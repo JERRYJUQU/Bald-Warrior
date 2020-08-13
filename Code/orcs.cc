@@ -1,4 +1,9 @@
 #include "orcs.h"
+#include "shade.h"
+#include "drow.h"
+#include "troll.h"
+#include "vampire.h"
+#include "goblin.h"
 
 Orcs::Orcs(Position pos): Enemy{pos, EnemyType::orcs} {
     hp = 180;
@@ -7,8 +12,8 @@ Orcs::Orcs(Position pos): Enemy{pos, EnemyType::orcs} {
     maxHP = 180;
 }
     
-void Orcs::defend(Enemy & enemy){
-    enemy.attack(*this);
+void Orcs::defend(Hero & hero){
+    hero.attack(*this);
 }
     
 void  Orcs::attack(Shade & shade){
@@ -45,9 +50,9 @@ void  Orcs::attack(Goblin & goblin){
         goblin.incHP(-1.5*((100/(100+goblin.getDef()))*(this->getAtk())));
     }
 }
-
+/*
 void Orcs::notifyDeath(){
     for (auto p : observers){
         p.notifyDeath(*this);
     }
-}
+}*/

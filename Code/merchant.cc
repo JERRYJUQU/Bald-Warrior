@@ -1,6 +1,11 @@
 #include "merchant.h"
+#include "shade.h"
+#include "drow.h"
+#include "troll.h"
+#include "vampire.h"
+#include "goblin.h"
 
-Merchant::Merchant(Position pos): Enemy{pos} {
+Merchant::Merchant(Position pos): Enemy{pos, EnemyType::merchant} {
     hp = 30;
     atk = 70;
     def = 5;
@@ -8,8 +13,8 @@ Merchant::Merchant(Position pos): Enemy{pos} {
     neutral = true;
 }
     
-void Merchant::defend(Enemy & enemy){
-    enemy.attack(*this);
+void Merchant::defend(Hero & hero){
+    hero.attack(*this);
 }
     
 void  Merchant::attack(Shade & shade){
@@ -46,8 +51,9 @@ void  Merchant::attack(Goblin & goblin){
         goblin.incHP(-((100/(100+goblin.getDef()))*(this->getAtk())));
     }
 }
+/*
 void Merchant::notifyDeath(){
     for (auto p : observers){
         p.notifyDeath(*this);
     }
-}
+}*/

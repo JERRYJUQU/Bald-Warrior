@@ -1,6 +1,11 @@
 #include "dwarf.h"
+#include "shade.h"
+#include "drow.h"
+#include "troll.h"
+#include "vampire.h"
+#include "goblin.h"
 
-Dwarf::Dwarf(Position pos): Hero{pos, EnemyType::dwarf} {
+Dwarf::Dwarf(Position pos): Enemy{pos, EnemyType::dwarf} {
     hp = 100;
     atk = 20;
     def = 30;
@@ -46,10 +51,10 @@ void Dwarf::attack(Goblin & goblin){
         goblin.incHP(-((100/(100+goblin.getDef()))*(this->getAtk())));
     }
 }
-
+/*
 void Dwarf::notifyDeath(){
     for (auto p : observers){
         p.notifyDeath(*this);
     }
-}
+}*/
 
