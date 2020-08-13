@@ -300,7 +300,7 @@ void Floor::turn() {
                         break;
                     }
                     enemies[i][j] = nullptr;
-                }tydf
+                }
                 else if (abs(hero->getPos().x - enemies[i][j]->getPos().x) < 2 &&
                     abs(hero->getPos().y - enemies[i][j]->getPos().y) < 2 &&
                     !enemies[i][j]->getNeutral()) {
