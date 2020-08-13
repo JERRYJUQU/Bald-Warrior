@@ -1,9 +1,6 @@
 #include "floor.h"
-#include "tile.h"
-#include "hero.h"
-#include "enemy.h"
-#include "potion.h"
 #include "stair.h"
+#include <stdlib.h> //dont delete
 #include <random>
 
 Floor::Floor() : name{""} {
@@ -44,25 +41,25 @@ Floor::Floor() : name{""} {
   for(int r = 0; r < 25; r++){
     std::vector<std::shared_ptr<Enemy>> row;
     for(int c = 0; c < 79; c++){
-      row.empalce_back()
+        row.emplace_back();
     }
-    enemies.empalce_back(row)
+    enemies.emplace_back(row);
   }
 
   for(int r = 0; r < 25; r++){
     std::vector<std::shared_ptr<Potion>> row;
     for(int c = 0; c < 79; c++){
-      row.empalce_back()
+        row.emplace_back();
     }
-    potions.empalce_back(row)
+    potions.emplace_back(row);
   }
 
   for(int r = 0; r < 25; r++){
     std::vector<std::shared_ptr<Treasure>> row;
     for(int c = 0; c < 79; c++){
-      row.empalce_back()
+        row.emplace_back();
     }
-    treasures.empalce_back(row)
+    treasures.emplace_back(row);
   }
 
   spawn();
@@ -96,12 +93,12 @@ void Floor::spawn(){
   valid.erase(valid.begin()+i);
 
   //Generate enemies
+  std::shared_ptr<Enemy> enemy;
   for(int j = 0; j < 20; j++){
     i = (rand()%valid.size());//Generate a random element in the valid tiles
 
     struct Position validPos = valid[i]->getPos();
     int t = rand()%18;//Get a random number between 0 to 18
-    std::shared_ptr<Enemy> enemy;
     if(t < 4){// 2/9 chance of being human
       enemy = make_shared<Human>( validPos );
     }else if(t < 7){// 3/18 chance of being dwarf
@@ -111,7 +108,7 @@ void Floor::spawn(){
     }else if(t < 14){// 1/9 chance of being elf
       enemy = make_shared<Elf>( validPos );
     }else if(t < 16){// 1/9 chance of being orc
-      enemy = make_shared<Orc>( validPos );
+      enemy = make_shared<Orcs>( validPos );
     }else{// 1/9 chance of being merchant
       enemy = make_shared<Merchant>( validPos );
     }
@@ -121,20 +118,18 @@ void Floor::spawn(){
     valid.erase(valid.begin()+i);
   }
 
-  //Generate potions
   for(int j = 0; j < 10; j++){
     i = (rand()%valid.size());
-
     struct Position validPos = valid[i]->getPos();
     int t = rand()%6;//Get a random number between 0 to 18
     std::shared_ptr<Potion> potion;
     switch(t){
-      case 0: potion = make_shared<RestoreHealth>( validPos ); break;
-      case 1: potion = make_shared<BoostAtk>( validPos ); break;
-      case 2: potion = make_shared<BoostDef>( validPos ); break;
-      case 3: potion = make_shared<PoisonHealth>( validPos ); break;
-      case 4: potion = make_shared<WoundAtk>( validPos ); break;
-      case 5: potion = make_shared<WoundDef>( validPos ); break;
+        case 0: potion = make_shared<RestoreHealth>( validPos ); break;
+        case 1: potion = make_shared<BoostAtk>( validPos ); break;
+        case 2: potion = make_shared<BoostDef>( validPos ); break;
+        case 3: potion = make_shared<PoisonHealth>( validPos ); break;
+        case 4: potion = make_shared<WoundAtk>( validPos ); break;
+        case 5: potion = make_shared<WoundDef>( validPos ); break;
     }
 
     potion->attach(td);
@@ -148,20 +143,20 @@ void Floor::spawn(){
     i = (rand()%valid.size());
 
     struct Position validPos = valid[i]->getPos();
-    int t = rand()%8;//Get a random number between 0 to 18
+    int t = rand()%8;//Get a random number between 0 to 8
     std::shared_ptr<Treasure> treasure;
 
-    if(t < 5){// 2/9 chance of being human
-      treasure = make_shared<Normal>( validPos );
-    }else if(t < 6){// 3/18 chance of being dwarf
-      treasure = make_shared<DragonHoard>( validPos );
-    }else{// 1/9 chance of being merchant
-      treasure = make_shared<SmallHoard>( validPos );
+    if(t < 5){// 5/8 chance of being normal
+        treasure = make_shared<NormalHoard>( validPos );
+    }else if(t < 6){// 1/8 chance of being dragon hoard
+        treasure = make_shared<DragonHoard>( validPos );
+    }else{// 1/4 chance of being small
+        treasure = make_shared<SmallHoard>( validPos );
     }
 
     treasure->attach(td);
     treasure->notifyObservers();
-    treasure[validPos.x][validPos.y] = enemy;
+    treasures[validPos.x][validPos.y] = enemy;
     valid.erase(valid.begin()+i);
   }
 };
@@ -237,10 +232,11 @@ void Floor::attackEnemy( Direction dir ){
     Position oldPos = hero->getPos();
     Position newPos = getNewPos(oldPos, dir);
     //check if new position is valid
-    if(newPos.x < 0 || newPos.y <0){
+    if(newPos.x < 0 || newPos.y < 0 || newPos.x > 78 || newPos.y > 24){
     }
     //check if there is enemy at that position
     if(!enemies[newPos.y][newPos.x]){
+        //throw exception
     }
     else{
         enemies[newPos.y][newPos.x]->defend(*hero);
@@ -250,11 +246,59 @@ void Floor::usePotion( Direction dir ){
     Position oldPos = hero->getPos();
     Position newPos = getNewPos(oldPos, dir);
     //check if new position is valid
-    if(newPos.x < 0 || newPos.y <0){
+    if(newPos.x < 0 || newPos.y < 0 || newPos.x > 78 || newPos.y > 24){
+        //throw exception
+    }
+    if (!potions[newPos.y][newPos.x]) {
+        //throw exception
+    }
+    else {
+        hero->usePotion(*potions[newPos.y][newPos.x]);
     }
 
 };
-void Floor::turn(){};
+
+template<typename T>
+T Floor::enumRand() {
+    const int enumSize = (int) T::COUNT;
+    return static_cast<T> (rand() % enumSize);
+}
+
+void Floor::turn() {
+    for (int i = 0; i < 25; i++) {
+        for (int j = 0; j < 79; j++) {
+            if (!enemies[i][j]) {
+                if (enemies[i][j]->getHP() <= 0) {
+                    enemies[i][j]->notifyDeath();
+                    switch (enemies[i][j]->getEnemyType()) {
+                    case EnemyType::dwarf :
+                        
+                        break;
+                    case EnemyType::human:
+                        hero->incGold(4); // increase gold instead of dropping hoard, may need to change
+                        break;
+                    case EnemyType::dragon:
+                        enemies[i][j]->notifyDeath();
+                        break;
+                    case EnemyType::merchant:
+                        hero->incGold(4); //increase gold instead of dropping hoard, may need to change
+                        break;
+                    }
+                    enemies[i][j] = nullptr;
+                }
+                else if (abs(hero->getPos().x - enemies[i][j]->getPos().x) < 2 &&
+                    abs(hero->getPos().y - enemies[i][j]->getPos().y) < 2 &&
+                    !enemies[i][j]->getNeutral()) {
+                     hero->defend(*enemies[i][j]);
+                }
+                else {
+                    enemies[i][j]->move(enumRand<Direction>());
+                }
+            }
+        }
+    }
+}
+
 std::ostream & operator<<( std::ostream & out, const Floor & f ){
   out << *f.td;
   return out;
