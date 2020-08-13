@@ -1,6 +1,11 @@
 #include "elf.h"
+#include "shade.h"
+#include "drow.h"
+#include "troll.h"
+#include "vampire.h"
+#include "goblin.h"
 
-Elf::Elf(Position pos): Hero{pos, EnemyType::elf} {
+Elf::Elf(Position pos): Enemy{pos, EnemyType::elf} {
     hp = 140;
     atk = 30;
     def = 10;
@@ -65,7 +70,7 @@ void Elf::attack(Goblin & goblin){
         goblin.incHP(-((100/(100+goblin.getDef()))*(this->getAtk())));
     }
 }
-
+/*
 void Elf::notifyDeath(){
     for (auto p : observers){
         p.notifyDeath(*this);
@@ -77,4 +82,4 @@ void Elf::notifyObservers(){
                 p.notify(*this);
         }
         return;
-}
+}*/

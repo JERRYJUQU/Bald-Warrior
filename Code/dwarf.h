@@ -1,5 +1,6 @@
 #ifndef DWARF_H
 #define DWARF_H
+#include "enemy.h"
 
 class Dwarf : public Enemy{
 public:
@@ -10,7 +11,7 @@ public:
     void attack(Vampire & vampire) override;
     void attack(Troll & troll) override;
     void attack(Goblin & goblin) override;
-    void notifyDeath() override;
+//    void notifyDeath() override;
 };
 
 #endif

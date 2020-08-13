@@ -1,5 +1,10 @@
 #include "dragon.h"
-
+#include "shade.h"
+#include "drow.h"
+#include "troll.h"
+#include "vampire.h"
+#include "goblin.h"
+#include "dragon_hoard.h"
 Dragon::Dragon(Position pos, shared_ptr<DragonHoard> hoard): Enemy{pos, EnemyType::dragon}, hoard{hoard}{
     hp = 150;
     atk = 20;
@@ -7,8 +12,8 @@ Dragon::Dragon(Position pos, shared_ptr<DragonHoard> hoard): Enemy{pos, EnemyTyp
     maxHP = 150;
 }
 
-void Dragon::defend(Enemy & enemy){
-    enemy.attack(*this);
+void Dragon::defend(Hero & hero){
+    hero.attack(*this);
 }
     
 void  Dragon::attack(Shade & shade){
@@ -45,12 +50,12 @@ void  Dragon::attack(Goblin & goblin){
         goblin.incHP(-((100/(100+goblin.getDef()))*(this->getAtk())));
     }
 }
-
+/*
 void Dragon::notifyDeath(){
     for (auto p : observers){
         p.notifyDeath(*this);
     }
     hoard->notifyDeath();
-}
+}*/
 
 DragonHoard Dragon::getHoard(){return *hoard;}

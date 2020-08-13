@@ -1,14 +1,19 @@
 #include "human.h"
+#include "shade.h"
+#include "drow.h"
+#include "troll.h"
+#include "vampire.h"
+#include "goblin.h"
 
-Human::Human(Position pos): Enemy{pos, EnemyType::Human} {
+Human::Human(Position pos): Enemy{pos, EnemyType::human} {
     hp = 140;
     atk = 20;
     def = 20;
     maxHP = 140;
 }
     
-void Human::defend(Enemy & enemy){
-    enemy.attack(*this);
+void Human::defend(Hero & hero){
+    hero.attack(*this);
 }
     
 void Human::attack(Shade & shade){
@@ -46,9 +51,9 @@ void Human::attack(Goblin & goblin){
     }
 }
 
-
+/*
 void Human::notifyDeath(){
     for (auto p : observers){
         p.notifyDeath(*this);
     }
-}
+}*/

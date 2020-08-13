@@ -5,7 +5,7 @@
 class Shade : public Hero{
 public:
         Shade(Position pos);
-        void usePotion(Potion & potion) override;
+//        void usePotion(Potion & potion) override;
         void defend(Enemy & enemy) override;
         void attack(Human & human) override;
         void attack(Dwarf & dwarf) override;
