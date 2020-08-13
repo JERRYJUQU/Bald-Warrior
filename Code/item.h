@@ -4,20 +4,20 @@
 #include <vector>
 #include <memory>
 #include "position.h"
+#include "subject.h"
 
 class Observer;
 class Hero;
+enum class ItemType { treasure, potion };
 
-class Item {
+class Item : public Subject{
 	Position pos;
-	std::shared_ptr <Observer> display;
+	ItemType type;
 
 public:
-	Item(int x, int y, 
-		std::shared_ptr <Observer> display);
+	Item(Position pos, ItemType type);
+	ItemType getItemType();
 	virtual void effect(std::shared_ptr <Hero> hero) = 0;
-	Position getPosition();
-	void notify();
 };
 
 #endif

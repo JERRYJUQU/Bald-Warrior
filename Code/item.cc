@@ -1,16 +1,10 @@
-#include "text_display.h"
+#include "textdisplay.h"
 #include "item.h"
+#include "subject.h"
+#include "floor.h"
 
-Item::Item(int x, int y,
-	std::shared_ptr <Observer> display)
-	: pos{x, y},
-	  display{display}
+Item::Item(Position pos, ItemType type)
+	: Subject{pos, ObjType::item}, type{type}
 {}
 
-Position Item::getPosition() {
-	return pos;
-}
-
-void Item::notify() {
-	display->notify(this);
-}
+ItemType Item::getItemType(){ return type; };

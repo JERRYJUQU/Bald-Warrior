@@ -118,8 +118,6 @@ void Floor::spawn(){
     valid.erase(valid.begin()+i);
   }
 
-
-  //Generate potions
   for(int j = 0; j < 10; j++){
     i = (rand()%valid.size());
     struct Position validPos = valid[i]->getPos();
