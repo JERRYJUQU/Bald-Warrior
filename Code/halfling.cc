@@ -1,14 +1,19 @@
 #include "halfling.h"
+#include "shade.h"
+#include "drow.h"
+#include "troll.h"
+#include "vampire.h"
+#include "goblin.h"
 
-Halfling::Halfling(Position pos): Enemy{pos} {
+Halfling::Halfling(Position pos): Enemy{pos, EnemyType::halfling} {
     hp = 100;
     atk = 15;
     def = 20;
     hp = 100;
 }
     
-void Halfling::defend(Enemy & enemy){
-    enemy.attack(*this);
+void Halfling::defend(Hero & hero){
+    hero.attack(*this);
 }
     
 void  Halfling::attack(Shade & shade){
@@ -45,9 +50,9 @@ void  Halfling::attack(Goblin & goblin){
         goblin.incHP(-((100/(100+goblin.getDef()))*(this->getAtk())));
     }
 }
-
+/*
 void Halfling::notifyDeath(){
     for (auto p : observers){
         p.notifyDeath(*this);
     }
-}
+}*/

@@ -1,14 +1,22 @@
 #include "shade.h"
+#include "human.h"
+#include "dwarf.h"
+#include "elf.h"
+#include "orcs.h"
+#include "merchant.h"
+#include "dragon.h"
+#include "halfling.h"
+
 Shade::Shade(Position pos): Hero{pos, HeroType::shade} {
     hp = 125;
     atk = 25;
     def = 25;
     maxHP = 125;
 }
-
-void usePotion(Potion & potion){
+/*
+void Shade::usePotion(Potion & potion){
     potion.effect(*this);
-}
+}*/
 
 void Shade::defend(Enemy & enemy){
     enemy.attack(*this);
@@ -38,7 +46,7 @@ void Shade::attack(Dragon & dragon){
     dragon.incHP(-((100/(100+dragon.getDef()))*(this->getAtk())));
 }
         
-void Shade::defend(Halfling & halfling){
+void Shade::attack(Halfling & halfling){
     int miss = std::rand() % 2;
     if(!miss){
         halfling.incHP(-((100/(100+halfling.getDef()))*(this->getAtk())));

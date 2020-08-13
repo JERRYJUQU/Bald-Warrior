@@ -5,7 +5,7 @@
 class Merchant : public Enemy{
 public:
     Merchant(Position pos);
-    void defend(Enemy & enemy) override;
+    void defend(Hero & hero) override;
     void attack(Shade & shade) override;
     void attack(Drow & drow) override;
     void attack(Vampire & vampire) override;

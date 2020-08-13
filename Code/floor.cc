@@ -264,8 +264,6 @@ T Floor::enumRand() {
     return static_cast<T> (rand() % enumSize);
 }
 
-<<<<<<< Updated upstream
-=======
 void Floor::moveEnemy(Enemy & enemy, Direction dir){
     Position oldPos = enemy.getPos();
     Position newPos = getNewPos(oldPos, dir);
@@ -275,13 +273,11 @@ void Floor::moveEnemy(Enemy & enemy, Direction dir){
     //check for any collision with other object
     if(!checkCollision(newPos, "enemy")){
     }
-    enemy.move(dir);
+    enemy->move(dir);
     tiles[oldPos.y][oldPos.x]->notifyObservers();
-    enemy.notifyObservers();
+    enemy->notifyObservers();
     return;
 }
-
->>>>>>> Stashed changes
 void Floor::turn() {
     for (int i = 0; i < 25; i++) {
         for (int j = 0; j < 79; j++) {
@@ -289,7 +285,7 @@ void Floor::turn() {
                 if (enemies[i][j]->getHP() <= 0) {
                     enemies[i][j]->notifyDeath();
                     switch (enemies[i][j]->getEnemyType()) {
-                    case EnemyType::dwarf :
+                    case EnemyType::dwarf:
                         
                         break;
                     case EnemyType::human:
