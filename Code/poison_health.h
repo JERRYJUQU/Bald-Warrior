@@ -5,8 +5,7 @@
 class PoisonHealth :
     public Potion
 {
-    PoisonHealth(int x, int y,
-        std::shared_ptr <Observer> display);
+    PoisonHealth(Position pos);
     void effect(Hero &hero) override;
 };
 

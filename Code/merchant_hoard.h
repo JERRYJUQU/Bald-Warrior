@@ -8,8 +8,7 @@ class MerchantHoard :
 {
     int amount = 4;
 public:
-    MerchantHoard(int x, int y,
-        std::shared_ptr <Observer> display);
+    MerchantHoard(Position pos);
     virtual void effect(Hero& hero) override;
 };
 

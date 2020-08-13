@@ -1,9 +1,8 @@
 #include "restore_health.h"
 #include "hero.h"
 
-RestoreHealth::RestoreHealth(int x, int y,
-    std::shared_ptr <Observer> display)
-    : Potion(x, y, display)
+RestoreHealth::RestoreHealth(Position pos)
+    : Potion(pos, PotionType::restoreHealth)
 {}
 
 void RestoreHealth::effect(Hero &hero) {

@@ -5,8 +5,7 @@
 class WoundDef :
     public Potion
 {
-    WoundDef(int x, int y,
-        std::shared_ptr <Observer> display);
+    WoundDef(Position pos);
     void effect(Hero &hero) override;
 };
 

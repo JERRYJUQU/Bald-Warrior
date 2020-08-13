@@ -1,9 +1,8 @@
 #include "poison_health.h"
 #include "hero.h"
 
-PoisonHealth::PoisonHealth(int x, int y,
-    std::shared_ptr <Observer> display)
-    : Potion(x, y, display)
+PoisonHealth::PoisonHealth(Position pos)
+    : Potion(pos, PotionType::posionHealth)
 {}
 
 void PoisonHealth::effect(Hero &hero) {

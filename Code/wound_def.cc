@@ -1,9 +1,8 @@
 #include "wound_def.h"
 #include "hero.h"
 
-WoundDef::WoundDef(int x, int y,
-    std::shared_ptr <Observer> display)
-    : Potion(x, y, display)
+WoundDef::WoundDef(Position pos)
+    : Potion(pos, PotionType::woundDef)
 {}
 
 void WoundDef::effect(Hero &hero) {

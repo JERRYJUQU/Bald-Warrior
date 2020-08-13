@@ -8,8 +8,7 @@ class DragonHoard :
 {
     int amount = 6;
 public:
-    DragonHoard(int x, int y,
-        std::shared_ptr <Observer> display);
+    DragonHoard(Position pos);
     virtual void effect(Hero& hero) override;
     void notifyDeath();
 };

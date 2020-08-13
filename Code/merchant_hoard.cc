@@ -1,12 +1,11 @@
 #include "merchant_hoard.h"
 #include "hero.h"
 
-MerchantHoard::MerchantHoard(int x, int y,
-	std::shared_ptr <Observer> display)
-	: Treasure(x, y, display)
+MerchantHoard::MerchantHoard(Position pos)
+	: Treasure(pos, TreasureType::merchantHoard)
 {}
 
 void MerchantHoard::effect(Hero& hero) {
 	int tempGold = hero.getGold() + amount;
-	hero.setGold(tempGold);
+	hero.incGold(amount);
 }

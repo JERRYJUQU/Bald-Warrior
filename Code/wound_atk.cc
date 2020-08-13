@@ -1,9 +1,8 @@
 #include "wound_atk.h"
 #include "hero.h"
 
-WoundAtk::WoundAtk(int x, int y,
-    std::shared_ptr <Observer> display)
-    : Potion(x, y, display)
+WoundAtk::WoundAtk(Position pos)
+    : Potion(pos, PotionType::woundAtk)
 {}
 
 void WoundAtk::effect(Hero &hero) {

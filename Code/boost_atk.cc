@@ -1,9 +1,8 @@
 #include "boost_atk.h"
 #include "hero.h"
 
-BoostAtk::BoostAtk(int x, int y,
-    std::shared_ptr <Observer> display)
-    : Potion(x, y, display)
+BoostAtk::BoostAtk(Position pos)
+    : Potion(pos, PotionType::boostAtk)
 {}
 
 void BoostAtk::effect(Hero &hero) {

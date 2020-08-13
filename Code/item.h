@@ -17,7 +17,7 @@ class Item : public Subject{
 public:
 	Item(Position pos, ItemType type);
 	ItemType getItemType();
-	virtual void effect(std::shared_ptr <Hero> hero) = 0;
+	virtual void effect(Hero & hero) = 0;
 };
 
 #endif

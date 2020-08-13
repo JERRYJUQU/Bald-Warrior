@@ -264,6 +264,24 @@ T Floor::enumRand() {
     return static_cast<T> (rand() % enumSize);
 }
 
+<<<<<<< Updated upstream
+=======
+void Floor::moveEnemy(Enemy & enemy, Direction dir){
+    Position oldPos = enemy.getPos();
+    Position newPos = getNewPos(oldPos, dir);
+  //check weather new position is valid
+    if(newPos.x < 0 || newPos.y > 0){
+    }
+    //check for any collision with other object
+    if(!checkCollision(newPos, "enemy")){
+    }
+    enemy.move(dir);
+    tiles[oldPos.y][oldPos.x]->notifyObservers();
+    enemy.notifyObservers();
+    return;
+}
+
+>>>>>>> Stashed changes
 void Floor::turn() {
     for (int i = 0; i < 25; i++) {
         for (int j = 0; j < 79; j++) {
