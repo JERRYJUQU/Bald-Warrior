@@ -26,7 +26,6 @@ public:
         void setHP(int hp);
         void setAtk(int atk);
         void setDef(int def);
-        void attach(std::shared_ptr<Observer> observer);
         void move(Direction dir);
         CharacterType getCharacterType();
 

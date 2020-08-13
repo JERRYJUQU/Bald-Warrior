@@ -17,6 +17,7 @@ class TextDisplay: public Observer {
       generateRows('-');
      };
     virtual void notify( Subject & whoNotified ) override;
+    virtual void notifyDeath( Subject & whoNotified ) override;
 
     friend std::ostream &operator<<(std::ostream &out, const TextDisplay &td);
 };

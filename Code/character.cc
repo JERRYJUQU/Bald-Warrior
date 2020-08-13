@@ -6,6 +6,7 @@ Position Character::getPos() { return pos; }
 int Character::getHP() { return hp; }
 int Character::getAtk() { return atk; }
 int Character::getDef() { return def; }
+int Character::getMaxHP() { return maxHP; }
 void Character::incHP(int hp){
         int tmp = this->hp + hp;
         if(tmp < 0){

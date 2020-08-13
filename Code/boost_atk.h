@@ -3,9 +3,8 @@
 
 #include "potion.h"
 
-class BoostAtk :
-    public Potion
-{
+class BoostAtk : public Potion{
+public:
     BoostAtk(Position pos);
     void effect(Hero &hero) override;
 };
