@@ -11,9 +11,21 @@
 #include "enemy.h"
 #include "character.h"
 #include "item.h"
+#include "potion.h"
+
+enum class Direction { no,so,ea,we,ne,nw,se,sw };
 
 class Observer;
 class Stair;
+class RestoreHealth;
+class BoostAtk;
+class BoostDef;
+class PoisonHealth;
+class WoundAtk;
+class WoundDef;
+class NormalHoard;
+class DragonHoard;
+class SmallHoard;
 
 class Floor {
   std::string name;
@@ -21,9 +33,8 @@ class Floor {
   std::shared_ptr<Stair> stair;
   std::vector<std::vector<std::shared_ptr<Tile>>> tiles;
   std::vector<std::vector<std::shared_ptr<Enemy>>> enemies;
-  std::vector<std::shared_ptr<Potion>> potions;
+  std::vector<std::vector<std::shared_ptr<Potion>>> potions;
   std::vector<std::vector<std::shared_ptr<Treasure>>> treasures;
-
   std::shared_ptr<TextDisplay> td;
 
 
@@ -59,6 +70,7 @@ class Floor {
   bool guarded(std::shared_ptr<Treasure> treasue);
   Position getNewPos(Position oldPos, Direction dir);
   void attackEnemy( Direction dir );
+  template<typename T> T enumRand();
 
 public:
   Floor();
