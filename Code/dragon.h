@@ -3,7 +3,7 @@
 #include "enemy.h"
 #include <memory>
 using namespace std;
-class DrgonHoard;
+class DragonHoard;
 
 class Dragon : public Enemy{
     shared_ptr<DragonHoard> hoard;
