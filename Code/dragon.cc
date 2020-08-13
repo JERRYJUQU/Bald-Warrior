@@ -50,12 +50,9 @@ void  Dragon::attack(Goblin & goblin){
         goblin.incHP(-((100/(100+goblin.getDef()))*(this->getAtk())));
     }
 }
-/*
-void Dragon::notifyDeath(){
-    for (auto p : observers){
-        p.notifyDeath(*this);
-    }
+
+void Dragon::notifyHoard(){
     hoard->notifyDeath();
-}*/
+}
 
 DragonHoard Dragon::getHoard(){return *hoard;}
