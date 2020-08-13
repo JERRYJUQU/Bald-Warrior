@@ -3,6 +3,12 @@
 
 Enemy::Enemy(Position pos, EnemyType type): Character{pos, CharacterType::enemy}, neutral{false}, type{type}{}
 EnemyType Enemy::getEnemyType(){ return type; };
+
+void Enemy::notifyDeath(){
+        for(auto n : observers){
+                n.notifyDeath(*this);
+        }
+}
 /*
 void Enemy::move(Direction direction){
         if(direction == "no"){
