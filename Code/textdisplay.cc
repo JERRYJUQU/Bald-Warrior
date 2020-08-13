@@ -45,9 +45,10 @@ void TextDisplay::notify( Subject & whoNotified ) {
       auto item = dynamic_cast<Item*> (&whoNotified);//Cast the subject to tile
       ItemType it = item->getItemType();
       switch(it){
-        case ItemType::treasure:  theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = 'G'; break;
-        case ItemType::potion:  theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = 'P'; break;
+        case ItemType::treasure: theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = 'G'; break;
+        case ItemType::potion: theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = 'P'; break;
       }
+      break;
     }
     case ObjType::tile:{
       auto tile = dynamic_cast<Tile*> (&whoNotified);//Cast the subject to tile
@@ -66,6 +67,8 @@ void TextDisplay::notify( Subject & whoNotified ) {
     }
   }
 };
+
+void TextDisplay::notifyDeath( Subject & whoNotified ) {}
 
 std::ostream &operator<<(std::ostream &out, const TextDisplay &td){
   for(int i=0; i<25; i++){

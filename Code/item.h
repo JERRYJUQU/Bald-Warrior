@@ -11,7 +11,6 @@ class Hero;
 enum class ItemType { treasure, potion };
 
 class Item : public Subject{
-	Position pos;
 	ItemType type;
 
 public:

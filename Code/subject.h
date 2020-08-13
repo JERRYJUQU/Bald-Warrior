@@ -9,8 +9,9 @@ enum class ObjType { character, item, tile };
 class Observer;
 
 class Subject {
-    Position pos;
     ObjType type;
+protected:
+    Position pos;
     std::vector<std::shared_ptr<Observer>> observers;
 
   public:

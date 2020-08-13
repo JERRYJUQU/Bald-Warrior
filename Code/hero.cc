@@ -1,5 +1,4 @@
 #include "hero.h"
-#include "direction.h"
 #include "treasure.h"
 
 Hero::Hero(Position pos, HeroType type):Character{pos, CharacterType::hero}, gold{0}, type{type} {}
@@ -13,8 +12,11 @@ void Hero::pickUpTreasure(Treasure & treasure){
         treasure.effect(*this);
 }
 
+void Hero::usePotion(Potion & potion){
+
+};
 void Hero::notifyDeath(){
         /*for(auto p : observers){
-                p.notifyDeath(*this);
+                p->notifyDeath(*this);
         }*/
 }

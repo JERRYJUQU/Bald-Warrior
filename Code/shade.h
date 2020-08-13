@@ -15,5 +15,4 @@ public:
         void attack(Dragon & dragon) override;
         void attack(Halfling & halfling) override;
 };
-
 #endif

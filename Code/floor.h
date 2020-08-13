@@ -13,19 +13,34 @@
 #include "item.h"
 #include "potion.h"
 
-enum class Direction { no,so,ea,we,ne,nw,se,sw };
+#include "shade.h"
+#include "drow.h"
+#include "vampire.h"
+#include "troll.h"
+#include "goblin.h"
+
+#include "human.h"
+#include "dwarf.h"
+#include "elf.h"
+#include "orcs.h"
+#include "merchant.h"
+#include "dragon.h"
+#include "halfling.h"
+
+#include "restore_health.h"
+#include "boost_atk.h"
+#include "boost_def.h"
+#include "poison_health.h"
+#include "wound_atk.h"
+#include "wound_def.h"
+
+#include "dragon_hoard.h"
+#include "small_hoard.h"
+#include "merchant_hoard.h"
+#include "normal_hoard.h"
 
 class Observer;
 class Stair;
-class RestoreHealth;
-class BoostAtk;
-class BoostDef;
-class PoisonHealth;
-class WoundAtk;
-class WoundDef;
-class NormalHoard;
-class DragonHoard;
-class SmallHoard;
 
 class Floor {
   std::string name;
