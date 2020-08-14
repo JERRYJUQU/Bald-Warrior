@@ -1,9 +1,11 @@
 #include "hero.h"
 #include "treasure.h"
 
-Hero::Hero(Position pos, HeroType type):Character{pos, CharacterType::hero}, gold{0}, type{type} {}
+Hero::Hero(Position pos, HeroType type):Character{pos, CharacterType::hero}, gold{0}, type{type}, action{"Player character has spawned."} {}
 
 int Hero::getGold() { return gold; };
+std::string Hero::getAction() { return action; };
+
 void Hero::incGold(int gold){
         this->gold += gold;
 }

@@ -61,12 +61,10 @@ Floor::Floor() : name{""} {
     }
     treasures.emplace_back(row);
   }
-
-  spawn();
   //struct Position pos = { 10, 10 };
   //Hero hero = Hero(pos, HeroType::shade);
 }
-void Floor::spawn(){
+void Floor::spawn(HeroType ht){
   srand(time(0));
 
   std::vector<std::shared_ptr<Tile>> valid;
@@ -111,7 +109,14 @@ void Floor::spawn(){
   //Generate Hero
   c = (rand()%5);
   i = (rand()%chambers[c].size());
-  hero = make_shared<Shade>( chambers[c][i]->getPos() );
+  switch(ht){
+    case HeroType::shade: hero = make_shared<Shade>( chambers[c][i]->getPos() ); break;
+    case HeroType::drow: hero = make_shared<Drow>( chambers[c][i]->getPos() ); break;
+    case HeroType::vampire: hero = make_shared<Vampire>( chambers[c][i]->getPos() ); break;
+    case HeroType::troll: hero = make_shared<Troll>( chambers[c][i]->getPos() ); break;
+    case HeroType::goblin: hero = make_shared<Goblin>( chambers[c][i]->getPos() ); break;
+  }
+  std::cout << hero->getAction() << std::endl;
   hero->attach(td);
   hero->notifyObservers();
   chambers[c].erase(chambers[c].begin()+i);
@@ -287,6 +292,7 @@ void Floor::usePotion( Direction dir ){
 
 };
 
+//Randomly select an element fron enum class
 template<typename T>
 T Floor::enumRand() {
     srand(time(0));
@@ -312,7 +318,7 @@ void Floor::turn(std::string action, Direction dir) {
   if(action == "use"){
     usePotion( dir );
   }else if(action == "attack"){
-    attack( dir );
+    attackEnemy( dir );
   }else{
     moveHero( dir );
   }
@@ -321,7 +327,6 @@ void Floor::turn(std::string action, Direction dir) {
           if (!enemies[i][j]) {
               if (enemies[i][j]->getHP() <= 0) {
                   enemies[i][j]->notifyDeath();
-
                   switch (enemies[i][j]->getEnemyType()) {
                   case EnemyType::dwarf:
 
@@ -353,22 +358,22 @@ void Floor::turn(std::string action, Direction dir) {
 void Floor::refreshDisplay(){
   for(auto row : tiles){
     for(auto col : row){
-      col.notifyObservers();
+      col->notifyObservers();
     }
   }
   for(auto row : enemies){
     for(auto col : row){
-      col.notifyObservers();
+      col->notifyObservers();
     }
   }
   for(auto row : potions){
     for(auto col : row){
-      col.notifyObservers();
+      col->notifyObservers();
     }
   }
   for(auto row : treasures){
     for(auto col : row){
-      col.notifyObservers();
+      col->notifyObservers();
     }
   }
 }

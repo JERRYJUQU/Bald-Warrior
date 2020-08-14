@@ -19,6 +19,7 @@ class Hero : public Character{
 protected:
         int gold;
         HeroType type;
+        std::string action;
 public:
         Hero(Position pos, HeroType type);
         int getGold();
@@ -35,6 +36,7 @@ public:
         void usePotion(Potion & potion);
         void pickUpTreasure(Treasure & treasure);
         void notifyDeath();
+        std::string getAction();
 };
 
 #endif

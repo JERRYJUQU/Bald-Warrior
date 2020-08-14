@@ -4,7 +4,6 @@
 #include <sstream>
 #include <vector>
 #include <memory>
-#include "direction.h"
 #include "tile.h"
 #include "textdisplay.h"
 #include "treasure.h"
@@ -85,15 +84,14 @@ class Floor {
   bool checkCollision(Position pos, std::string type);
   bool guarded(std::shared_ptr<Treasure> treasue);
   Position getNewPos(Position oldPos, Direction dir);
-  void attackEnemy( Direction dir );
   template<typename T> T enumRand();
   void moveEnemy(Enemy& enemy, Direction dir);
 
 public:
   Floor();
-  void spawn();
+  void spawn(HeroType ht);
   void moveHero( Direction dir );
-  void attack( Direction dir );
+  void attackEnemy( Direction dir );
   void usePotion( Direction dir );
   void turn(std::string action, Direction dir);
   void refreshDisplay();

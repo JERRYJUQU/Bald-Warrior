@@ -10,7 +10,6 @@ class Observer {
     // Pass the Subject that called the notify method.
     virtual void notify( Subject & whoNotified ) = 0;
     virtual void notifyDeath( Subject & whoNotified ) = 0;
-    virtual void getInfo(Hero & whoNotified) = 0;
     virtual ~Observer() = default;
 };
 
