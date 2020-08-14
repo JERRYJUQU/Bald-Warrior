@@ -200,14 +200,12 @@ void Floor::spawn(HeroType ht){
     }else if(t < 6){// 1/8 chance of being dragon hoard
         treasure = std::make_shared<DragonHoard>( validPos );
         // spawn a dragon to guard the hoard;
-        std::vector<Position> positions = getValidPos(validPos);
-        if(positions.size() == 0){//hoard got stcuk somewhere
+        Position p = getValidPos(validPos);
+        if(p == validPos){
         }else{
-           srand(time(0));
-           int p = rand() % positions.size();
-           auto dragon = std::make_shared<Dragon>(positions[p], treasure);
-           enemies[positions[p].x][positions[p].y] = dragon;
-           chambers[c].erase(tiles[positions[p].x][positions[p].y]);
+           auto dragon = std::make_shared<Dragon>(p, treasure);
+           enemies[p.x][p.y] = dragon;
+           chambers[c].erase(tiles[p.x][p.y]);
         }
         
     }else{// 1/4 chance of being small
@@ -234,7 +232,7 @@ void Floor::setPause(){ pause = !pause; };
 bool Floor::haveEnteredStair(){ return enteredStair; };
 std::shared_ptr<Hero> Floor::getHero(){ return hero; };
 
-std::vector<Position> Floor::getValidPos(Position pos){
+Position Floor::getValidPos(Position pos){
   std::vector<Position> result;
   for(int dx = -1; dx < 2; dx++){
     for(int dy = -1; dy < 2; dy++){
@@ -249,7 +247,13 @@ std::vector<Position> Floor::getValidPos(Position pos){
       }
     }
   }
-  return result;
+  if(result.size() == 0){
+      return pos;
+  }else{
+      srand(time(0));
+      int p = rand()%result.size();
+      return result[p];
+  }                                                         
 };
 
 
@@ -399,12 +403,8 @@ void Floor::turn(Action action, Direction dir) {
               }
               else {
                   if (!pause) {
-                      std::vector<Position> validPos = getValidPos(enemies[i][j]->getPos());
-                      if(validPos.size() == 0){//enemy got stcuk somewhere
-                          moved.emplace_back(enemies[i][j];
-                      }else{
-                          srand(time(0));
-                          int p = rand() % validPos.size();
+                      Position validPos = getValidPos(enemies[i][j]->getPos());
+                      if(validPos != enemies[i][j]->getPos()){
                           enemies[i][j]->setPos(validPos[p]);
                           swap(enemies[i][j], enemies[validPos[p].x][validPos[p].y]);//swap the locations
                           moved.emplace_back(enemies[validPos[p].x][validPos[p].y]);
