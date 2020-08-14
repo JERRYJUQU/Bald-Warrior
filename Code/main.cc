@@ -1,19 +1,19 @@
 #include "floor.h"
 #include <iostream>
 int main(){
-  Floor f = Floor();
+  start:
+  Floor f = Floor(1);
 
   char command, race;
   std::string line;
   int fl;
-  bool spawned;
+  bool spawned = false;
 
   while ( true ) {
     if(!spawned){
       std::cout << "Enter the race:" << std::endl;
-      std::cin >> race;
-
-      switch( race ) {
+      std::cin >> command;
+      switch( command ) {
         case 's': f.spawn(HeroType::shade); break;
         case 'd': f.spawn(HeroType::drow); break;
         case 'v': f.spawn(HeroType::vampire); break;
@@ -21,17 +21,29 @@ int main(){
         case 't': f.spawn(HeroType::troll); break;
         default: f.spawn(HeroType::shade); break;
       }
+      spawned = true;
+      std::cout << f;
     }
-
-    std::cout << f;
-    std::cin >> command;
-
-    if ( std::cin.fail() || command == 'q' ) break;
-    /*switch( command ) {
-      case 'no':
-      case 'no':
-
-    }*/
+    cin.ignore();
+    std::getline(std::cin, line);
+    if ( std::cin.fail()) break;
+    if(line.length() == 1){
+      if(line[0] == 'f'){
+        f.setPause();
+      }else if(line[0] == 'r'){
+        goto start;
+      }else if(line[0] == 'q'){
+        break;
+      }
+    }else{
+      if(line[0]=='u'){
+        f.turn(Action::use, stodir(line.substr(2, 4)));
+      }else if(line[0]=='a'){
+        f.turn(Action::attack, stodir(line.substr(2, 4)));
+      }else{
+        f.turn(Action::move, stodir(line.substr(0, 2)));
+      }
+    }
     std::cout << f;
   }
 

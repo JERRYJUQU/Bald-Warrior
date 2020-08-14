@@ -1,9 +1,10 @@
 #include "floor.h"
 #include "stair.h"
+
 #include <stdlib.h> //dont delete
 #include <random>
 
-Floor::Floor() : name{""} {
+Floor::Floor(int n) : n{n}, pause{false} {
   td = std::make_shared<TextDisplay>();
   std::istringstream ss(map);
   std::string s;
@@ -184,6 +185,7 @@ void Floor::spawn(HeroType ht){
         treasure = std::make_shared<NormalHoard>( validPos );
     }else if(t < 6){// 1/8 chance of being dragon hoard
         treasure = std::make_shared<DragonHoard>( validPos );
+
     }else{// 1/4 chance of being small
         treasure = std::make_shared<SmallHoard>( validPos );
     }
@@ -193,7 +195,33 @@ void Floor::spawn(HeroType ht){
     treasures[validPos.x][validPos.y] = treasure;
     chambers[c].erase(chambers[c].begin()+i);
   }
+
 };
+
+void Floor::setPause(){ pause = !pause; };
+
+void Floor::refreshDisplay(){
+  for(auto row : tiles){
+    for(auto col : row){
+      col->notifyObservers();
+    }
+  }
+  for(auto row : enemies){
+    for(auto col : row){
+      col->notifyObservers();
+    }
+  }
+  for(auto row : potions){
+    for(auto col : row){
+      col->notifyObservers();
+    }
+  }
+  for(auto row : treasures){
+    for(auto col : row){
+      col->notifyObservers();
+    }
+  }
+}
 
 bool Floor::checkCollision(Position pos, std::string type){
     int x = pos.x;
@@ -247,7 +275,7 @@ void Floor::moveHero( Direction dir ){
         if (!guarded(treasures[newPos.y][newPos.x])) {
           hero->pickUpTreasure(*(treasures[newPos.y][newPos.x]));
             treasures[newPos.y][newPos.x] = nullptr;
-            hero->move(dir);
+            //hero->move(dir);
             tiles[oldPos.y][oldPos.x]->notifyObservers();
             hero->notifyObservers();
             return;
@@ -255,7 +283,7 @@ void Floor::moveHero( Direction dir ){
     }
     //hero moving onto an empty tile
     else{
-        hero->move(dir);
+        //hero->move(dir);
         tiles[oldPos.y][oldPos.x]->notifyObservers();
         hero->notifyObservers();
         return;
@@ -309,22 +337,21 @@ void Floor::moveEnemy(Enemy & enemy, Direction dir){
     //check for any collision with other object
     if(!checkCollision(newPos, "enemy")){
     }
-    enemy.move(dir);
+    //enemy.move(dir);
     tiles[oldPos.y][oldPos.x]->notifyObservers();
     enemy.notifyObservers();
     return;
 }
-void Floor::turn(std::string action, Direction dir) {
-  if(action == "use"){
-    usePotion( dir );
-  }else if(action == "attack"){
-    attackEnemy( dir );
-  }else{
-    moveHero( dir );
-  }
+void Floor::turn(Action action, Direction dir) {
+  /*switch(action){
+    case Action::use: usePotion( dir ); break;
+    case Action::attack: attackEnemy( dir ); break;
+    case Action::move: moveHero( dir ); break;
+  }*/
+
   for (int i = 0; i < 25; i++) {
       for (int j = 0; j < 79; j++) {
-          if (!enemies[i][j]) {
+          if (enemies[i][j]) {
               if (enemies[i][j]->getHP() <= 0) {
                   enemies[i][j]->notifyDeath();
                   switch (enemies[i][j]->getEnemyType()) {
@@ -342,39 +369,17 @@ void Floor::turn(std::string action, Direction dir) {
                       break;
                   }
                   enemies[i][j] = nullptr;
-              }
-              else if (abs(hero->getPos().x - enemies[i][j]->getPos().x) < 2 &&
+              }else if (abs(hero->getPos().x - enemies[i][j]->getPos().x) < 2 &&
                   abs(hero->getPos().y - enemies[i][j]->getPos().y) < 2 &&
                   !enemies[i][j]->getNeutral()) {
                    hero->defend(*enemies[i][j]);
-              }
-              else {
-                  enemies[i][j]->move(enumRand<Direction>());
+              }else {
+                if(!pause){
+                  //enemies[i][j]->move(enumRand<Direction>());
+                }
               }
           }
       }
-  }
-}
-void Floor::refreshDisplay(){
-  for(auto row : tiles){
-    for(auto col : row){
-      col->notifyObservers();
-    }
-  }
-  for(auto row : enemies){
-    for(auto col : row){
-      col->notifyObservers();
-    }
-  }
-  for(auto row : potions){
-    for(auto col : row){
-      col->notifyObservers();
-    }
-  }
-  for(auto row : treasures){
-    for(auto col : row){
-      col->notifyObservers();
-    }
   }
 }
 

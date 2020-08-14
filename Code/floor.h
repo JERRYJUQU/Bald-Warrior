@@ -4,6 +4,8 @@
 #include <sstream>
 #include <vector>
 #include <memory>
+#include "direction.h"
+
 #include "tile.h"
 #include "textdisplay.h"
 #include "treasure.h"
@@ -41,9 +43,10 @@
 
 class Observer;
 class Stair;
+enum class Action{ use, attack, move };
 
 class Floor {
-  std::string name;
+  int n;
   std::shared_ptr<Hero> hero;
   std::shared_ptr<Stair> stair;
   std::vector<std::vector<std::shared_ptr<Tile>>> tiles;
@@ -51,6 +54,7 @@ class Floor {
   std::vector<std::vector<std::shared_ptr<Potion>>> potions;
   std::vector<std::vector<std::shared_ptr<Treasure>>> treasures;
   std::shared_ptr<TextDisplay> td;
+  bool pause;
 
 
   std::string map =
@@ -88,13 +92,15 @@ class Floor {
   void moveEnemy(Enemy& enemy, Direction dir);
 
 public:
-  Floor();
+  Floor(int n);
   void spawn(HeroType ht);
+  void refreshDisplay();
   void moveHero( Direction dir );
   void attackEnemy( Direction dir );
   void usePotion( Direction dir );
-  void turn(std::string action, Direction dir);
-  void refreshDisplay();
+  void turn(Action action, Direction dir);
+  void setPause();
+
 
   friend std::ostream & operator<<( std::ostream & out, const Floor & f );
 };

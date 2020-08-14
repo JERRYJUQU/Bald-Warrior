@@ -6,6 +6,7 @@ Subject::~Subject(){};
 void Subject::attach(std::shared_ptr<Observer> o) { observers.emplace_back(o); }
 
 Position Subject::getPos(){ return pos; };
+void Subject::setPos(Position p){ pos = p; };
 ObjType Subject::getType(){ return type; };
 
 void Subject::notifyObservers() {

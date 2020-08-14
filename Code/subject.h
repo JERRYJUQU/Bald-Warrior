@@ -18,6 +18,7 @@ protected:
     Subject( Position pos, ObjType type );
     virtual ~Subject();
     Position getPos();
+    void setPos(Position p);
     ObjType getType();
     void attach(std::shared_ptr<Observer> o);
     void notifyObservers();

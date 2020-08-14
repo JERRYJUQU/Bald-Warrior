@@ -38,16 +38,3 @@ void Character::setDef(int def){
         this->def  = def;
         return;
 }
-void Character::move(Direction dir){
-  // get new position
-  switch(dir){
-    case Direction::no: pos.y -= 1;break;
-    case Direction::so: pos.y += 1;break;
-    case Direction::ea: pos.x += 1;break;
-    case Direction::we: pos.x -= 1;break;
-    case Direction::ne: pos.x += 1;pos.y -= 1;break;
-    case Direction::nw: pos.x -= 1;pos.y -= 1;break;
-    case Direction::se: pos.x += 1;pos.y += 1;break;
-    case Direction::sw: pos.x -= 1;pos.y += 1;break;
-  }
-}

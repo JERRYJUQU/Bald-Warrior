@@ -2,7 +2,7 @@ CXX = g++                   # compiler
 CXXFLAGS = -std=c++14 -g -Wall -MMD # compiler flags
 CCF = $(wildcard *.cc)
 OBJECTS = ${CCF:.cc=.o}   # object files for the executable
-EXEC = baldwarrior                 # executable name
+EXEC = cc3k                 # executable name
 DEPENDS = ${OBJECTS:.o=.d}  # substitute ".o" with ".d"
 
 ########## Targets ##########
