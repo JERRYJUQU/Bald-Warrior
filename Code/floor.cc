@@ -3,6 +3,7 @@
 
 #include <stdlib.h> //dont delete
 #include <random>
+#include <ctime>
 
 Floor::Floor(int n) : n{n}, pause{false}, enteredStair{false} {
   td = std::make_shared<TextDisplay>();
