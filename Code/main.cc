@@ -14,6 +14,7 @@ int main(){
       std::cout << "Enter the race:" << std::endl;
       std::cin >> command;
       switch( command ) {
+        case 'q': exit(0);
         case 's': f.spawn(HeroType::shade); break;
         case 'd': f.spawn(HeroType::drow); break;
         case 'v': f.spawn(HeroType::vampire); break;
@@ -33,6 +34,7 @@ int main(){
       }else if(line[0] == 'r'){
         goto start;
       }else if(line[0] == 'q'){
+        exit(0);
         break;
       }
     }else{

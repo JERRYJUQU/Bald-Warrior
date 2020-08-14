@@ -1,4 +1,5 @@
 #include "hero.h"
+#include "potion.h"
 #include "treasure.h"
 
 Hero::Hero(Position pos, HeroType type):Character{pos, CharacterType::hero}, gold{0}, type{type}, action{"Player character has spawned."}, f{1} {}
@@ -23,7 +24,7 @@ void Hero::pickUpTreasure(Treasure & treasure){
 }
 
 void Hero::usePotion(Potion & potion){
-
+    potion.effect(*this);
 };
 void Hero::notifyDeath(){
         /*for(auto p : observers){
