@@ -3,6 +3,7 @@
 #include "textdisplay.h"
 #include "subject.h"
 #include "tile.h"
+#include "hero.h"
 #include "character.h"
 #include "enemy.h"
 #include "hero.h"
@@ -25,8 +26,28 @@ void TextDisplay::notify( Subject & whoNotified ) {
       auto character = dynamic_cast<Character*> (&whoNotified);//Cast the subject to tile
       CharacterType ct = character->getCharacterType();
       switch(ct){
-        case CharacterType::hero: theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = '@'; break;
-        case CharacterType::enemy:
+        case CharacterType::hero:{
+          theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = '@';
+          std::string race;
+
+          auto hero = dynamic_cast<Hero*> (&whoNotified);
+          HeroType ht = hero->getHeroType();
+          switch(ht){
+            case HeroType::shade: race = "Shade"; break;
+            case HeroType::drow: race = "Drow"; break;
+            case HeroType::vampire: race = "Vampire"; break;
+            case HeroType::troll: race = "Troll"; break;
+            case HeroType::goblin: race = "Goblin"; break;
+          }
+          std::string hp = std::to_string(hero->getHP());
+          std::string atk = std::to_string(hero->getAtk());
+          std::string def = std::to_string(hero->getDef());
+          std::string gold = std::to_string(hero->getGold());
+          heroInfo = "Race: " + race + " Gold: " + gold + "                                                  " + "Floor " + std::to_string(hero->getFloor()) + "\n" + "HP: "+ hp + "\n" + "Atk: "+ atk + "\n" + "Def: "+ def;
+          action = hero->getAction();
+          break;
+        }
+        case CharacterType::enemy:{
           auto enemy = dynamic_cast<Enemy*> (&whoNotified);//Cast the subject to tile
           EnemyType et = enemy->getEnemyType();
           switch(et){
@@ -38,6 +59,7 @@ void TextDisplay::notify( Subject & whoNotified ) {
             case EnemyType::dragon: theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = 'D'; break;
             case EnemyType::halfling: theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = 'L'; break;
           }
+        }
       }
       break;
     }
@@ -45,9 +67,10 @@ void TextDisplay::notify( Subject & whoNotified ) {
       auto item = dynamic_cast<Item*> (&whoNotified);//Cast the subject to tile
       ItemType it = item->getItemType();
       switch(it){
-        case ItemType::treasure:  theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = 'G'; break;
-        case ItemType::potion:  theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = 'P'; break;
+        case ItemType::treasure: theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = 'G'; break;
+        case ItemType::potion: theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = 'P'; break;
       }
+      break;
     }
     case ObjType::tile:{
       auto tile = dynamic_cast<Tile*> (&whoNotified);//Cast the subject to tile
@@ -67,12 +90,17 @@ void TextDisplay::notify( Subject & whoNotified ) {
   }
 };
 
+void TextDisplay::notifyDeath( Subject & whoNotified ) {}
+
 std::ostream &operator<<(std::ostream &out, const TextDisplay &td){
+  //std::cout << ":eeee" << std::endl;
   for(int i=0; i<25; i++){
     for(int j=0; j<79; j++){
       out << td.theDisplay[i][j];
     }
     out << std::endl;
   }
+  out << td.heroInfo << std::endl;
+  out << "Action: " << td.action << std::endl;
   return out;
 };

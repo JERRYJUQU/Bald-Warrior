@@ -4,12 +4,10 @@
 #include <memory>
 #include "position.h"
 #include "subject.h"
-#include "direction.h"
 
 enum class CharacterType { hero, enemy };
 
 class Observer;
-enum class Direction;
 
 class Character : public Subject{
 protected:
@@ -26,8 +24,6 @@ public:
         void setHP(int hp);
         void setAtk(int atk);
         void setDef(int def);
-        void attach(std::shared_ptr<Observer> observer);
-        void move(Direction dir);
         CharacterType getCharacterType();
 
 };

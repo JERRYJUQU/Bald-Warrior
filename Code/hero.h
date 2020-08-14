@@ -19,6 +19,8 @@ class Hero : public Character{
 protected:
         int gold;
         HeroType type;
+        std::string action;
+        int f;//floor level
 public:
         Hero(Position pos, HeroType type);
         int getGold();
@@ -32,9 +34,13 @@ public:
         virtual void attack(Merchant & merchant) = 0;
         virtual void attack(Dragon & dragon) = 0;
         virtual void attack(Halfling & halfling) = 0;
-        virtual void usePotion(Potion & potion) = 0;
+        void usePotion(Potion & potion);
         void pickUpTreasure(Treasure & treasure);
         void notifyDeath();
+        int getFloor();
+        void incFloor();
+        std::string getAction();
+        void setAction(std::string a);
 };
 
 #endif

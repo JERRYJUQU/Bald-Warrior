@@ -4,6 +4,9 @@
 #include <sstream>
 #include <vector>
 #include <memory>
+#include <ctime>
+#include "direction.h"
+
 #include "tile.h"
 #include "textdisplay.h"
 #include "treasure.h"
@@ -13,22 +16,38 @@
 #include "item.h"
 #include "potion.h"
 
-enum class Direction { no,so,ea,we,ne,nw,se,sw };
+#include "shade.h"
+#include "drow.h"
+#include "vampire.h"
+#include "troll.h"
+#include "goblin.h"
+
+#include "human.h"
+#include "dwarf.h"
+#include "elf.h"
+#include "orcs.h"
+#include "merchant.h"
+#include "dragon.h"
+#include "halfling.h"
+
+#include "restore_health.h"
+#include "boost_atk.h"
+#include "boost_def.h"
+#include "poison_health.h"
+#include "wound_atk.h"
+#include "wound_def.h"
+
+#include "dragon_hoard.h"
+#include "small_hoard.h"
+#include "merchant_hoard.h"
+#include "normal_hoard.h"
 
 class Observer;
 class Stair;
-class RestoreHealth;
-class BoostAtk;
-class BoostDef;
-class PoisonHealth;
-class WoundAtk;
-class WoundDef;
-class NormalHoard;
-class DragonHoard;
-class SmallHoard;
+enum class Action{ use, attack, move };
 
 class Floor {
-  std::string name;
+  int n;
   std::shared_ptr<Hero> hero;
   std::shared_ptr<Stair> stair;
   std::vector<std::vector<std::shared_ptr<Tile>>> tiles;
@@ -36,6 +55,8 @@ class Floor {
   std::vector<std::vector<std::shared_ptr<Potion>>> potions;
   std::vector<std::vector<std::shared_ptr<Treasure>>> treasures;
   std::shared_ptr<TextDisplay> td;
+  bool pause;
+  bool enteredStair;
 
 
   std::string map =
@@ -66,19 +87,23 @@ class Floor {
   "|-----------------------------------------------------------------------------|"; //The map in text form
 
   //Private methods
-  bool checkCollision(Position pos, std::string type);
   bool guarded(std::shared_ptr<Treasure> treasue);
   Position getNewPos(Position oldPos, Direction dir);
-  void attackEnemy( Direction dir );
+  std::vector<Position> getValidPos(Position pos);
   template<typename T> T enumRand();
 
 public:
-  Floor();
-  void spawn();
+  Floor(int n);
+  void spawn(HeroType ht);
+  void enter(std::shared_ptr<Hero> h);
+  void refreshDisplay();
   void moveHero( Direction dir );
-  void attack( Direction dir );
+  void attackEnemy( Direction dir );
   void usePotion( Direction dir );
-  void turn();
+  void turn(Action action, Direction dir);
+  void setPause();
+  bool haveEnteredStair();
+  std::shared_ptr<Hero> getHero();
 
   friend std::ostream & operator<<( std::ostream & out, const Floor & f );
 };

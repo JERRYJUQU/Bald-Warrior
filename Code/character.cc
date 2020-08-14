@@ -6,6 +6,7 @@ Position Character::getPos() { return pos; }
 int Character::getHP() { return hp; }
 int Character::getAtk() { return atk; }
 int Character::getDef() { return def; }
+int Character::getMaxHP() { return maxHP; }
 void Character::incHP(int hp){
         int tmp = this->hp + hp;
         if(tmp < 0){
@@ -36,17 +37,4 @@ void Character::setAtk(int atk){
 void Character::setDef(int def){
         this->def  = def;
         return;
-}
-void Character::move(Direction dir){
-  // get new position
-  switch(dir){
-    case Direction::no: pos.y -= 1;break;
-    case Direction::so: pos.y += 1;break;
-    case Direction::ea: pos.x += 1;break;
-    case Direction::we: pos.x -= 1;break;
-    case Direction::ne: pos.x += 1;pos.y -= 1;break;
-    case Direction::nw: pos.x -= 1;pos.y -= 1;break;
-    case Direction::se: pos.x += 1;pos.y += 1;break;
-    case Direction::sw: pos.x -= 1;pos.y += 1;break;
-  }
 }

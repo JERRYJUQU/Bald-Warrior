@@ -4,10 +4,11 @@
 Enemy::Enemy(Position pos, EnemyType type): Character{pos, CharacterType::enemy}, neutral{false}, type{type}{}
 EnemyType Enemy::getEnemyType(){ return type; };
 
+bool Enemy::getNeutral(){ return neutral; };
 void Enemy::notifyDeath(){
-        for(auto n : observers){
-                n.notifyDeath(*this);
-        }
+        /*for(auto n : observers){
+                n->notifyDeath(*this);
+        }*/
 }
 /*
 void Enemy::move(Direction direction){
@@ -33,4 +34,3 @@ void Enemy::move(Direction direction){
                 pos.y += 1;
         }
 }*/
-

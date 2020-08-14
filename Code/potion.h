@@ -3,10 +3,15 @@
 
 #include "item.h"
 
+enum class PotionType {restoreHealth, posionHealth, boostAtk, woundAtk, boostDef, woundDef, COUNT};
+
 class Potion : public Item{
+protected:
+    PotionType type;
 public:
-    Potion(Position pos);
-    //virtual void effect(Hero &hero) = 0;
+    Potion(Position pos, PotionType type);
+    virtual void effect(Hero &hero) = 0;
+    PotionType getPotionType();
 };
 
 #endif

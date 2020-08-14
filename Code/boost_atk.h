@@ -2,11 +2,10 @@
 #define BOOST_ATK_H
 
 #include "potion.h"
-class BoostAtk :
-    public Potion
-{
-    BoostAtk(int x, int y,
-        std::shared_ptr <Observer> display);
+
+class BoostAtk : public Potion{
+public:
+    BoostAtk(Position pos);
     void effect(Hero &hero) override;
 };
 

@@ -1,10 +1,20 @@
 #include "hero.h"
-#include "direction.h"
+#include "potion.h"
 #include "treasure.h"
 
-Hero::Hero(Position pos, HeroType type):Character{pos, CharacterType::hero}, gold{0}, type{type} {}
+Hero::Hero(Position pos, HeroType type):Character{pos, CharacterType::hero}, gold{0}, type{type}, action{"Player character has spawned."}, f{1} {}
 
 int Hero::getGold() { return gold; };
+int Hero::getFloor() { return f; };
+std::string Hero::getAction() { return action; };
+
+void Hero::incFloor(){
+  if(f < 5){
+    f++;
+  }
+};
+void Hero::setAction(std::string a) { action = a; };
+
 void Hero::incGold(int gold){
         this->gold += gold;
 }
@@ -13,8 +23,11 @@ void Hero::pickUpTreasure(Treasure & treasure){
         treasure.effect(*this);
 }
 
+void Hero::usePotion(Potion & potion){
+    potion.effect(*this);
+};
 void Hero::notifyDeath(){
         /*for(auto p : observers){
-                p.notifyDeath(*this);
+                p->notifyDeath(*this);
         }*/
 }

@@ -1,9 +1,8 @@
 #include "boost_def.h"
 #include "hero.h"
 
-BoostDef::BoostDef(int x, int y,
-    std::shared_ptr <Observer> display)
-    : Potion(x, y, display)
+BoostDef::BoostDef(Position pos)
+    : Potion(pos, PotionType::boostDef)
 {}
 
 void BoostDef::effect(Hero &hero) {
