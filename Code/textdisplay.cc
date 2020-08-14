@@ -25,8 +25,33 @@ void TextDisplay::notify( Subject & whoNotified ) {
       auto character = dynamic_cast<Character*> (&whoNotified);//Cast the subject to tile
       CharacterType ct = character->getCharacterType();
       switch(ct){
+<<<<<<< Updated upstream
         case CharacterType::hero: theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = '@'; break;
         case CharacterType::enemy:
+=======
+        case CharacterType::hero:{
+          theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = '@';
+          std::string race;
+
+          auto hero = dynamic_cast<Hero*> (&whoNotified);
+          HeroType ht = hero->getHeroType();
+          switch(ht){
+            case HeroType::shade: race = "Shade"; break;
+            case HeroType::drow: race = "Drow"; break;
+            case HeroType::vampire: race = "Vampire"; break;
+            case HeroType::troll: race = "Troll"; break;
+            case HeroType::goblin: race = "Goblin"; break;
+          }
+          std::string hp = std::to_string(hero->getHP());
+          std::string atk = std::to_string(hero->getAtk());
+          std::string def = std::to_string(hero->getDef());
+          std::string gold = std::to_string(hero->getGold());
+          heroInfo = "Race: " + race + " Gold: " + gold + " " + "Floor " + "\n" + "HP: "+ hp + "\n" + "Atk: "+ atk + "\n" + "Def: "+ def;
+          action = hero->getAction();
+          break;
+        }
+        case CharacterType::enemy:{
+>>>>>>> Stashed changes
           auto enemy = dynamic_cast<Enemy*> (&whoNotified);//Cast the subject to tile
           EnemyType et = enemy->getEnemyType();
           switch(et){
