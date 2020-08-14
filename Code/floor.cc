@@ -352,6 +352,7 @@ void Floor::turn(Action action, Direction dir) {
               }
               if (enemies[i][j]->getHP() <= 0) {
                   enemies[i][j]->notifyDeath();
+                  auto tempTreasure = make_shared<MerchantHoard>();
                   switch (enemies[i][j]->getEnemyType()) {
                   case EnemyType::human:
                       hero->incGold(4); // increase gold instead of dropping hoard, may need to change
@@ -360,7 +361,7 @@ void Floor::turn(Action action, Direction dir) {
                       enemies[i][j]->notifyDeath();
                       break;
                   case EnemyType::merchant:
-                      hero->incGold(4); //increase gold instead of dropping hoard, may need to change
+                      treasures[i][j] = tempTreasure;
                       break;
                   default: 
                       srand(time(0));
