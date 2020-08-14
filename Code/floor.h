@@ -4,6 +4,7 @@
 #include <sstream>
 #include <vector>
 #include <memory>
+#include <ctime>
 #include "direction.h"
 
 #include "tile.h"

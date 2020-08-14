@@ -364,8 +364,7 @@ void Floor::turn(Action action, Direction dir) {
                   srand(time(0));
                   int p = rand()%validPos.size();
                   enemies[i][j]->setPos(validPos[p]);
-                  enemies[validPos[p].x][validPos[p].y] = enemies[i][j];
-                  enemies[i][j] = nullptr;
+                  swap(enemies[i][j], enemies[validPos[p].x][validPos[p].y]);//swap the locations
                 }
               }
           }
