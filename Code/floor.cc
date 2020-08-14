@@ -317,6 +317,7 @@ void Floor::usePotion( Direction dir ){
     }else{
         hero->usePotion(*potions[heroPos.y][heroPos.x]);
         potions[heroPos.y][heroPos.x] = nullptr;
+        hero->setAction("PC uses " + dirtos(dir));
     }
 };
 
@@ -335,14 +336,17 @@ void Floor::turn(Action action, Direction dir) {
     case Action::move: moveHero( dir ); break;
   }
 
+  std::vector<std::shared_ptr<Enemy>> moved;
   for (int i = 0; i < 25; i++) {
       for (int j = 0; j < 79; j++) {
           if (enemies[i][j]) {
+              auto it = std::find(moved.begin(), moved.end(), enemies[i][j]);
+              if (it != moved.end()) {
+                  continue;
+              }
               if (enemies[i][j]->getHP() <= 0) {
                   enemies[i][j]->notifyDeath();
                   switch (enemies[i][j]->getEnemyType()) {
-                  case EnemyType::dwarf:
-                      break;
                   case EnemyType::human:
                       hero->incGold(4); // increase gold instead of dropping hoard, may need to change
                       break;
@@ -352,21 +356,34 @@ void Floor::turn(Action action, Direction dir) {
                   case EnemyType::merchant:
                       hero->incGold(4); //increase gold instead of dropping hoard, may need to change
                       break;
-                  default: break;
+                  default: 
+                      srand(time(0));
+                      int tempNum = rand() % 2;
+                      switch (tempNum) {
+                      case 0:
+                          hero->incGold(1);
+                          break;
+                      default:
+                          hero->incGold(2);
+                          break;
+                      }
+                      break;
                   }
                   enemies[i][j] = nullptr;
               }else if (abs(hero->getPos().x - enemies[i][j]->getPos().x) < 2 &&
                   abs(hero->getPos().y - enemies[i][j]->getPos().y) < 2 &&
                   !enemies[i][j]->getNeutral()) {
                    hero->defend(*enemies[i][j]);
-              }else {
-                if(!pause){
-                  std::vector<Position> validPos = getValidPos(enemies[i][j]->getPos());
-                  srand(time(0));
-                  int p = rand()%validPos.size();
-                  enemies[i][j]->setPos(validPos[p]);
-                  swap(enemies[i][j], enemies[validPos[p].x][validPos[p].y]);//swap the locations
-                }
+              }
+              else {
+                  if (!pause) {
+                      std::vector<Position> validPos = getValidPos(enemies[i][j]->getPos());
+                      srand(time(0));
+                      int p = rand() % validPos.size();
+                      enemies[i][j]->setPos(validPos[p]);
+                      swap(enemies[i][j], enemies[validPos[p].x][validPos[p].y]);//swap the locations
+                      moved.emplace_back(enemies[validPos[p].x][validPos[p].y]);
+                  }
               }
           }
       }
