@@ -97,7 +97,8 @@ void Floor::spawn(HeroType ht){
   }
 
   //Generate chambers
-  std::vector<std::vector<std::shared_ptr<Tile>>> chambers(5);
+  std::vector<std::vector<std::shared_ptr<Tile>>> chambers;
+  chambers.reserve(5);
   std::shared_ptr<TextDisplay> tp = std::make_shared<TextDisplay>();;
   for(auto e : valid){
     struct Position pos = e->getPos();
@@ -205,7 +206,7 @@ void Floor::spawn(HeroType ht){
         }else{
            auto dragon = std::make_shared<Dragon>(p, treasure);
            enemies[p.x][p.y] = dragon;
-           chambers[c].erase(tiles[p.x][p.y]);
+           chambers[c].erase(find(chambers[c].begin(), chambers[c].end(), tiles[p.x][p.y]));
         }
         
     }else{// 1/4 chance of being small
@@ -238,7 +239,7 @@ Position Floor::getValidPos(Position pos){
     for(int dy = -1; dy < 2; dy++){
       int nx = min(max(pos.x+dx, 0), 25);
       int ny = min(max(pos.y+dy, 0), 78);
-      if(!enemies[nx][ny] && !potions[nx][ny] && !treasure[nx[ny] && !(nx == hero->getPos().x && ny == hero->getPos().y) && 
+      if(!enemies[nx][ny] && !potions[nx][ny] && !treasures[nx][ny] && !(nx == hero->getPos().x && ny == hero->getPos().y) && 
                                                            !(nx == stair->getPos().x && ny == stair->getPos().y)){
         if(tiles[nx][ny]->getTileType() == TileType::ground){
           struct Position np = { nx, ny };
@@ -351,8 +352,8 @@ T Floor::enumRand() {
 }
                                                            
 bool Floor::heroAround(Enemy & enemy){
-  return (abs(hero->getPos().x - enemy->getPos().x) < 2 &&
-          abs(hero->getPos().y - enemy->getPos().y) < 2);
+  return (abs(hero->getPos().x - enemy.getPos().x) < 2 &&
+          abs(hero->getPos().y - enemy.getPos().y) < 2);
 }
 
 void Floor::turn(Action action, Direction dir) {
@@ -372,17 +373,23 @@ void Floor::turn(Action action, Direction dir) {
               }
               if (enemies[i][j]->getHP() <= 0) {
                   enemies[i][j]->notifyDeath();
-                  auto tempTreasure = make_shared<MerchantHoard>();
+                  auto tempMerchantHoard = make_shared<MerchantHoard>();
+                  auto tempSmallHoard = make_shared<SmallHoard>();
+                  Position tempPos;
+                  std::shared_ptr<Dragon> d = std::dynamic_pointer_cast<Dragon> (enemies[i][j]);
                   switch (enemies[i][j]->getEnemyType()) {
                   case EnemyType::human:
-                      hero->incGold(4); // increase gold instead of dropping hoard, may need to change
+                      treasures[i][j] = tempSmallHoard;
+                      tempPos.x = i;
+                      tempPos.y = j;
+                      tempPos = getValidPos(tempPos);
+                      treasures[i][j] = tempSmallHoard;
                       break;
                   case EnemyType::dragon:
-                      std::shared<Dragon> d = std::dynamic_pointer_cast<Dragon> enemies[i][j];
                       d->notifyHoard();
                       break;
                   case EnemyType::merchant:
-                      treasures[i][j] = tempTreasure;
+                      treasures[i][j] = tempMerchantHoard;
                       break;
                   default: 
                       srand(time(0));
@@ -405,10 +412,10 @@ void Floor::turn(Action action, Direction dir) {
               else {
                   if (!pause) {
                       Position validPos = getValidPos(enemies[i][j]->getPos());
-                      if(validPos != enemies[i][j]->getPos()){
-                          enemies[i][j]->setPos(validPos[p]);
-                          swap(enemies[i][j], enemies[validPos[p].x][validPos[p].y]);//swap the locations
-                          moved.emplace_back(enemies[validPos[p].x][validPos[p].y]);
+                      if(!(validPos == enemies[i][j]->getPos())){
+                          enemies[i][j]->setPos(validPos);
+                          swap(enemies[i][j], enemies[validPos.x][validPos.y]);//swap the locations
+                          moved.emplace_back(enemies[validPos.x][validPos.y]);
                       }
                   }
               }
