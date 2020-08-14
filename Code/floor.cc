@@ -4,7 +4,7 @@
 #include <stdlib.h> //dont delete
 #include <random>
 
-Floor::Floor(int n) : n{n}, pause{false} {
+Floor::Floor(int n) : n{n}, pause{false}, enteredStair{false} {
   td = std::make_shared<TextDisplay>();
   std::istringstream ss(map);
   std::string s;
@@ -65,6 +65,20 @@ Floor::Floor(int n) : n{n}, pause{false} {
   //struct Position pos = { 10, 10 };
   //Hero hero = Hero(pos, HeroType::shade);
 }
+
+void Floor::refreshDisplay(){
+  for(int i = 0; i < 25; i++){
+    for(int j = 0; j < 79; j++){
+      if(tiles[i][j]) tiles[i][j]->notifyObservers();
+      if(potions[i][j]) potions[i][j]->notifyObservers();
+      if(treasures[i][j]) treasures[i][j]->notifyObservers();
+      if(enemies[i][j]) enemies[i][j]->notifyObservers();
+    }
+  }
+  stair->notifyObservers();
+  hero->notifyObservers();
+}
+
 void Floor::spawn(HeroType ht){
   srand(time(0));
 
@@ -93,7 +107,6 @@ void Floor::spawn(HeroType ht){
       chambers[3].emplace_back(e);
     }else{
       e->attach(tp);
-      e->notifyObservers();
       chambers[4].emplace_back(e);
     }
   }
@@ -104,7 +117,6 @@ void Floor::spawn(HeroType ht){
   int i = (rand()%(chambers[c].size()));
   stair = make_shared<Stair>( chambers[c][i]->getPos() );
   stair->attach(td);
-  stair->notifyObservers();
   chambers[c].erase(chambers[c].begin()+i);
 
   //Generate Hero
@@ -117,9 +129,7 @@ void Floor::spawn(HeroType ht){
     case HeroType::troll: hero = make_shared<Troll>( chambers[c][i]->getPos() ); break;
     case HeroType::goblin: hero = make_shared<Goblin>( chambers[c][i]->getPos() ); break;
   }
-  std::cout << hero->getAction() << std::endl;
   hero->attach(td);
-  hero->notifyObservers();
   chambers[c].erase(chambers[c].begin()+i);
 
   //Generate enemies
@@ -144,7 +154,6 @@ void Floor::spawn(HeroType ht){
       enemy = std::make_shared<Merchant>( validPos );
     }
     enemy->attach(td);
-    enemy->notifyObservers();
     enemies[validPos.x][validPos.y] = enemy;
     chambers[c].erase(chambers[c].begin()+i);
   }
@@ -167,7 +176,6 @@ void Floor::spawn(HeroType ht){
 
     potion->attach(td);
     //std::cout << *td << std::endl;
-    potion->notifyObservers();
     potions[validPos.x][validPos.y] = potion;
     chambers[c].erase(chambers[c].begin()+i);
   }
@@ -191,50 +199,42 @@ void Floor::spawn(HeroType ht){
     }
 
     treasure->attach(td);
-    treasure->notifyObservers();
     treasures[validPos.x][validPos.y] = treasure;
     chambers[c].erase(chambers[c].begin()+i);
   }
-
+  refreshDisplay();
 };
 
+void Floor::enter(std::shared_ptr<Hero> h){
+  spawn(h->getHeroType());
+  h->setPos(hero->getPos());
+  hero = h;
+  hero->attach(td);
+  refreshDisplay();
+}
+
 void Floor::setPause(){ pause = !pause; };
+bool Floor::haveEnteredStair(){ return enteredStair; };
+std::shared_ptr<Hero> Floor::getHero(){ return hero; };
 
-void Floor::refreshDisplay(){
-  for(auto row : tiles){
-    for(auto col : row){
-      col->notifyObservers();
+std::vector<Position> Floor::getValidPos(Position pos){
+  std::vector<Position> result;
+  for(int dx = -1; dx < 2; dx++){
+    for(int dy = -1; dy < 2; dy++){
+      int nx = min(max(pos.x+dx, 0), 25);
+      int ny = min(max(pos.y+dy, 0), 78);
+      if(!enemies[nx][ny] && !(nx == hero->getPos().x && ny == hero->getPos().y) && !(nx == stair->getPos().x && ny == stair->getPos().y)){
+        if(tiles[nx][ny]->getTileType() == TileType::ground){
+          struct Position np = { nx, ny };
+          result.emplace_back(np);
+        }
+      }
     }
   }
-  for(auto row : enemies){
-    for(auto col : row){
-      col->notifyObservers();
-    }
-  }
-  for(auto row : potions){
-    for(auto col : row){
-      col->notifyObservers();
-    }
-  }
-  for(auto row : treasures){
-    for(auto col : row){
-      col->notifyObservers();
-    }
-  }
-}
+  return result;
+};
 
-bool Floor::checkCollision(Position pos, std::string type){
-    int x = pos.x;
-    int y = pos.y;
-    if(type == "hero"){
-        auto tile = dynamic_cast<Tile*> (tiles[y][x].get());//Cast the subject to tile
-        TileType tt = tile->getTileType();
-        bool t = (tt == TileType::ground || tt == TileType::hpassage || tt == TileType::vpassage || tt == TileType::doorway);
-        bool e = !enemies[y][x];
-        //bool p = !potions[y][x]; potions can be stepped on
-        return t&&e;//&&p;
-    }
-}
+
 
 bool Floor::guarded(std::shared_ptr<Treasure> treasue){
     return !treasue->pickUp();
@@ -244,80 +244,79 @@ Position Floor::getNewPos(Position oldPos, Direction dir){
     Position newPos(oldPos);
     // get new position
     switch(dir){
-      case Direction::no: newPos.y -= 1;break;
-      case Direction::so: newPos.y += 1;break;
-      case Direction::ea: newPos.x += 1;break;
-      case Direction::we: newPos.x -= 1;break;
-      case Direction::ne: newPos.x += 1;newPos.y -= 1;break;
-      case Direction::nw: newPos.x -= 1;newPos.y -= 1;break;
-      case Direction::se: newPos.x += 1;newPos.y += 1;break;
-      case Direction::sw: newPos.x -= 1;newPos.y += 1;break;
+      case Direction::no: newPos.x -= 1;break;
+      case Direction::so: newPos.x += 1;break;
+      case Direction::ea: newPos.y += 1;break;
+      case Direction::we: newPos.y -= 1;break;
+      case Direction::ne: newPos.y += 1;newPos.x -= 1;break;
+      case Direction::nw: newPos.y -= 1;newPos.x -= 1;break;
+      case Direction::se: newPos.y += 1;newPos.x += 1;break;
+      case Direction::sw: newPos.y -= 1;newPos.x += 1;break;
+      case Direction::COUNT: break;
     }
     return newPos;
 }
 
 void Floor::moveHero( Direction dir ){
+
     Position oldPos = hero->getPos();
     Position newPos = getNewPos(oldPos, dir);
     //check weather new position is valid
-    if(newPos.x < 0 || newPos.y > 0){
+    if(newPos.x < 0 || newPos.x > 24 || newPos.y < 0 || newPos.y > 78){
+      return;
+    }
+    std::shared_ptr<Tile> t = tiles[newPos.x][newPos.y];
+    if(t->getTileType() == TileType::hwall || t->getTileType() == TileType::vwall || t->getTileType() == TileType::empty){
+      return;
     }
     //check for any collision with other object
-    if(!checkCollision(newPos, "hero")){
+    if(enemies[newPos.x][newPos.y]){
+      return;
     }
     //check if hero entered stairs
-    /*if(tiles[newPos.y][newPos.x]->getType() == TileType::stairs){
-
-    }*/
+    if(stair->getPos().x == newPos.x && stair->getPos().y == newPos.y){
+      enteredStair = true;
+      return;
+    }
     //check if hero is picking up a treasure
-    if(treasures[newPos.y][newPos.x]){
+    if(treasures[newPos.x][newPos.y]){
         //check if treasure is guarded
-        if (!guarded(treasures[newPos.y][newPos.x])) {
-          hero->pickUpTreasure(*(treasures[newPos.y][newPos.x]));
-            treasures[newPos.y][newPos.x] = nullptr;
-            //hero->move(dir);
-            tiles[oldPos.y][oldPos.x]->notifyObservers();
-            hero->notifyObservers();
-            return;
+        if (!guarded(treasures[newPos.x][newPos.y])) {
+          hero->pickUpTreasure(*(treasures[newPos.x][newPos.y]));
+            treasures[newPos.x][newPos.y] = nullptr;
         }
     }
-    //hero moving onto an empty tile
-    else{
-        //hero->move(dir);
-        tiles[oldPos.y][oldPos.x]->notifyObservers();
-        hero->notifyObservers();
-        return;
-    }
+
+    hero->setPos(newPos);
+    hero->setAction("PC moves " + dirtos(dir));
+    return;
 }
 
 void Floor::attackEnemy( Direction dir ){
-    Position oldPos = hero->getPos();
-    Position newPos = getNewPos(oldPos, dir);
+    Position heroPos = hero->getPos();
     //check if new position is valid
-    if(newPos.x < 0 || newPos.y < 0 || newPos.x > 78 || newPos.y > 24){
+    if(heroPos.x < 0 || heroPos.y < 0 || heroPos.x > 24 || heroPos.y > 78){
+      return;
     }
     //check if there is enemy at that position
-    if(!enemies[newPos.y][newPos.x]){
-        //throw exception
-    }
-    else{
-        enemies[newPos.y][newPos.x]->defend(*hero);
+    if(!enemies[heroPos.y][heroPos.x]){
+      return;
+    }else{
+        enemies[heroPos.y][heroPos.x]->defend(*hero);
     }
 }
 void Floor::usePotion( Direction dir ){
-    Position oldPos = hero->getPos();
-    Position newPos = getNewPos(oldPos, dir);
+    Position heroPos = hero->getPos();
     //check if new position is valid
-    if(newPos.x < 0 || newPos.y < 0 || newPos.x > 78 || newPos.y > 24){
-        //throw exception
+    if(heroPos.x < 0 || heroPos.y < 0 || heroPos.x > 24 || heroPos.y > 78){
+      return;
     }
-    if (!potions[newPos.y][newPos.x]) {
-        //throw exception
+    if (!potions[heroPos.y][heroPos.x]) {
+      return;
+    }else{
+        hero->usePotion(*potions[heroPos.y][heroPos.x]);
+        potions[heroPos.y][heroPos.x] = nullptr;
     }
-    else {
-        hero->usePotion(*potions[newPos.y][newPos.x]);
-    }
-
 };
 
 //Randomly select an element fron enum class
@@ -328,26 +327,12 @@ T Floor::enumRand() {
     return static_cast<T> (rand() % enumSize);
 }
 
-void Floor::moveEnemy(Enemy & enemy, Direction dir){
-    Position oldPos = enemy.getPos();
-    Position newPos = getNewPos(oldPos, dir);
-  //check weather new position is valid
-    if(newPos.x < 0 || newPos.y > 0){
-    }
-    //check for any collision with other object
-    if(!checkCollision(newPos, "enemy")){
-    }
-    //enemy.move(dir);
-    tiles[oldPos.y][oldPos.x]->notifyObservers();
-    enemy.notifyObservers();
-    return;
-}
 void Floor::turn(Action action, Direction dir) {
-  /*switch(action){
+  switch(action){
     case Action::use: usePotion( dir ); break;
     case Action::attack: attackEnemy( dir ); break;
     case Action::move: moveHero( dir ); break;
-  }*/
+  }
 
   for (int i = 0; i < 25; i++) {
       for (int j = 0; j < 79; j++) {
@@ -356,7 +341,6 @@ void Floor::turn(Action action, Direction dir) {
                   enemies[i][j]->notifyDeath();
                   switch (enemies[i][j]->getEnemyType()) {
                   case EnemyType::dwarf:
-
                       break;
                   case EnemyType::human:
                       hero->incGold(4); // increase gold instead of dropping hoard, may need to change
@@ -367,6 +351,7 @@ void Floor::turn(Action action, Direction dir) {
                   case EnemyType::merchant:
                       hero->incGold(4); //increase gold instead of dropping hoard, may need to change
                       break;
+                  default: break;
                   }
                   enemies[i][j] = nullptr;
               }else if (abs(hero->getPos().x - enemies[i][j]->getPos().x) < 2 &&
@@ -375,12 +360,18 @@ void Floor::turn(Action action, Direction dir) {
                    hero->defend(*enemies[i][j]);
               }else {
                 if(!pause){
-                  //enemies[i][j]->move(enumRand<Direction>());
+                  std::vector<Position> validPos = getValidPos(enemies[i][j]->getPos());
+                  srand(time(0));
+                  int p = rand()%validPos.size();
+                  enemies[i][j]->setPos(validPos[p]);
+                  enemies[validPos[p].x][validPos[p].y] = enemies[i][j];
+                  enemies[i][j] = nullptr;
                 }
               }
           }
       }
   }
+  refreshDisplay();
 }
 
 std::ostream & operator<<( std::ostream & out, const Floor & f ){

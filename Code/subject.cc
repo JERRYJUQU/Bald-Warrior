@@ -1,6 +1,6 @@
 #include "subject.h"
 #include "observer.h"
-Subject::Subject( Position pos, ObjType type ) : pos{pos}, type{type} {};
+Subject::Subject( Position pos, ObjType type ) : type{type}, pos{pos} {};
 Subject::~Subject(){};
 
 void Subject::attach(std::shared_ptr<Observer> o) { observers.emplace_back(o); }

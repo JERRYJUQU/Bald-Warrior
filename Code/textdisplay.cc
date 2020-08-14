@@ -43,7 +43,7 @@ void TextDisplay::notify( Subject & whoNotified ) {
           std::string atk = std::to_string(hero->getAtk());
           std::string def = std::to_string(hero->getDef());
           std::string gold = std::to_string(hero->getGold());
-          heroInfo = "Race: " + race + " Gold: " + gold + "                                                  " + "Floor " + "\n" + "HP: "+ hp + "\n" + "Atk: "+ atk + "\n" + "Def: "+ def;
+          heroInfo = "Race: " + race + " Gold: " + gold + "                                                  " + "Floor " + std::to_string(hero->getFloor()) + "\n" + "HP: "+ hp + "\n" + "Atk: "+ atk + "\n" + "Def: "+ def;
           action = hero->getAction();
           break;
         }

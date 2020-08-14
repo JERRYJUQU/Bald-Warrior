@@ -1,5 +1,5 @@
 CXX = g++                   # compiler
-CXXFLAGS = -std=c++14 -g -Wall -MMD # compiler flags
+CXXFLAGS = -std=c++14 -g -Wall -MMD -w# compiler flags
 CCF = $(wildcard *.cc)
 OBJECTS = ${CCF:.cc=.o}   # object files for the executable
 EXEC = cc3k                 # executable name

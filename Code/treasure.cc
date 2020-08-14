@@ -4,8 +4,8 @@
 
 Treasure::Treasure(Position pos, TreasureType type, bool canPickUp)
 	: Item(pos, ItemType::treasure),
-	  type{type},
-	  canPickUp{canPickUp}
+	  canPickUp{canPickUp},
+		 type{type}
 {}
 
 bool Treasure::pickUp() {

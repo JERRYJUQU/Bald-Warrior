@@ -23,8 +23,8 @@ int main(){
       }
       spawned = true;
       std::cout << f;
+      cin.ignore();
     }
-    cin.ignore();
     std::getline(std::cin, line);
     if ( std::cin.fail()) break;
     if(line.length() == 1){
@@ -42,9 +42,20 @@ int main(){
         f.turn(Action::attack, stodir(line.substr(2, 4)));
       }else{
         f.turn(Action::move, stodir(line.substr(0, 2)));
+        if(f.haveEnteredStair()){
+          std::shared_ptr<Hero> hero = f.getHero();
+          if(hero->getFloor() < 5){
+            hero->incFloor();
+            f = Floor(hero->getFloor());
+            f.enter(hero);
+          }else{
+            goto end;
+          }
+        }
       }
     }
     std::cout << f;
   }
-
+  end:
+  std::cout << "Congradulations! You have completed CC3K." << std::endl;
 };

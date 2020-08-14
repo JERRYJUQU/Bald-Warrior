@@ -55,6 +55,7 @@ class Floor {
   std::vector<std::vector<std::shared_ptr<Treasure>>> treasures;
   std::shared_ptr<TextDisplay> td;
   bool pause;
+  bool enteredStair;
 
 
   std::string map =
@@ -85,22 +86,23 @@ class Floor {
   "|-----------------------------------------------------------------------------|"; //The map in text form
 
   //Private methods
-  bool checkCollision(Position pos, std::string type);
   bool guarded(std::shared_ptr<Treasure> treasue);
   Position getNewPos(Position oldPos, Direction dir);
+  std::vector<Position> getValidPos(Position pos);
   template<typename T> T enumRand();
-  void moveEnemy(Enemy& enemy, Direction dir);
 
 public:
   Floor(int n);
   void spawn(HeroType ht);
+  void enter(std::shared_ptr<Hero> h);
   void refreshDisplay();
   void moveHero( Direction dir );
   void attackEnemy( Direction dir );
   void usePotion( Direction dir );
   void turn(Action action, Direction dir);
   void setPause();
-
+  bool haveEnteredStair();
+  std::shared_ptr<Hero> getHero();
 
   friend std::ostream & operator<<( std::ostream & out, const Floor & f );
 };

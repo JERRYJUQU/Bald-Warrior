@@ -20,6 +20,7 @@ protected:
         int gold;
         HeroType type;
         std::string action;
+        int f;//floor level
 public:
         Hero(Position pos, HeroType type);
         int getGold();
@@ -36,7 +37,10 @@ public:
         void usePotion(Potion & potion);
         void pickUpTreasure(Treasure & treasure);
         void notifyDeath();
+        int getFloor();
+        void incFloor();
         std::string getAction();
+        void setAction(std::string a);
 };
 
 #endif
