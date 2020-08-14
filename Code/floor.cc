@@ -308,39 +308,69 @@ void Floor::moveEnemy(Enemy & enemy, Direction dir){
     enemy.notifyObservers();
     return;
 }
-void Floor::turn() {
-    for (int i = 0; i < 25; i++) {
-        for (int j = 0; j < 79; j++) {
-            if (!enemies[i][j]) {
-                if (enemies[i][j]->getHP() <= 0) {
-                    enemies[i][j]->notifyDeath();
-                    switch (enemies[i][j]->getEnemyType()) {
-                    case EnemyType::dwarf:
+void Floor::turn(std::string action, Direction dir) {
+  if(action == "use"){
+    usePotion( dir );
+  }else if(action == "attack"){
+    attack( dir );
+  }else{
+    moveHero( dir );
+  }
+  for (int i = 0; i < 25; i++) {
+      for (int j = 0; j < 79; j++) {
+          if (!enemies[i][j]) {
+              if (enemies[i][j]->getHP() <= 0) {
+                  enemies[i][j]->notifyDeath();
 
-                        break;
-                    case EnemyType::human:
-                        hero->incGold(4); // increase gold instead of dropping hoard, may need to change
-                        break;
-                    case EnemyType::dragon:
-                        enemies[i][j]->notifyDeath();
-                        break;
-                    case EnemyType::merchant:
-                        hero->incGold(4); //increase gold instead of dropping hoard, may need to change
-                        break;
-                    }
-                    enemies[i][j] = nullptr;
-                }
-                else if (abs(hero->getPos().x - enemies[i][j]->getPos().x) < 2 &&
-                    abs(hero->getPos().y - enemies[i][j]->getPos().y) < 2 &&
-                    !enemies[i][j]->getNeutral()) {
-                     hero->defend(*enemies[i][j]);
-                }
-                else {
-                    enemies[i][j]->move(enumRand<Direction>());
-                }
-            }
-        }
+                  switch (enemies[i][j]->getEnemyType()) {
+                  case EnemyType::dwarf:
+
+                      break;
+                  case EnemyType::human:
+                      hero->incGold(4); // increase gold instead of dropping hoard, may need to change
+                      break;
+                  case EnemyType::dragon:
+                      enemies[i][j]->notifyDeath();
+                      break;
+                  case EnemyType::merchant:
+                      hero->incGold(4); //increase gold instead of dropping hoard, may need to change
+                      break;
+                  }
+                  enemies[i][j] = nullptr;
+              }
+              else if (abs(hero->getPos().x - enemies[i][j]->getPos().x) < 2 &&
+                  abs(hero->getPos().y - enemies[i][j]->getPos().y) < 2 &&
+                  !enemies[i][j]->getNeutral()) {
+                   hero->defend(*enemies[i][j]);
+              }
+              else {
+                  enemies[i][j]->move(enumRand<Direction>());
+              }
+          }
+      }
+  }
+}
+void Floor::refreshDisplay(){
+  for(auto row : tiles){
+    for(auto col : row){
+      col.notifyObservers();
     }
+  }
+  for(auto row : enemies){
+    for(auto col : row){
+      col.notifyObservers();
+    }
+  }
+  for(auto row : potions){
+    for(auto col : row){
+      col.notifyObservers();
+    }
+  }
+  for(auto row : treasures){
+    for(auto col : row){
+      col.notifyObservers();
+    }
+  }
 }
 
 std::ostream & operator<<( std::ostream & out, const Floor & f ){

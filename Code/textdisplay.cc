@@ -25,8 +25,24 @@ void TextDisplay::notify( Subject & whoNotified ) {
       auto character = dynamic_cast<Character*> (&whoNotified);//Cast the subject to tile
       CharacterType ct = character->getCharacterType();
       switch(ct){
-        case CharacterType::hero: theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = '@'; break;
-        case CharacterType::enemy:
+        case CharacterType::hero:{
+          theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = '@';
+          std::string race;
+          switch(whoNotified.getHeroType()){
+            case HeroType::shade: race = "Shade"; break;
+            case HeroType::drow: race = "Drow"; break;
+            case HeroType::vampire: race = "Vampire"; break;
+            case HeroType::troll: race = "Troll"; break;
+            case HeroType::goblin: race = "Goblin"; break;
+          }
+          std::string hp = std::to_string(whoNotified.getHP());
+          std::string atk = std::to_string(whoNotified.getAtk());
+          std::string def = std::to_string(whoNotified.getDef());
+          std::string gold = std::to_string(whoNotified.getGold());
+          heroInfo = "Race: " + race + " Gold: " + gold + "                                                  " + "Floor " + "\n" + "HP: "+ hp + "\n" + "Atk: "+ atk + "\n" + "Def: "+ def;
+          break;
+        }
+        case CharacterType::enemy:{
           auto enemy = dynamic_cast<Enemy*> (&whoNotified);//Cast the subject to tile
           EnemyType et = enemy->getEnemyType();
           switch(et){
@@ -38,6 +54,7 @@ void TextDisplay::notify( Subject & whoNotified ) {
             case EnemyType::dragon: theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = 'D'; break;
             case EnemyType::halfling: theDisplay[whoNotified.getPos().x][whoNotified.getPos().y] = 'L'; break;
           }
+        }
       }
       break;
     }
@@ -77,5 +94,25 @@ std::ostream &operator<<(std::ostream &out, const TextDisplay &td){
     }
     out << std::endl;
   }
+  out << heroInfo << std::endl;
+  out << "Action: " << action << std::endl;
   return out;
+};
+
+void getInfo( Hero & whoNotified ) {
+  std::string race;
+  switch(whoNotified.getHeroType()){
+    case HeroType::shade: race = "Shade"; break;
+    case HeroType::drow: race = "Drow"; break;
+    case HeroType::vampire: race = "Vampire"; break;
+    case HeroType::troll: race = "Troll"; break;
+    case HeroType::goblin: race = "Goblin"; break;
+  }
+  std::string hp = whoNotified.getHP();
+  std::string atk = whoNotified.getAtk();
+  std::string atk = whoNotified.getDef();
+  std::string gold = whoNotified.getGold();
+
+  std::string action;
+
 };

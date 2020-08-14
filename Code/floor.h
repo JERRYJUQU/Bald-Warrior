@@ -4,6 +4,7 @@
 #include <sstream>
 #include <vector>
 #include <memory>
+#include "direction.h"
 #include "tile.h"
 #include "textdisplay.h"
 #include "treasure.h"
@@ -94,7 +95,8 @@ public:
   void moveHero( Direction dir );
   void attack( Direction dir );
   void usePotion( Direction dir );
-  void turn();
+  void turn(std::string action, Direction dir);
+  void refreshDisplay();
 
   friend std::ostream & operator<<( std::ostream & out, const Floor & f );
 };
