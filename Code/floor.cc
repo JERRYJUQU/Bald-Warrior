@@ -199,7 +199,17 @@ void Floor::spawn(HeroType ht){
         treasure = std::make_shared<NormalHoard>( validPos );
     }else if(t < 6){// 1/8 chance of being dragon hoard
         treasure = std::make_shared<DragonHoard>( validPos );
-
+        // spawn a dragon to guard the hoard;
+        std::vector<Position> positions = getValidPos(validPos);
+        if(positions.size() == 0){//hoard got stcuk somewhere
+        }else{
+           srand(time(0));
+           int p = rand() % positions.size();
+           auto dragon = std::make_shared<Dragon>(positions[p], treasure);
+           enemies[positions[p].x][positions[p].y] = dragon;
+           chambers[c].erase(tiles[positions[p].x][positions[p].y]);
+        }
+        
     }else{// 1/4 chance of being small
         treasure = std::make_shared<SmallHoard>( validPos );
     }
@@ -363,7 +373,8 @@ void Floor::turn(Action action, Direction dir) {
                       hero->incGold(4); // increase gold instead of dropping hoard, may need to change
                       break;
                   case EnemyType::dragon:
-                      enemies[i][j]->notifyDeath();
+                      std::shared<Dragon> d = std::dynamic_pointer_cast<Dragon> enemies[i][j];
+                      d->notifyHoard();
                       break;
                   case EnemyType::merchant:
                       hero->incGold(4); //increase gold instead of dropping hoard, may need to change
