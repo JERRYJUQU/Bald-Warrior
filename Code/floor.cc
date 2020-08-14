@@ -335,6 +335,11 @@ T Floor::enumRand() {
     const int enumSize = (int) T::COUNT;
     return static_cast<T> (rand() % enumSize);
 }
+                                                           
+bool Floor::heroAround(Enemy & enemy){
+  return (abs(hero->getPos().x - enemy->getPos().x) < 2 &&
+          abs(hero->getPos().y - enemy->getPos().y) < 2);
+}
 
 void Floor::turn(Action action, Direction dir) {
   switch(action){
@@ -378,9 +383,7 @@ void Floor::turn(Action action, Direction dir) {
                   }
                   // clear pointer in map
                   enemies[i][j] = nullptr;
-              }else if (abs(hero->getPos().x - enemies[i][j]->getPos().x) < 2 &&
-                  abs(hero->getPos().y - enemies[i][j]->getPos().y) < 2 &&
-                  !enemies[i][j]->getNeutral()) {
+              }else if (!enemies[i][j]->getNeutral() && heroAround(*(enemies[i][j])) ) {
                    hero->defend(*enemies[i][j]);
               }
               else {
