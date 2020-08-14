@@ -6,7 +6,10 @@
 #include <ctime>
 
 Floor::Floor(int n) : n{n}, pause{false}, enteredStair{false} {
+  // initialize textdisplay
   td = std::make_shared<TextDisplay>();
+  // initialize tile map
+  // attach text display observer
   std::istringstream ss(map);
   std::string s;
   int r = 0;
@@ -82,7 +85,7 @@ void Floor::refreshDisplay(){
 
 void Floor::spawn(HeroType ht){
   srand(time(0));
-
+  // initialize vector that contains all ground tiles
   std::vector<std::shared_ptr<Tile>> valid;
   for(auto &row : tiles){
     for(auto &col : row){
@@ -111,6 +114,7 @@ void Floor::spawn(HeroType ht){
       chambers[4].emplace_back(e);
     }
   }
+  // delete valid
   valid.clear();
 
   //Generate stair
@@ -158,7 +162,8 @@ void Floor::spawn(HeroType ht){
     enemies[validPos.x][validPos.y] = enemy;
     chambers[c].erase(chambers[c].begin()+i);
   }
-
+  
+  // generate potions
   for(int j = 0; j < 10; j++){
     c = (rand()%5);
     i = (rand()%chambers[c].size());
@@ -209,6 +214,7 @@ void Floor::spawn(HeroType ht){
 void Floor::enter(std::shared_ptr<Hero> h){
   spawn(h->getHeroType());
   h->setPos(hero->getPos());
+  // keep old stats from previous level
   hero = h;
   hero->attach(td);
   refreshDisplay();
@@ -369,6 +375,7 @@ void Floor::turn(Action action, Direction dir) {
                       }
                       break;
                   }
+                  // clear pointer in map
                   enemies[i][j] = nullptr;
               }else if (abs(hero->getPos().x - enemies[i][j]->getPos().x) < 2 &&
                   abs(hero->getPos().y - enemies[i][j]->getPos().y) < 2 &&
