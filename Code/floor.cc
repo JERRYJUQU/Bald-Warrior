@@ -230,7 +230,8 @@ std::vector<Position> Floor::getValidPos(Position pos){
     for(int dy = -1; dy < 2; dy++){
       int nx = min(max(pos.x+dx, 0), 25);
       int ny = min(max(pos.y+dy, 0), 78);
-      if(!enemies[nx][ny] && !(nx == hero->getPos().x && ny == hero->getPos().y) && !(nx == stair->getPos().x && ny == stair->getPos().y)){
+      if(!enemies[nx][ny] && !potions[nx][ny] && !treasure[nx[ny] && !(nx == hero->getPos().x && ny == hero->getPos().y) && 
+                                                           !(nx == stair->getPos().x && ny == stair->getPos().y)){
         if(tiles[nx][ny]->getTileType() == TileType::ground){
           struct Position np = { nx, ny };
           result.emplace_back(np);
@@ -385,11 +386,15 @@ void Floor::turn(Action action, Direction dir) {
               else {
                   if (!pause) {
                       std::vector<Position> validPos = getValidPos(enemies[i][j]->getPos());
-                      srand(time(0));
-                      int p = rand() % validPos.size();
-                      enemies[i][j]->setPos(validPos[p]);
-                      swap(enemies[i][j], enemies[validPos[p].x][validPos[p].y]);//swap the locations
-                      moved.emplace_back(enemies[validPos[p].x][validPos[p].y]);
+                      if(validPos.size() == 0){//enemy got stcuk somewhere
+                          moved.emplace_back(enemies[i][j];
+                      }else{
+                          srand(time(0));
+                          int p = rand() % validPos.size();
+                          enemies[i][j]->setPos(validPos[p]);
+                          swap(enemies[i][j], enemies[validPos[p].x][validPos[p].y]);//swap the locations
+                          moved.emplace_back(enemies[validPos[p].x][validPos[p].y]);
+                      }
                   }
               }
           }
