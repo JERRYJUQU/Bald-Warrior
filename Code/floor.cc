@@ -340,9 +340,14 @@ void Floor::turn(Action action, Direction dir) {
     case Action::attack: attackEnemy( dir ); break;
     case Action::move: moveHero( dir ); break;
   }
-
+  
+  std::vector<std::shared<Enemy>> moved;
   for (int i = 0; i < 25; i++) {
       for (int j = 0; j < 79; j++) {
+          auto it = std::find( moved.begin(), moved.end(), enemies[i][j]);
+          if (it == moved.end()){//enemies had been moved
+              continue;
+          }
           if (enemies[i][j]) {
               if (enemies[i][j]->getHP() <= 0) {
                   enemies[i][j]->notifyDeath();
@@ -376,6 +381,7 @@ void Floor::turn(Action action, Direction dir) {
                   swap(enemies[i][j], enemies[validPos[p].x][validPos[p].y]);//swap the locations
                 }
               }
+            moved.emplace_back(enemies[i][j]);
           }
       }
   }
