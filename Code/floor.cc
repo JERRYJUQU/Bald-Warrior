@@ -344,11 +344,12 @@ void Floor::turn(Action action, Direction dir) {
   std::vector<std::shared<Enemy>> moved;
   for (int i = 0; i < 25; i++) {
       for (int j = 0; j < 79; j++) {
-          auto it = std::find( moved.begin(), moved.end(), enemies[i][j]);
-          if (it == moved.end()){//enemies had been moved
-              continue;
-          }
+          
           if (enemies[i][j]) {
+              auto it = std::find( moved.begin(), moved.end(), enemies[i][j]);
+              if (it != moved.end()){//enemies had been moved
+                  continue;
+              }
               if (enemies[i][j]->getHP() <= 0) {
                   enemies[i][j]->notifyDeath();
                   switch (enemies[i][j]->getEnemyType()) {
