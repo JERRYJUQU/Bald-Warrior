@@ -334,6 +334,8 @@ T Floor::enumRand() {
     return static_cast<T> (rand() % enumSize);
 }
 
+
+
 void Floor::turn(Action action, Direction dir) {
   switch(action){
     case Action::use: usePotion( dir ); break;
@@ -380,9 +382,9 @@ void Floor::turn(Action action, Direction dir) {
                   int p = rand()%validPos.size();
                   enemies[i][j]->setPos(validPos[p]);
                   swap(enemies[i][j], enemies[validPos[p].x][validPos[p].y]);//swap the locations
+                  moved.emplace_back(enemies[validPos[p].x][validPos[p].y]);
                 }
               }
-            moved.emplace_back(enemies[i][j]);
           }
       }
   }
