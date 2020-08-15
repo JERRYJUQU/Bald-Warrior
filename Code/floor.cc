@@ -301,20 +301,49 @@ void Floor::moveHero( Direction dir ){
     //check if hero entered stairs
     if(stair->getPos().x == newPos.x && stair->getPos().y == newPos.y){
       enteredStair = true;
+      // set a action for entering next level?
       return;
     }
     //check if hero is picking up a treasure
     if(treasures[newPos.x][newPos.y]){
         //check if treasure is guarded
         if (!guarded(treasures[newPos.x][newPos.y])) {
+          hero->setPos(newPos);
           hero->pickUpTreasure(*(treasures[newPos.x][newPos.y]));
-            treasures[newPos.x][newPos.y] = nullptr;
+          // set action for picking up treasure
+          TreasureType type = treasures[newPos.x][newPos.y]->getTreasureType();
+          std::string t;
+          switch(type){
+            case TreasureType::small: t = "small hoard";
+            case TreasureType::normal: t = "normal hoard";
+            case TreasureType::merchantHoard: t = "merchant hoard";
+            case TreasureType::dragonHoard: t = "dragon hoard";
+          }
+          std::string action = "PC picks up a " + t + ".";
+          hero->setAction(action);
+          // delete picked up treasure
+          treasures[newPos.x][newPos.y] = nullptr;
+          return;
+        }else{
+          hero->setAction("Dragon hoard is guarded by a dragon!");
+          return;
         }
     }
+    else{
+        hero->setPos(newPos);
+        hero->setAction("PC moves " + dirtos(dir));
+        return;
+    }
+}
 
-    hero->setPos(newPos);
-    hero->setAction("PC moves " + dirtos(dir));
-    return;
+void hostileMerchants(){
+    for (int i = 0; i < 25; i++) {
+      for (int j = 0; j < 79; j++) {
+          if (enemies[i][j]->getEnemyType() == EnemyType::merchant){
+              enemies[i][j]->setNeutral(false);
+          }
+      }
+    }
 }
 
 void Floor::attackEnemy( Direction dir ){
@@ -327,9 +356,29 @@ void Floor::attackEnemy( Direction dir ){
     if(!enemies[heroPos.y][heroPos.x]){
       return;
     }else{
-        enemies[heroPos.y][heroPos.x]->defend(*hero);
+        // if target is a neutral merchant, hostile all merchants
+        if(enemies[heroPos.y][heroPos.x]->getEnemyType() == EnemyType::merchant && enemies[heroPos.y][heroPos.x]->getNeutral()){
+            hostileMerchants();
+        }
+        int dmg = enemies[heroPos.y][heroPos.x]->defend(*hero);
+        int enemyHP = enemies[heroPos.y][heroPos.x]->getHP();
+        std::string e;
+        EnemyType type = enemies[heroPos.y][heroPos.x]->getEnemyType();
+        switch(type){
+          case EnemyType::human: e = "H";
+          case EnemyType::dwarf: e = "W";
+          case EnemyType::elf: e = "E";
+          case EnemyType::orcs: e = "O";
+          case EnemyType::merchant: e = "M";
+          case EnemyType::dragon: e = "D";
+          case EnemyType::halfling: e = "L";
+        }
+        std::string action = "PC deals " + dmg + " damage to " + e + " (" + enemyHP + ").";
+        hero->setAction(action);
     }
 }
+
+
 void Floor::usePotion( Direction dir ){
     Position heroPos = hero->getPos();
     //check if new position is valid
@@ -366,7 +415,7 @@ void Floor::usePotion( Direction dir ){
         case PotionType::woundDef:
             potionTypeStr = "WD";
         }
-        hero->setAction("PC uses " + potionTypeStr);
+        hero->setAction("PC uses " + potionTypeStr +".");
     }
 };
 
@@ -378,9 +427,20 @@ T Floor::enumRand() {
     return static_cast<T> (rand() % enumSize);
 }
                                                            
-bool Floor::heroAround(Enemy & enemy){
-  return (abs(hero->getPos().x - enemy.getPos().x) < 2 &&
-          abs(hero->getPos().y - enemy.getPos().y) < 2);
+bool Floor::heroAround(std::shared_ptr<Enemy> enemy){
+  //check dragon
+  EnemyType type = enemy->getEnemyType;
+  if(type == EnemyType::dragon){
+      auto d = std::dynamic_pointer_cast<Dragon>(enemy);
+      auto h = d->getHoard();
+      return((abs(hero->getPos().x - enemy.getPos().x) < 2 &&
+             abs(hero->getPos().y - enemy.getPos().y) < 2) ||
+             (abs(hero->getPos().x - h.getPos().x) < 2 &&
+             abs(hero->getPos().y - h.getPos().y) < 2));
+  }else{
+      return (abs(hero->getPos().x - enemy.getPos().x) < 2 &&
+              abs(hero->getPos().y - enemy.getPos().y) < 2);
+  }
 }
 
 void Floor::turn(Action action, Direction dir) {
@@ -399,8 +459,8 @@ void Floor::turn(Action action, Direction dir) {
                   continue;
               }
               if (enemies[i][j]->getHP() <= 0) {
-                  enemies[i][j]->notifyDeath();
-                  std::shared_ptr<Dragon> d = std::dynamic_pointer_cast<Dragon> (enemies[i][j]);
+                  //enemies[i][j]->notifyDeath();
+                  //std::shared_ptr<Dragon> d = std::dynamic_pointer_cast<Dragon> (enemies[i][j]);
                   switch (enemies[i][j]->getEnemyType()) {
                   case EnemyType::human:
                   {
@@ -414,6 +474,7 @@ void Floor::turn(Action action, Direction dir) {
                       break;
                   }
                   case EnemyType::dragon:
+                      std::shared_ptr<Dragon> d = std::dynamic_pointer_cast<Dragon> (enemies[i][j]);
                       d->notifyHoard();
                       break;
                   case EnemyType::merchant:
@@ -438,10 +499,40 @@ void Floor::turn(Action action, Direction dir) {
                       }
                       break;
                   }
+                  //goblin heroes steal 5 extra gold
+                  if(hero->getHeroType() == HeroType::goblin){
+                      hero->incGold(5);
+                  }
+                  //set action
+                  std::string e;
+                  switch (enemies[i][j]->getEnemyType()){
+                      case EnemyType::human: e = "H";
+                      case EnemyType::dwarf: e = "W";
+                      case EnemyType::elf: e = "E";
+                      case EnemyType::orcs: e = "O";
+                      case EnemyType::merchant: e = "M";
+                      case EnemyType::dragon: e = "D";
+                      case EnemyType::halfling: e = "L";
+                  }
+                  std::string action = "PC slains " + e + ".";
+                  hero->setAction(hero->getAction() + " " + action);
                   // clear pointer in map
                   enemies[i][j] = nullptr;
-              }else if (!enemies[i][j]->getNeutral() && heroAround(*(enemies[i][j])) ) {
-                   hero->defend(*enemies[i][j]);
+              }else if (!enemies[i][j]->getNeutral() && heroAround(enemies[i][j])) {
+                   int dmg = hero->defend(*enemies[i][j]);
+                   std::string e;
+                   EnemyType type = enemies[i][j]->getEnemyType();
+                   switch(type){
+                      case EnemyType::human: e = "H";
+                      case EnemyType::dwarf: e = "W";
+                      case EnemyType::elf: e = "E";
+                      case EnemyType::orcs: e = "O";
+                      case EnemyType::merchant: e = "M";
+                      case EnemyType::dragon: e = "D";
+                      case EnemyType::halfling: e = "L";
+                   }
+                   std::string action = e + " deals " + dmg + " damage to PC."
+                   hero->setAction(hero->getAction() + " " + action);
               }
               else {
                   if (!pause) {
@@ -455,6 +546,15 @@ void Floor::turn(Action action, Direction dir) {
               }
           }
       }
+  }
+  // check whether hero died
+  if(hero->getHP() == 0){
+    // notify textdisplay
+    return;
+  }
+  //check whether hero is troll, regenerate 5 hp;
+  if(hero->getHeroType() == HeroType::troll){
+    hero->incHP(5);
   }
   refreshDisplay();
 }

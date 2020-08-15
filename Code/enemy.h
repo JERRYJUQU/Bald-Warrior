@@ -21,6 +21,7 @@ public:
         Enemy(Position pos, EnemyType type);
         EnemyType getEnemyType();
         bool getNeutral();
+        void setNeutral(bool n);
         virtual int defend(Hero & hero) = 0;
         virtual int attack(Shade & shade) = 0;
         virtual int attack(Drow & drow) = 0;

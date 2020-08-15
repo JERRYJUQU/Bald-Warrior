@@ -5,6 +5,7 @@ Enemy::Enemy(Position pos, EnemyType type): Character{pos, CharacterType::enemy}
 EnemyType Enemy::getEnemyType(){ return type; };
 
 bool Enemy::getNeutral(){ return neutral; };
+void Enemy::setNeutral(bool n){ neutral = n;};
 void Enemy::notifyDeath(){
         /*for(auto n : observers){
                 n->notifyDeath(*this);
