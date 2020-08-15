@@ -12,11 +12,12 @@ Elf::Elf(Position pos): Enemy{pos, EnemyType::elf} {
     maxHP = 140;
 }
     
-void Elf::defend(Hero & hero){
-    hero.attack(*this);
+int Elf::defend(Hero & hero){
+    int dmg = hero.attack(*this);
+    return dmg;
 }
     
-void Elf::attack(Shade & shade){
+int Elf::attack(Shade & shade){
     int miss = std::rand()%2;
     int dmg;
     if(!miss){
@@ -28,24 +29,24 @@ void Elf::attack(Shade & shade){
     miss = std::rand()%2;
     if(!miss){
         dmg += ((100/(100+shade.getDef()))*(this->getAtk()));
-        shade.incHP(-)dmg;
+        shade.incHP(-dmg);
     }
     return dmg;
 }
     
-void Elf::attack(Drow & drow){
+int Elf::attack(Drow & drow){
     int miss = std::rand()%2;
     int dmg;
     if(!miss){
-        dmg = ((100/(100+shade.getDef()))*(this->getAtk()));
-        shade.incHP(-dmg);
+        dmg = ((100/(100+drow.getDef()))*(this->getAtk()));
+        drow.incHP(-dmg);
     }else{
         dmg = 0;
     }
     return dmg;
 }
 
-void Elf::attack(Vampire & vampire){
+int Elf::attack(Vampire & vampire){
     int miss = std::rand()%2;
     int dmg;
     if(!miss){
@@ -57,12 +58,12 @@ void Elf::attack(Vampire & vampire){
     miss = std::rand()%2;
     if(!miss){
         dmg += ((100/(100+vampire.getDef()))*(this->getAtk()));
-        vampire.incHP(-)dmg;
+        vampire.incHP(-dmg);
     }
     return dmg;
 }
 
-void Elf::attack(Troll & troll){
+int Elf::attack(Troll & troll){
     int miss = std::rand()%2;
     int dmg;
     if(!miss){
@@ -74,12 +75,12 @@ void Elf::attack(Troll & troll){
     miss = std::rand()%2;
     if(!miss){
         dmg += ((100/(100+troll.getDef()))*(this->getAtk()));
-        troll.incHP(-)dmg;
+        troll.incHP(-dmg);
     }
     return dmg;
 }
 
-void Elf::attack(Goblin & goblin){
+int Elf::attack(Goblin & goblin){
     int miss = std::rand()%2;
     int dmg;
     if(!miss){
@@ -91,7 +92,7 @@ void Elf::attack(Goblin & goblin){
     miss = std::rand()%2;
     if(!miss){
         dmg += ((100/(100+goblin.getDef()))*(this->getAtk()));
-        goblin.incHP(-)dmg;
+        goblin.incHP(-dmg);
     }
     return dmg;
 }

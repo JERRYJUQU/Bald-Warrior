@@ -69,7 +69,7 @@ int Vampire::defend(Enemy & enemy){
     int miss = std::rand() % 2;
     if(!miss){
         int dmg = ((100/(100+halfling.getDef()))*(this->getAtk()));
-        human.incHP(-dmg);
+        halfling.incHP(-dmg);
         hp+=5;
         return dmg; 
     }else{
