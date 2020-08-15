@@ -10,7 +10,9 @@
  1. Dragon hoard increase hero gold only by 1
  1. Dragon is spawned, but not showed on text display
  1. Dragon hoard cannot be walked on before dragon is killed(should be able to walk on but not be able to pick up)
- 1. 
+ 1. Action shows potion used is Boost Defence, but atk decreased by 5
+ 1. Drow does not have 1.5 boost on potion
+ 1. Seg Fault when use potion on the south
 
 ## Introduction
 This is an implementation of the game ChamberCrawler3000 for the final project of CS246 Fall 2020.
