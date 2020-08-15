@@ -6,6 +6,6 @@ BoostAtk::BoostAtk(Position pos)
 {}
 
 void BoostAtk::effect(Hero &hero) {
-    int tempAtk = hero.getAtk() + 5;
+    int tempAtk = hero.getAtk() + (int) (getScale(hero)*5);
     hero.setAtk(tempAtk);
 }

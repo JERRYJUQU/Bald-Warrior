@@ -6,6 +6,6 @@ BoostDef::BoostDef(Position pos)
 {}
 
 void BoostDef::effect(Hero &hero) {
-    int tempDef = hero.getDef() + 5;
-    hero.setAtk(tempDef);
+    int tempDef = hero.getDef() + (int)(getScale(hero)*5);
+    hero.setDef(tempDef);
 }

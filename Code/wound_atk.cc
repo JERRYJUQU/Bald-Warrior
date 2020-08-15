@@ -6,7 +6,7 @@ WoundAtk::WoundAtk(Position pos)
 {}
 
 void WoundAtk::effect(Hero &hero) {
-    int tempAtk = hero.getAtk() - 5;
+    int tempAtk = hero.getAtk() - (int) (getScale(hero)*5);
     if (tempAtk < 1) {
         hero.setAtk(0);
         return;

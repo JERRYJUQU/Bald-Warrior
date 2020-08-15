@@ -6,7 +6,7 @@ PoisonHealth::PoisonHealth(Position pos)
 {}
 
 void PoisonHealth::effect(Hero &hero) {
-    int tempHealth = hero.getHP() - 10;
+    int tempHealth = hero.getHP() - (int)(getScale(hero)*10);
     if (tempHealth < 0) {
         hero.setHP(0);
     }

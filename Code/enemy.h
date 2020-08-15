@@ -4,6 +4,17 @@
 #include <string>
 using namespace std;
 enum class EnemyType { human, dwarf, elf, orcs, merchant, dragon, halfling };
+static std::string etos( EnemyType type ){
+  switch(type){
+  case EnemyType::human: return "H";
+  case EnemyType::dwarf: return "W";
+  case EnemyType::elf: return "E";
+  case EnemyType::orcs: return "O";
+  case EnemyType::merchant: return "M";
+  case EnemyType::dragon: return "D";
+  case EnemyType::halfling: return "L";
+  }
+}
 
 class Hero;
 class Shade;

@@ -6,10 +6,10 @@ WoundDef::WoundDef(Position pos)
 {}
 
 void WoundDef::effect(Hero &hero) {
-    int tempDef = hero.getDef() + 5;
+    int tempDef = hero.getDef() - (int) (getScale(hero)*5);
     if (tempDef < 1) {
         tempDef = 0;
         return;
     }
-    hero.setAtk(tempDef);
+    hero.setDef(tempDef);
 }

@@ -42,15 +42,23 @@ int main(){
       }else if(line[0]=='a'){
         f.turn(Action::attack, stodir(line.substr(2, 4)));
       }else{
-        f.turn(Action::move, stodir(line.substr(0, 2)));
-        if(f.haveEnteredStair()){
-          std::shared_ptr<Hero> hero = f.getHero();
-          if(hero->getFloor() < 5){
-            hero->incFloor();
-            f = Floor(hero->getFloor());
-            f.enter(hero);
-          }else{
-            goto end;
+        int state = f.turn(Action::move, stodir(line.substr(0, 2)));
+        switch(state){
+          case 0: break;
+          case 1: {
+            std::cout << "Oops! You have died!" << std::endl;
+            goto start;
+          }
+          case 2:{
+            std::shared_ptr<Hero> hero = f.getHero();
+            if(hero->getFloor() < 5){
+              hero->incFloor();
+              f = Floor(hero->getFloor());
+              f.enter(hero);
+            }else{
+              goto end;
+            }
+            break;
           }
         }
       }

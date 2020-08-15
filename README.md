@@ -1,15 +1,7 @@
 # Bald-Warrior ![](BaldWarrior.png)
  CS246 final project
- 
- ## Current Bugs
- - Enemies does not deal damage.
- - Potion can be walked on.
- - Hero does not attack(does not deal damage, does not show in action, action does not refresh after each attack)
- - Dragon is spawned, but not showed on text display(invisibility)
- - Dragon hoard cannot be walked on before dragon is killed(should be able to walk on but not be able to pick up)
- - Action shows potion used is Boost Defence, but atk decreased by 5
- - Drow does not have 1.5 boost on potion
- - Seg Fault when use potion on the south
+
+## Current Bugs
 
 ## Introduction
 This is an implementation of the game ChamberCrawler3000 for the final project of CS246 Fall 2020.
@@ -18,16 +10,19 @@ This is an implementation of the game ChamberCrawler3000 for the final project o
 The plan of attack is currently under the Google doc: https://docs.google.com/document/d/1_OjW9sLRQMAcANL5a7lCWj5IUhWTBeMBsWmY4eQoMBU/edit?usp=sharing
 
 ## Content
-![](UML_Class.jpeg)
-![](Item_Subclasses.jpeg)
-![](Character_Subclasses.jpeg)
-See UML here:  
+![](UML/UML_Final.jpeg)
+![](UML/UML_Class.jpeg)
+![](UML/Item_Subclasses.jpeg)
+![](UML/Character_Subclasses.jpeg)
+See UMLs here:  
+ Final UML: https://app.lucidchart.com/documents/edit/07a7896c-f15b-46e0-841d-c03d19687201/HWEp-vi-RSFO
+
  UML Class: https://app.lucidchart.com/invitations/accept/8a72bed1-27da-45e9-87af-a5d202003426  
  Item Subclasses: https://app.lucidchart.com/invitations/accept/5fc7bb9c-f087-428a-82a2-1bdc291c1951  
  Character Subclasses: https://app.lucidchart.com/invitations/accept/535c1a6a-2fb4-4446-84d0-48ab820d4134  
 
 ## Run
-To run the program, execute the command in the repository:
+To run the program, use the provided Makefile:
 `
 make
 `

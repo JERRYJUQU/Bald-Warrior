@@ -56,7 +56,7 @@ class Floor {
   std::vector<std::vector<std::shared_ptr<Treasure>>> treasures;
   std::shared_ptr<TextDisplay> td;
   bool pause;
-  bool enteredStair;
+  int state;
 
 
   std::string map =
@@ -102,9 +102,8 @@ public:
   void moveHero( Direction dir );
   void attackEnemy( Direction dir );
   void usePotion( Direction dir );
-  void turn(Action action, Direction dir);
+  int turn(Action action, Direction dir);
   void setPause();
-  bool haveEnteredStair();
   std::shared_ptr<Hero> getHero();
 
   friend std::ostream & operator<<( std::ostream & out, const Floor & f );
