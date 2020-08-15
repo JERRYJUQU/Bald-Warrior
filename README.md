@@ -2,15 +2,14 @@
  CS246 final project
  
  ## Current Bugs
- 1. Enemies does not deal damage.
- 1. Potion does not disappear after use.
- 1. Potion can be walked on.
- 1. Hero does not attack(does not deal damage, does not show in action, action does not refresh after each attack)
- 1. Dragon is spawned, but not showed on text display(invisibility)
- 1. Dragon hoard cannot be walked on before dragon is killed(should be able to walk on but not be able to pick up)
- 1. Action shows potion used is Boost Defence, but atk decreased by 5
- 1. Drow does not have 1.5 boost on potion
- 1. Seg Fault when use potion on the south
+ - Enemies does not deal damage.
+ - Potion can be walked on.
+ - Hero does not attack(does not deal damage, does not show in action, action does not refresh after each attack)
+ - Dragon is spawned, but not showed on text display(invisibility)
+ - Dragon hoard cannot be walked on before dragon is killed(should be able to walk on but not be able to pick up)
+ - Action shows potion used is Boost Defence, but atk decreased by 5
+ - Drow does not have 1.5 boost on potion
+ - Seg Fault when use potion on the south
 
 ## Introduction
 This is an implementation of the game ChamberCrawler3000 for the final project of CS246 Fall 2020.
