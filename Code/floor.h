@@ -89,14 +89,15 @@ class Floor {
   //Private methods
   bool guarded(std::shared_ptr<Treasure> treasue);
   Position getNewPos(Position oldPos, Direction dir);
-  std::vector<Position> getValidPos(Position pos);
+  Position getValidPos(Position pos);
+  void refreshDisplay();
+  bool heroAround(Enemy& enemy);
   template<typename T> T enumRand();
 
 public:
   Floor(int n);
   void spawn(HeroType ht);
   void enter(std::shared_ptr<Hero> h);
-  void refreshDisplay();
   void moveHero( Direction dir );
   void attackEnemy( Direction dir );
   void usePotion( Direction dir );
