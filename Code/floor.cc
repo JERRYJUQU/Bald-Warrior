@@ -331,15 +331,40 @@ void Floor::attackEnemy( Direction dir ){
 void Floor::usePotion( Direction dir ){
     Position heroPos = hero->getPos();
     //check if new position is valid
-    if(heroPos.x < 0 || heroPos.y < 0 || heroPos.x > 24 || heroPos.y > 78){
+    Position newPos = getNewPos(heroPos, dir);
+    if(newPos.x < 0 || newPos.y < 0 || newPos.x > 24 || newPos.y > 78){
+        //throw exception
       return;
     }
-    if (!potions[heroPos.y][heroPos.x]) {
+    if (!potions[newPos.x][newPos.y]) {
+        //throw exception
       return;
     }else{
-        hero->usePotion(*potions[heroPos.y][heroPos.x]);
+        hero->usePotion(*potions[newPos.x][newPos.y]);
+        PotionType potionType = potions[newPos.x][newPos.y]->getPotionType();
         potions[heroPos.y][heroPos.x] = nullptr;
-        hero->setAction("PC uses " + dirtos(dir));
+        std::string potionTypeStr;
+        
+        switch (potionType) {
+        case PotionType::restoreHealth:
+            potionTypeStr = "RH";
+            break;
+        case PotionType::posionHealth:
+            potionTypeStr = "PH";
+            break;
+        case PotionType::boostAtk:
+            potionTypeStr = "BA";
+            break;
+        case PotionType::woundAtk:
+            potionTypeStr = "WA";
+            break;
+        case PotionType::boostDef:
+            potionTypeStr = "BD";
+            break;
+        case PotionType::woundDef:
+            potionTypeStr = "WD";
+        }
+        hero->setAction("PC uses " + potionTypeStr);
     }
 };
 
