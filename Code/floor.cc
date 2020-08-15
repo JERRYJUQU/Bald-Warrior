@@ -3,6 +3,7 @@
 
 #include <stdlib.h> //dont delete
 #include <random>
+#include <string>
 #include <ctime>
 
 Floor::Floor(int n) : n{n}, pause{false}, enteredStair{false} {
@@ -84,7 +85,7 @@ void Floor::refreshDisplay(){
 }
 
 void Floor::spawn(HeroType ht){
-  srand(time(0));
+  srand((unsigned int) time(0));
   // initialize vector that contains all ground tiles
   std::vector<std::shared_ptr<Tile>> valid;
   for(auto &row : tiles){
@@ -97,8 +98,7 @@ void Floor::spawn(HeroType ht){
   }
 
   //Generate chambers
-  std::vector<std::vector<std::shared_ptr<Tile>>> chambers;
-  chambers.reserve(5);
+  std::vector<std::vector<std::shared_ptr<Tile>>> chambers(5);
   std::shared_ptr<TextDisplay> tp = std::make_shared<TextDisplay>();;
   for(auto e : valid){
     struct Position pos = e->getPos();
@@ -253,7 +253,7 @@ Position Floor::getValidPos(Position pos){
   if(result.size() == 0){
       return pos;
   }else{
-      srand(time(0));
+      srand((unsigned int)time(0));
       int p = rand()%result.size();
       return result[p];
   }                                                         
@@ -336,7 +336,7 @@ void Floor::moveHero( Direction dir ){
     }
 }
 
-void hostileMerchants(){
+void Floor::hostileMerchants(){
     for (int i = 0; i < 25; i++) {
       for (int j = 0; j < 79; j++) {
           if (enemies[i][j]->getEnemyType() == EnemyType::merchant){
@@ -373,7 +373,7 @@ void Floor::attackEnemy( Direction dir ){
           case EnemyType::dragon: e = "D";
           case EnemyType::halfling: e = "L";
         }
-        std::string action = "PC deals " + dmg + " damage to " + e + " (" + enemyHP + ").";
+        std::string action = "PC deals " + std::to_string(dmg) + " damage to " + e + " (" + std::to_string(enemyHP) + ").";
         hero->setAction(action);
     }
 }
@@ -422,24 +422,24 @@ void Floor::usePotion( Direction dir ){
 //Randomly select an element fron enum class
 template<typename T>
 T Floor::enumRand() {
-    srand(time(0));
+    srand((unsigned int) time(0));
     const int enumSize = (int) T::COUNT;
     return static_cast<T> (rand() % enumSize);
 }
                                                            
 bool Floor::heroAround(std::shared_ptr<Enemy> enemy){
   //check dragon
-  EnemyType type = enemy->getEnemyType;
+  EnemyType type = enemy->getEnemyType();
   if(type == EnemyType::dragon){
       auto d = std::dynamic_pointer_cast<Dragon>(enemy);
       auto h = d->getHoard();
-      return((abs(hero->getPos().x - enemy.getPos().x) < 2 &&
-             abs(hero->getPos().y - enemy.getPos().y) < 2) ||
+      return((abs(hero->getPos().x - enemy->getPos().x) < 2 &&
+             abs(hero->getPos().y - enemy->getPos().y) < 2) ||
              (abs(hero->getPos().x - h.getPos().x) < 2 &&
              abs(hero->getPos().y - h.getPos().y) < 2));
   }else{
-      return (abs(hero->getPos().x - enemy.getPos().x) < 2 &&
-              abs(hero->getPos().y - enemy.getPos().y) < 2);
+      return (abs(hero->getPos().x - enemy->getPos().x) < 2 &&
+              abs(hero->getPos().y - enemy->getPos().y) < 2);
   }
 }
 
@@ -474,9 +474,11 @@ void Floor::turn(Action action, Direction dir) {
                       break;
                   }
                   case EnemyType::dragon:
+                  {
                       std::shared_ptr<Dragon> d = std::dynamic_pointer_cast<Dragon> (enemies[i][j]);
                       d->notifyHoard();
                       break;
+                  }
                   case EnemyType::merchant:
                   {
                       Position tempPos;
@@ -487,7 +489,7 @@ void Floor::turn(Action action, Direction dir) {
                       break;
                   }
                   default: 
-                      srand(time(0));
+                      srand((unsigned int) time(0));
                       int tempNum = rand() % 2;
                       switch (tempNum) {
                       case 0:
@@ -531,7 +533,7 @@ void Floor::turn(Action action, Direction dir) {
                       case EnemyType::dragon: e = "D";
                       case EnemyType::halfling: e = "L";
                    }
-                   std::string action = e + " deals " + dmg + " damage to PC."
+                   std::string action = e + " deals " + std::to_string(dmg) + " damage to PC.";
                    hero->setAction(hero->getAction() + " " + action);
               }
               else {

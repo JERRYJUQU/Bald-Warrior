@@ -4,9 +4,8 @@ int main(){
   start:
   Floor f = Floor(1);
 
-  char command, race;
+  char command;
   std::string line;
-  int fl;
   bool spawned = false;
 
   while ( true ) {
