@@ -16,7 +16,7 @@ The plan of attack is currently under the Google doc: https://docs.google.com/do
 ![](UML/Item_Subclasses.jpeg)
 ![](UML/Character_Subclasses.jpeg)
 See UMLs here:  
- Final UML: https://app.lucidchart.com/documents/edit/07a7896c-f15b-46e0-841d-c03d19687201/HWEp-vi-RSFO
+ Final UML: https://app.lucidchart.com/invitations/accept/bd262368-931c-44dd-a48c-8a16fa8fda47
 
  UML Class: https://app.lucidchart.com/invitations/accept/8a72bed1-27da-45e9-87af-a5d202003426  
  Item Subclasses: https://app.lucidchart.com/invitations/accept/5fc7bb9c-f087-428a-82a2-1bdc291c1951  
