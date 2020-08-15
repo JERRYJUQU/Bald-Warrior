@@ -315,10 +315,10 @@ void Floor::moveHero( Direction dir ){
           TreasureType type = treasures[newPos.x][newPos.y]->getTreasureType();
           std::string t;
           switch(type){
-          case TreasureType::small: t = "small hoard"; break;
-          case TreasureType::normal: t = "normal hoard"; break;
-          case TreasureType::merchantHoard: t = "merchant hoard"; break;
-          case TreasureType::dragonHoard: t = "dragon hoard"; break;
+            case TreasureType::small: t = "small hoard"; break;
+            case TreasureType::normal: t = "normal hoard"; break;
+            case TreasureType::merchantHoard: t = "merchant hoard"; break;
+            case TreasureType::dragonHoard: t = "dragon hoard"; break;
           }
           std::string action = "PC picks up a " + t + ".";
           hero->setAction(action);
@@ -326,6 +326,7 @@ void Floor::moveHero( Direction dir ){
           treasures[newPos.x][newPos.y] = nullptr;
           return;
         }else{
+          hero->setPos(newPos);
           hero->setAction("Dragon hoard is guarded by a dragon!");
           return;
         }

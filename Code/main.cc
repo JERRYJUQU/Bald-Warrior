@@ -7,12 +7,6 @@ int main(){
   while (std::getline(ofile, l)) std::cout << l << std::endl;
   ofile.close();
 
-  std::cout << "There was an old story in UW about a chamber underneath..." << std::endl;
-  std::cout << "About heros defeating monsters to acquire the final treasure: A GOLDEN GOOSE!" << std::endl;
-  std::cout << "However, strange happenings are afoot in the chamber this term." << std::endl;
-  std::cout << "The monsters have revolted and demanded to be made the heroes due to their negative portrayal in previous iterations of CC3k!" << std::endl;
-  std::cout << "" << std::endl;
-
   start:
   Floor f = Floor(1);
 
@@ -22,7 +16,7 @@ int main(){
 
   while ( true ) {
     if(!spawned){
-      std::cout << "Enter the race you wish to be:" << std::endl;
+      std::cout << "\nEnter the race you wish to be:" << std::endl;
       std::cin >> command;
       if (std::cin.fail()) break;
       switch( command ) {
@@ -53,33 +47,34 @@ int main(){
         break;
       }
     }else{
+      int state;
       if(line[0]=='u'){
-        f.turn(Action::use, stodir(line.substr(2, 4)));
+        state = f.turn(Action::use, stodir(line.substr(2, 4)));
       }else if(line[0]=='a'){
-        f.turn(Action::attack, stodir(line.substr(2, 4)));
+        state = f.turn(Action::attack, stodir(line.substr(2, 4)));
       }else{
-        int state = f.turn(Action::move, stodir(line.substr(0, 2)));
-        switch(state){
-          case 0: break;
-          case 1: {
-            std::ifstream file("death.txt");
-            std::string l;
-            while (std::getline(file, l)) std::cout << l << std::endl;
-            file.close();
-            std::cout << "Oops, you died! That's a bit sad, but we can try again!" << std::endl;
-            goto start;
+        state = f.turn(Action::move, stodir(line.substr(0, 2)));
+      }
+      switch(state){
+        case 0: break;
+        case 1: {
+          std::ifstream file("death.txt");
+          std::string l;
+          while (std::getline(file, l)) std::cout << l << std::endl;
+          file.close();
+          std::cout << "Oops, you died! That's a bit sad, but we can try again!" << std::endl;
+          goto start;
+        }
+        case 2:{
+          std::shared_ptr<Hero> hero = f.getHero();
+          if(hero->getFloor() < 5){
+            hero->incFloor();
+            f = Floor(hero->getFloor());
+            f.enter(hero);
+          }else{
+            goto end;
           }
-          case 2:{
-            std::shared_ptr<Hero> hero = f.getHero();
-            if(hero->getFloor() < 5){
-              hero->incFloor();
-              f = Floor(hero->getFloor());
-              f.enter(hero);
-            }else{
-              goto end;
-            }
-            break;
-          }
+          break;
         }
       }
     }
