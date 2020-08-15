@@ -22,12 +22,15 @@ See UMLs here:
  Character Subclasses: https://app.lucidchart.com/invitations/accept/535c1a6a-2fb4-4446-84d0-48ab820d4134  
 
 ## Run
-To run the program, use the provided Makefile:
+To compile, use the provided Makefile in the Code directory:
 `
 make
 `
 
 ## Releases
-No releases available
+Executable:
+`
+make
+`
 
 ## Note
