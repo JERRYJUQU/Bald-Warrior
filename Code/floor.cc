@@ -289,6 +289,7 @@ void Floor::moveHero( Direction dir ){
     if(newPos.x < 0 || newPos.x > 24 || newPos.y < 0 || newPos.y > 78){
       return;
     }
+    hero->setAction("PC moves " + dirtos(dir) + ". ");
     std::shared_ptr<Tile> t = tiles[newPos.x][newPos.y];
     if(t->getTileType() == TileType::hwall || t->getTileType() == TileType::vwall || t->getTileType() == TileType::empty){
       return;
@@ -330,7 +331,6 @@ void Floor::moveHero( Direction dir ){
     }
     else{
         hero->setPos(newPos);
-        hero->setAction("PC moves " + dirtos(dir) + ". ");
         return;
     }
 }
