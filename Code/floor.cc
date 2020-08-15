@@ -398,24 +398,31 @@ void Floor::turn(Action action, Direction dir) {
               }
               if (enemies[i][j]->getHP() <= 0) {
                   enemies[i][j]->notifyDeath();
-                  auto tempMerchantHoard = make_shared<MerchantHoard>();
-                  auto tempSmallHoard = make_shared<SmallHoard>();
-                  Position tempPos;
                   std::shared_ptr<Dragon> d = std::dynamic_pointer_cast<Dragon> (enemies[i][j]);
                   switch (enemies[i][j]->getEnemyType()) {
                   case EnemyType::human:
-                      treasures[i][j] = tempSmallHoard;
+                  {
+                      Position tempPos;
                       tempPos.x = i;
                       tempPos.y = j;
+                      auto tempTreasure = std::make_shared<SmallHoard>(tempPos);
+                      treasures[i][j] = tempTreasure;
                       tempPos = getValidPos(tempPos);
-                      treasures[i][j] = tempSmallHoard;
+                      treasures[i][j] = tempTreasure;
                       break;
+                  }
                   case EnemyType::dragon:
                       d->notifyHoard();
                       break;
                   case EnemyType::merchant:
-                      treasures[i][j] = tempMerchantHoard;
+                  {
+                      Position tempPos;
+                      tempPos.x = i;
+                      tempPos.y = j;
+                      auto tempTreasure = std::make_shared<MerchantHoard>(tempPos);
+                      treasures[i][j] = tempTreasure;
                       break;
+                  }
                   default: 
                       srand(time(0));
                       int tempNum = rand() % 2;
