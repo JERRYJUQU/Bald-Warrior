@@ -203,6 +203,7 @@ void Floor::spawn(HeroType ht){
         // spawn a dragon to guard the hoard;
         Position p = getValidPos(validPos);
         if(p == validPos){
+          //no place for dragon to spawn
         }else{
             auto tempDragonHoard = std::dynamic_pointer_cast<DragonHoard> (treasure);
            auto dragon = std::make_shared<Dragon>(p, tempDragonHoard);

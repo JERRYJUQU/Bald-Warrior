@@ -18,57 +18,82 @@ void Elf::defend(Hero & hero){
     
 void Elf::attack(Shade & shade){
     int miss = std::rand()%2;
+    int dmg;
     if(!miss){
-        shade.incHP(-((100/(100+shade.getDef()))*(this->getAtk())));
+        dmg = ((100/(100+shade.getDef()))*(this->getAtk()));
+        shade.incHP(-dmg);
+    }else{
+        dmg = 0;
     }
     miss = std::rand()%2;
     if(!miss){
-        shade.incHP(-((100/(100+shade.getDef()))*(this->getAtk())));
+        dmg += ((100/(100+shade.getDef()))*(this->getAtk()));
+        shade.incHP(-)dmg;
     }
+    return dmg;
 }
     
 void Elf::attack(Drow & drow){
     int miss = std::rand()%2;
+    int dmg;
     if(!miss){
-        drow.incHP(-((100/(100+drow.getDef()))*(this->getAtk())));
+        dmg = ((100/(100+shade.getDef()))*(this->getAtk()));
+        shade.incHP(-dmg);
+    }else{
+        dmg = 0;
     }
-    miss = std::rand()%2;
-    if(!miss){
-        drow.incHP(-((100/(100+drow.getDef()))*(this->getAtk())));
-    }
+    return dmg;
 }
 
 void Elf::attack(Vampire & vampire){
     int miss = std::rand()%2;
+    int dmg;
     if(!miss){
-        vampire.incHP(-((100/(100+vampire.getDef()))*(this->getAtk())));
+        dmg = ((100/(100+vampire.getDef()))*(this->getAtk()));
+        vampire.incHP(-dmg);
+    }else{
+        dmg = 0;
     }
     miss = std::rand()%2;
     if(!miss){
-        vampire.incHP(-((100/(100+vampire.getDef()))*(this->getAtk())));
+        dmg += ((100/(100+vampire.getDef()))*(this->getAtk()));
+        vampire.incHP(-)dmg;
     }
+    return dmg;
 }
 
 void Elf::attack(Troll & troll){
     int miss = std::rand()%2;
+    int dmg;
     if(!miss){
-        troll.incHP(-((100/(100+troll.getDef()))*(this->getAtk())));
+        dmg = ((100/(100+troll.getDef()))*(this->getAtk()));
+        troll.incHP(-dmg);
+    }else{
+        dmg = 0;
     }
     miss = std::rand()%2;
     if(!miss){
-        troll.incHP(-((100/(100+troll.getDef()))*(this->getAtk())));
+        dmg += ((100/(100+troll.getDef()))*(this->getAtk()));
+        troll.incHP(-)dmg;
     }
+    return dmg;
 }
 
 void Elf::attack(Goblin & goblin){
     int miss = std::rand()%2;
+    int dmg;
     if(!miss){
-        goblin.incHP(-((100/(100+goblin.getDef()))*(this->getAtk())));
+        dmg = ((100/(100+goblin.getDef()))*(this->getAtk()));
+        goblin.incHP(-dmg);
+    }else{
+        dmg = 0;
     }
     miss = std::rand()%2;
     if(!miss){
-        goblin.incHP(-((100/(100+goblin.getDef()))*(this->getAtk())));
+        dmg += ((100/(100+goblin.getDef()))*(this->getAtk()));
+        goblin.incHP(-)dmg;
     }
+    return dmg;
 }
 /*
 void Elf::notifyDeath(){

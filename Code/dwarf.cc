@@ -13,42 +13,63 @@ Dwarf::Dwarf(Position pos): Enemy{pos, EnemyType::dwarf} {
     
 }
     
-void Dwarf::defend(Hero & hero){
-    hero.attack(*this);
+int Dwarf::defend(Hero & hero){
+    int dmg = hero.attack(*this);
+    return dmg;
 }
-
-void Dwarf::attack(Shade & shade){
+    
+int Dwarf::attack(Shade & shade){
     int miss = std::rand()%2;
     if(!miss){
-        shade.incHP(-((100/(100+shade.getDef()))*(this->getAtk())));
+        int dmg = ((100/(100+shade.getDef()))*(this->getAtk()));
+        shade.incHP(-dmg);
+        return dmg;
+    }else{
+        return 0;
     }
 }
     
-void Dwarf::attack(Drow & drow){
+int Dwarf::attack(Drow & drow){
     int miss = std::rand()%2;
     if(!miss){
-        drow.incHP(-((100/(100+drow.getDef()))*(this->getAtk())));
+        int dmg = ((100/(100+drow.getDef()))*(this->getAtk()));
+        drow.incHP(-dmg);
+        return dmg;
+    }else{
+        return 0;
     }
 }
 
-void Dwarf::attack(Vampire & vampire){
+int Dwarf::attack(Vampire & vampire){
     int miss = std::rand()%2;
     if(!miss){
-        vampire.incHP(-((100/(100+vampire.getDef()))*(this->getAtk())));
+        int dmg = ((100/(100+vampire.getDef()))*(this->getAtk()));
+        vampire.incHP(-dmg);
+        return dmg;
+    }else{
+        return 0;
     }
 }
 
-void Dwarf::attack(Troll & troll){
+int Dwarf::attack(Troll & troll){
     int miss = std::rand()%2;
     if(!miss){
-        troll.incHP(-((100/(100+troll.getDef()))*(this->getAtk())));
+        int dmg = ((100/(100+troll.getDef()))*(this->getAtk()));
+        troll.incHP(-dmg);
+        return dmg;
+    }else{
+        return 0;
     }
 }
 
-void Dwarf::attack(Goblin & goblin){
+int Dwarf::attack(Goblin & goblin){
     int miss = std::rand()%2;
     if(!miss){
-        goblin.incHP(-((100/(100+goblin.getDef()))*(this->getAtk())));
+        int dmg = ((100/(100+goblin.getDef()))*(this->getAtk()));
+        goblin.incHP(-dmg);
+        return dmg;
+    }else{
+        return 0;
     }
 }
 /*

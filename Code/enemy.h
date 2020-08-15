@@ -21,12 +21,12 @@ public:
         Enemy(Position pos, EnemyType type);
         EnemyType getEnemyType();
         bool getNeutral();
-        virtual void defend(Hero & hero) = 0;
-        virtual void attack(Shade & shade) = 0;
-        virtual void attack(Drow & drow) = 0;
-        virtual void attack(Vampire & vampire) = 0;
-        virtual void attack(Troll & troll) = 0;
-        virtual void attack(Goblin & goblin) = 0;
+        virtual int defend(Hero & hero) = 0;
+        virtual int attack(Shade & shade) = 0;
+        virtual int attack(Drow & drow) = 0;
+        virtual int attack(Vampire & vampire) = 0;
+        virtual int attack(Troll & troll) = 0;
+        virtual int attack(Goblin & goblin) = 0;
         void notifyDeath();
         //void move(Direction direction);
 };

@@ -6,13 +6,13 @@ class Shade : public Hero{
 public:
         Shade(Position pos);
 //        void usePotion(Potion & potion) override;
-        void defend(Enemy & enemy) override;
-        void attack(Human & human) override;
-        void attack(Dwarf & dwarf) override;
-        void attack(Elf & elf) override;
-        void attack(Orcs & orcs) override;
-        void attack(Merchant & merchant) override;
-        void attack(Dragon & dragon) override;
-        void attack(Halfling & halfling) override;
+         int defend(Enemy & enemy) override;
+         int attack(Human & human) override;
+         int attack(Dwarf & dwarf) override;
+         int attack(Elf & elf) override;
+         int attack(Orcs & orcs) override;
+         int attack(Merchant & merchant) override;
+         int attack(Dragon & dragon) override;
+         int attack(Halfling & halfling) override;
 };
 #endif

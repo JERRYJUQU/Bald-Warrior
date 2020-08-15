@@ -14,42 +14,59 @@ Troll::Troll(Position pos): Hero{pos, HeroType::troll} {
     maxHP = 120;
 }
 /*
-void usePotion(Potion & potion){
+ int usePotion(Potion & potion){
     potion.effect(*this);
 }*/
 
-void Troll::defend(Enemy & enemy){
-    enemy.attack(*this);
+ int Troll::defend(Enemy & enemy){
+    int dmg = enemy.attack(*this);
+    return dmg;
 }
 
-void Troll::attack(Human & human){
-    human.incHP(-((100/(100+human.getDef()))*(this->getAtk())));
+ int Troll::attack(Human & human){
+    int dmg = ((100/(100+human.getDef()))*(this->getAtk()));
+    human.incHP(-dmg);
+    return dmg; 
 }
         
-void Troll::attack(Dwarf & dwarf){
-    dwarf.incHP(-((100/(100+dwarf.getDef()))*(this->getAtk())));
+ int Troll::attack(Dwarf & dwarf){
+    int dmg = ((100/(100+dwarf.getDef()))*(this->getAtk()));
+    dwarf.incHP(-dmg);
+    return dmg; 
 }
         
-void Troll::attack(Elf & elf){
-    elf.incHP(-((100/(100+elf.getDef()))*(this->getAtk())));
+ int Troll::attack(Elf & elf){
+    int dmg = ((100/(100+elf.getDef()))*(this->getAtk()));
+    elf.incHP(-dmg);
+    return dmg; 
 }
         
-void Troll::attack(Orcs & orcs){
-    orcs.incHP(-((100/(100+orcs.getDef()))*(this->getAtk())));
+ int Troll::attack(Orcs & orcs){
+    int dmg = ((100/(100+orcs.getDef()))*(this->getAtk()));
+    orcs.incHP(-dmg);
+    return dmg; 
 }
         
-void Troll::attack(Merchant & merchant){
-    merchant.incHP(-((100/(100+merchant.getDef()))*(this->getAtk())));
+ int Troll::attack(Merchant & merchant){
+    int dmg = ((100/(100+merchant.getDef()))*(this->getAtk()));
+    merchant.incHP(-dmg);
+    return dmg; 
 }
         
-void Troll::attack(Dragon & dragon){
-    dragon.incHP(-((100/(100+dragon.getDef()))*(this->getAtk())));
+ int Troll::attack(Dragon & dragon){
+    int dmg = ((100/(100+dragon.getDef()))*(this->getAtk()));
+    dragon.incHP(-dmg);
+    return dmg; 
 }
         
-void Troll::attack(Halfling & halfling){
+ int Troll::attack(Halfling & halfling){
     int miss = std::rand() % 2;
     if(!miss){
-        halfling.incHP(-((100/(100+halfling.getDef()))*(this->getAtk())));
+        int dmg = ((100/(100+halfling.getDef()))*(this->getAtk()));
+        human.incHP(-dmg);
+        return dmg; 
+    }else{
+        return 0;
     }
 }
 
