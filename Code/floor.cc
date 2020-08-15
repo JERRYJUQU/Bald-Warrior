@@ -97,7 +97,8 @@ void Floor::spawn(HeroType ht){
   }
 
   //Generate chambers
-  std::vector<std::vector<std::shared_ptr<Tile>>> chambers(5);
+  std::vector<std::vector<std::shared_ptr<Tile>>> chambers;
+  chambers.reserve(5);
   std::shared_ptr<TextDisplay> tp = std::make_shared<TextDisplay>();;
   for(auto e : valid){
     struct Position pos = e->getPos();
@@ -205,7 +206,7 @@ void Floor::spawn(HeroType ht){
         }else{
            auto dragon = std::make_shared<Dragon>(p, treasure);
            enemies[p.x][p.y] = dragon;
-           chambers[c].erase(tiles[p.x][p.y]);
+           chambers[c].erase(find(chambers[c].begin(), chambers[c].end(), tiles[p.x][p.y]));
         }
         
     }else{// 1/4 chance of being small
@@ -238,7 +239,7 @@ Position Floor::getValidPos(Position pos){
     for(int dy = -1; dy < 2; dy++){
       int nx = min(max(pos.x+dx, 0), 25);
       int ny = min(max(pos.y+dy, 0), 78);
-      if(!enemies[nx][ny] && !potions[nx][ny] && !treasure[nx[ny] && !(nx == hero->getPos().x && ny == hero->getPos().y) && 
+      if(!enemies[nx][ny] && !potions[nx][ny] && !treasures[nx][ny] && !(nx == hero->getPos().x && ny == hero->getPos().y) && 
                                                            !(nx == stair->getPos().x && ny == stair->getPos().y)){
         if(tiles[nx][ny]->getTileType() == TileType::ground){
           struct Position np = { nx, ny };
@@ -330,15 +331,40 @@ void Floor::attackEnemy( Direction dir ){
 void Floor::usePotion( Direction dir ){
     Position heroPos = hero->getPos();
     //check if new position is valid
-    if(heroPos.x < 0 || heroPos.y < 0 || heroPos.x > 24 || heroPos.y > 78){
+    Position newPos = getNewPos(heroPos, dir);
+    if(newPos.x < 0 || newPos.y < 0 || newPos.x > 24 || newPos.y > 78){
+        //throw exception
       return;
     }
-    if (!potions[heroPos.y][heroPos.x]) {
+    if (!potions[newPos.x][newPos.y]) {
+        //throw exception
       return;
     }else{
-        hero->usePotion(*potions[heroPos.y][heroPos.x]);
+        hero->usePotion(*potions[newPos.x][newPos.y]);
+        PotionType potionType = potions[newPos.x][newPos.y]->getPotionType();
         potions[heroPos.y][heroPos.x] = nullptr;
-        hero->setAction("PC uses " + dirtos(dir));
+        std::string potionTypeStr;
+        
+        switch (potionType) {
+        case PotionType::restoreHealth:
+            potionTypeStr = "RH";
+            break;
+        case PotionType::posionHealth:
+            potionTypeStr = "PH";
+            break;
+        case PotionType::boostAtk:
+            potionTypeStr = "BA";
+            break;
+        case PotionType::woundAtk:
+            potionTypeStr = "WA";
+            break;
+        case PotionType::boostDef:
+            potionTypeStr = "BD";
+            break;
+        case PotionType::woundDef:
+            potionTypeStr = "WD";
+        }
+        hero->setAction("PC uses " + potionTypeStr);
     }
 };
 
@@ -351,8 +377,8 @@ T Floor::enumRand() {
 }
                                                            
 bool Floor::heroAround(Enemy & enemy){
-  return (abs(hero->getPos().x - enemy->getPos().x) < 2 &&
-          abs(hero->getPos().y - enemy->getPos().y) < 2);
+  return (abs(hero->getPos().x - enemy.getPos().x) < 2 &&
+          abs(hero->getPos().y - enemy.getPos().y) < 2);
 }
 
 void Floor::turn(Action action, Direction dir) {
@@ -372,18 +398,31 @@ void Floor::turn(Action action, Direction dir) {
               }
               if (enemies[i][j]->getHP() <= 0) {
                   enemies[i][j]->notifyDeath();
-                  auto tempTreasure = make_shared<MerchantHoard>();
+                  std::shared_ptr<Dragon> d = std::dynamic_pointer_cast<Dragon> (enemies[i][j]);
                   switch (enemies[i][j]->getEnemyType()) {
                   case EnemyType::human:
-                      hero->incGold(4); // increase gold instead of dropping hoard, may need to change
+                  {
+                      Position tempPos;
+                      tempPos.x = i;
+                      tempPos.y = j;
+                      auto tempTreasure = std::make_shared<SmallHoard>(tempPos);
+                      treasures[i][j] = tempTreasure;
+                      tempPos = getValidPos(tempPos);
+                      treasures[i][j] = tempTreasure;
                       break;
+                  }
                   case EnemyType::dragon:
-                      std::shared<Dragon> d = std::dynamic_pointer_cast<Dragon> enemies[i][j];
                       d->notifyHoard();
                       break;
                   case EnemyType::merchant:
+                  {
+                      Position tempPos;
+                      tempPos.x = i;
+                      tempPos.y = j;
+                      auto tempTreasure = std::make_shared<MerchantHoard>(tempPos);
                       treasures[i][j] = tempTreasure;
                       break;
+                  }
                   default: 
                       srand(time(0));
                       int tempNum = rand() % 2;
@@ -405,10 +444,10 @@ void Floor::turn(Action action, Direction dir) {
               else {
                   if (!pause) {
                       Position validPos = getValidPos(enemies[i][j]->getPos());
-                      if(validPos != enemies[i][j]->getPos()){
-                          enemies[i][j]->setPos(validPos[p]);
-                          swap(enemies[i][j], enemies[validPos[p].x][validPos[p].y]);//swap the locations
-                          moved.emplace_back(enemies[validPos[p].x][validPos[p].y]);
+                      if(!(validPos == enemies[i][j]->getPos())){
+                          enemies[i][j]->setPos(validPos);
+                          swap(enemies[i][j], enemies[validPos.x][validPos.y]);//swap the locations
+                          moved.emplace_back(enemies[validPos.x][validPos.y]);
                       }
                   }
               }
