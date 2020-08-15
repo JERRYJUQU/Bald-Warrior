@@ -2,7 +2,7 @@
  CS246 final project
 
 ## Current Bugs
--
+- Halfling attack misses
 
 ## Introduction
 This is an implementation of the game ChamberCrawler3000 for the final project of CS246 Fall 2020.

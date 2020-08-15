@@ -9,14 +9,14 @@ Halfling::Halfling(Position pos): Enemy{pos, EnemyType::halfling} {
     hp = 100;
     atk = 15;
     def = 20;
-    hp = 100;
+    maxHP = 100;
 }
-    
+
 int Halfling::defend(Hero & hero){
     int dmg = hero.attack(*this);
     return dmg;
 }
-    
+
 int Halfling::attack(Shade & shade){
     srand(time(0));
     int miss = std::rand()%2;
@@ -28,7 +28,7 @@ int Halfling::attack(Shade & shade){
         return 0;
     }
 }
-    
+
 int Halfling::attack(Drow & drow){
     srand(time(0));
     int miss = std::rand()%2;

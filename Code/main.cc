@@ -1,5 +1,6 @@
 #include "floor.h"
 #include <iostream>
+#include<fstream>
 int main(){
   start:
   Floor f = Floor(1);
@@ -12,6 +13,7 @@ int main(){
     if(!spawned){
       std::cout << "Enter the race:" << std::endl;
       std::cin >> command;
+      if (std::cin.fail()) break;
       switch( command ) {
         case 'q': exit(0);
         case 's': f.spawn(HeroType::shade); break;

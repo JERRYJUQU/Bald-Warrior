@@ -338,7 +338,7 @@ void Floor::moveHero( Direction dir ){
 void Floor::hostileMerchants(){
     for (int i = 0; i < 25; i++) {
       for (int j = 0; j < 79; j++) {
-          if (enemies[i][j]->getEnemyType() == EnemyType::merchant){
+          if (enemies[i][j] && enemies[i][j]->getEnemyType() == EnemyType::merchant){
               enemies[i][j]->setNeutral(false);
           }
       }
@@ -359,23 +359,15 @@ void Floor::attackEnemy( Direction dir ){
       return;
     }else{
         // if target is a neutral merchant, hostile all merchants
+        std::string m = "";
         if(enemies[newPos.x][newPos.y]->getEnemyType() == EnemyType::merchant && enemies[newPos.x][newPos.y]->getNeutral()){
             hostileMerchants();
+            m = "You attacked a merchant! Merchants are hostile from now on.";
         }
         int dmg = enemies[newPos.x][newPos.y]->defend(*hero);
         int enemyHP = enemies[newPos.x][newPos.y]->getHP();
-        std::string e;
-        EnemyType type = enemies[newPos.x][newPos.y]->getEnemyType();
-        switch(type){
-        case EnemyType::human: e = "H"; break;
-        case EnemyType::dwarf: e = "W"; break;
-        case EnemyType::elf: e = "E"; break;
-        case EnemyType::orcs: e = "O"; break;
-        case EnemyType::merchant: e = "M"; break;
-        case EnemyType::dragon: e = "D"; break;
-        case EnemyType::halfling: e = "L"; break;
-        }
-        std::string action = "PC deals " + std::to_string(dmg) + " damage to " + e + " (" + std::to_string(enemyHP) + ").";
+
+        std::string action = "PC deals " + std::to_string(dmg) + " damage to " + etos(enemies[newPos.x][newPos.y]->getEnemyType()) + " (" + std::to_string(enemyHP) + ")." + m;
         hero->setAction(action);
     }
 }
