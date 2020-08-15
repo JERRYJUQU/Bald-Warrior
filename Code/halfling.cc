@@ -12,42 +12,63 @@ Halfling::Halfling(Position pos): Enemy{pos, EnemyType::halfling} {
     hp = 100;
 }
     
-void Halfling::defend(Hero & hero){
-    hero.attack(*this);
+int Halfling::defend(Hero & hero){
+    int dmg = hero.attack(*this);
+    return dmg;
 }
     
-void  Halfling::attack(Shade & shade){
+int Halfling::attack(Shade & shade){
     int miss = std::rand()%2;
     if(!miss){
-        shade.incHP(-((100/(100+shade.getDef()))*(this->getAtk())));
+        int dmg = ((100/(100+shade.getDef()))*(this->getAtk()));
+        shade.incHP(-dmg);
+        return dmg;
+    }else{
+        return 0;
     }
 }
     
-void  Halfling::attack(Drow & drow){
+int Halfling::attack(Drow & drow){
     int miss = std::rand()%2;
     if(!miss){
-        drow.incHP(-((100/(100+drow.getDef()))*(this->getAtk())));
+        int dmg = ((100/(100+drow.getDef()))*(this->getAtk()));
+        drow.incHP(-dmg);
+        return dmg;
+    }else{
+        return 0;
     }
 }
 
-void  Halfling::attack(Vampire & vampire){
+int Halfling::attack(Vampire & vampire){
     int miss = std::rand()%2;
     if(!miss){
-        vampire.incHP(-((100/(100+vampire.getDef()))*(this->getAtk())));
+        int dmg = ((100/(100+vampire.getDef()))*(this->getAtk()));
+        vampire.incHP(-dmg);
+        return dmg;
+    }else{
+        return 0;
     }
 }
 
-void  Halfling::attack(Troll & troll){
+int Halfling::attack(Troll & troll){
     int miss = std::rand()%2;
     if(!miss){
-        troll.incHP(-((100/(100+troll.getDef()))*(this->getAtk())));
+        int dmg = ((100/(100+troll.getDef()))*(this->getAtk()));
+        troll.incHP(-dmg);
+        return dmg;
+    }else{
+        return 0;
     }
 }
 
-void  Halfling::attack(Goblin & goblin){
+int Halfling::attack(Goblin & goblin){
     int miss = std::rand()%2;
     if(!miss){
-        goblin.incHP(-((100/(100+goblin.getDef()))*(this->getAtk())));
+        int dmg = ((100/(100+goblin.getDef()))*(this->getAtk()));
+        goblin.incHP(-dmg);
+        return dmg;
+    }else{
+        return 0;
     }
 }
 /*

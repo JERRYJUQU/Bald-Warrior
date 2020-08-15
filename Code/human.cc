@@ -12,47 +12,68 @@ Human::Human(Position pos): Enemy{pos, EnemyType::human} {
     maxHP = 140;
 }
     
-void Human::defend(Hero & hero){
-    hero.attack(*this);
+int Human::defend(Hero & hero){
+    int dmg = hero.attack(*this);
+    return dmg;
 }
     
-void Human::attack(Shade & shade){
+int Human::attack(Shade & shade){
     int miss = std::rand()%2;
     if(!miss){
-        shade.incHP(-((100/(100+shade.getDef()))*(this->getAtk())));
+        int dmg = ((100/(100+shade.getDef()))*(this->getAtk()));
+        shade.incHP(-dmg);
+        return dmg;
+    }else{
+        return 0;
     }
 }
     
-void Human::attack(Drow & drow){
+int Human::attack(Drow & drow){
     int miss = std::rand()%2;
     if(!miss){
-        drow.incHP(-((100/(100+drow.getDef()))*(this->getAtk())));
+        int dmg = ((100/(100+drow.getDef()))*(this->getAtk()));
+        drow.incHP(-dmg);
+        return dmg;
+    }else{
+        return 0;
     }
 }
 
-void Human::attack(Vampire & vampire){
+int Human::attack(Vampire & vampire){
     int miss = std::rand()%2;
     if(!miss){
-        vampire.incHP(-((100/(100+vampire.getDef()))*(this->getAtk())));
+        int dmg = ((100/(100+vampire.getDef()))*(this->getAtk()));
+        vampire.incHP(-dmg);
+        return dmg;
+    }else{
+        return 0;
     }
 }
 
-void Human::attack(Troll & troll){
+int Human::attack(Troll & troll){
     int miss = std::rand()%2;
     if(!miss){
-        troll.incHP(-((100/(100+troll.getDef()))*(this->getAtk())));
+        int dmg = ((100/(100+troll.getDef()))*(this->getAtk()));
+        troll.incHP(-dmg);
+        return dmg;
+    }else{
+        return 0;
     }
 }
 
-void Human::attack(Goblin & goblin){
+int Human::attack(Goblin & goblin){
     int miss = std::rand()%2;
     if(!miss){
-        goblin.incHP(-((100/(100+goblin.getDef()))*(this->getAtk())));
+        int dmg = ((100/(100+goblin.getDef()))*(this->getAtk()));
+        goblin.incHP(-dmg);
+        return dmg;
+    }else{
+        return 0;
     }
 }
 
 /*
-void Human::notifyDeath(){
+int Human::notifyDeath(){
     for (auto p : observers){
         p.notifyDeath(*this);
     }

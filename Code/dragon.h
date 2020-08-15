@@ -9,12 +9,12 @@ class Dragon : public Enemy{
 	std::shared_ptr<DragonHoard> hoard;
 public:
     Dragon(Position pos, shared_ptr<DragonHoard> hoard);
-    void defend(Hero & hero) override;
-    void attack(Shade & shade) override;
-    void attack(Drow & drow) override;
-    void attack(Vampire & vampire) override;
-    void attack(Troll & troll) override;
-    void attack(Goblin & goblin) override;
+    int defend(Hero & hero) override;
+    int attack(Shade & shade) override;
+    int attack(Drow & drow) override;
+    int attack(Vampire & vampire) override;
+    int attack(Troll & troll) override;
+    int attack(Goblin & goblin) override;
 //    void notifyDeath() override;
     DragonHoard getHoard();
     void notifyHoard();

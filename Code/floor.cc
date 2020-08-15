@@ -202,6 +202,7 @@ void Floor::spawn(HeroType ht){
         // spawn a dragon to guard the hoard;
         Position p = getValidPos(validPos);
         if(p == validPos){
+          //no place for dragon to spawn
         }else{
            auto dragon = std::make_shared<Dragon>(p, treasure);
            enemies[p.x][p.y] = dragon;
@@ -405,9 +406,9 @@ void Floor::turn(Action action, Direction dir) {
                   if (!pause) {
                       Position validPos = getValidPos(enemies[i][j]->getPos());
                       if(validPos != enemies[i][j]->getPos()){
-                          enemies[i][j]->setPos(validPos[p]);
-                          swap(enemies[i][j], enemies[validPos[p].x][validPos[p].y]);//swap the locations
-                          moved.emplace_back(enemies[validPos[p].x][validPos[p].y]);
+                          enemies[i][j]->setPos(validPos);
+                          swap(enemies[i][j], enemies[validPos.x][validPos.y]);//swap the locations
+                          moved.emplace_back(enemies[validPos.x][validPos.y]);
                       }
                   }
               }

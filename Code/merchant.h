@@ -5,12 +5,12 @@
 class Merchant : public Enemy{
 public:
     Merchant(Position pos);
-    void defend(Hero & hero) override;
-    void attack(Shade & shade) override;
-    void attack(Drow & drow) override;
-    void attack(Vampire & vampire) override;
-    void attack(Troll & troll) override;
-    void attack(Goblin & goblin) override;
+    int defend(Hero & hero) override;
+    int attack(Shade & shade) override;
+    int attack(Drow & drow) override;
+    int attack(Vampire & vampire) override;
+    int attack(Troll & troll) override;
+    int attack(Goblin & goblin) override;
 };
 
 #endif
