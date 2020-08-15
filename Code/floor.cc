@@ -302,6 +302,7 @@ void Floor::moveHero( Direction dir ){
     if(stair->getPos().x == newPos.x && stair->getPos().y == newPos.y){
       state = 2;
       // set a action for entering next level?
+      hero->setAction("PC entered next floor");
       return;
     }
     //check if hero is picking up a treasure

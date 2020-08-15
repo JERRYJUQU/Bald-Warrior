@@ -1,7 +1,18 @@
 #include "floor.h"
 #include <iostream>
-#include<fstream>
+#include <fstream>
 int main(){
+  std::ifstream ofile("openning.txt");
+  std::string l;
+  while (std::getline(ofile, l)) std::cout << l << std::endl;
+  ofile.close();
+
+  std::cout << "There was a old story in UW about a chamber underneath..." << std::endl;
+  std::cout << "About heros deafeating monsters to acquire the final treasure: a GOLDEN GOOSE!" << std::endl;
+  std::cout << "However, strange happenings are afoot in the chamber this term." << std::endl;
+  std::cout << "The monsters have revolted and demanded to be made the heroes due to their negative portrayal in previous iterations of CC3k!" << std::endl;
+  std::cout << "" << std::endl;
+
   start:
   Floor f = Floor(1);
 
@@ -11,7 +22,7 @@ int main(){
 
   while ( true ) {
     if(!spawned){
-      std::cout << "Enter the race:" << std::endl;
+      std::cout << "Enter the race you wish to be:" << std::endl;
       std::cin >> command;
       if (std::cin.fail()) break;
       switch( command ) {
@@ -27,8 +38,11 @@ int main(){
       std::cout << f;
       cin.ignore();
     }
+    std::cout << "Enter your command:" << std::endl;
     std::getline(std::cin, line);
+
     if (std::cin.fail()) break;
+
     if(line.length() == 1){
       if(line[0] == 'f'){
         f.setPause();
@@ -48,7 +62,11 @@ int main(){
         switch(state){
           case 0: break;
           case 1: {
-            std::cout << "Oops! You have died!" << std::endl;
+            std::ifstream file("death.txt");
+            std::string l;
+            while (std::getline(file, l)) std::cout << l << std::endl;
+            file.close();
+            std::cout << "Oops, you died! That's a bit sad, but we can try again!" << std::endl;
             goto start;
           }
           case 2:{
@@ -68,5 +86,7 @@ int main(){
     std::cout << f;
   }
   end:
-  std::cout << "Congradulations! You have completed CC3K." << std::endl;
+  std::ifstream efile("ending.txt");
+  while (std::getline(efile, l)) std::cout << l << std::endl;
+  efile.close();
 };
