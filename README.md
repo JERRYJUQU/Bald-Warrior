@@ -6,8 +6,6 @@
  1. Potion does not disappear after use.
  1. Potion can be walked on.
  1. Hero does not attack(does not deal damage, does not show in action, action does not refresh after each attack)
- 1. Every hoard is written as a dragon hoard in action(Action alwasy display "picks up a dragon hoard" despite type of the treasure).
- 1. Dragon hoard increase hero gold only by 1
  1. Dragon is spawned, but not showed on text display(invisibility)
  1. All enemies are shown with L(halfling) in action
  1. Dragon hoard cannot be walked on before dragon is killed(should be able to walk on but not be able to pick up)
