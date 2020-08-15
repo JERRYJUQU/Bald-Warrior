@@ -10,6 +10,9 @@ This is an implementation of the game ChamberCrawler3000 for the final project o
 ## Plan-of-Attack
 The plan of attack is currently under the Google doc: https://docs.google.com/document/d/1_OjW9sLRQMAcANL5a7lCWj5IUhWTBeMBsWmY4eQoMBU/edit?usp=sharing
 
+## Final-Design
+The final design is this Google doc: https://docs.google.com/document/d/1J55c6f5wKjdYrUYM5a5vlprirW6oWPkLcdp_OPZXsSo/edit?usp=sharing
+
 ## Content
 ![](UML/UML_Final.jpeg)
 ![](UML/UML_Class.jpeg)
