@@ -4,6 +4,7 @@
 #include <stdlib.h> //dont delete
 #include <random>
 #include <string>
+#include <algorithm>
 #include <ctime>
 
 Floor::Floor(int n) : n{n}, pause{false}, enteredStair{false} {
@@ -259,8 +260,6 @@ Position Floor::getValidPos(Position pos){
   }                                                         
 };
 
-
-
 bool Floor::guarded(std::shared_ptr<Treasure> treasue){
     return !treasue->pickUp();
 }
@@ -314,10 +313,10 @@ void Floor::moveHero( Direction dir ){
           TreasureType type = treasures[newPos.x][newPos.y]->getTreasureType();
           std::string t;
           switch(type){
-            case TreasureType::small: t = "small hoard";
-            case TreasureType::normal: t = "normal hoard";
-            case TreasureType::merchantHoard: t = "merchant hoard";
-            case TreasureType::dragonHoard: t = "dragon hoard";
+          case TreasureType::small: t = "small hoard"; break;
+          case TreasureType::normal: t = "normal hoard"; break;
+          case TreasureType::merchantHoard: t = "merchant hoard"; break;
+          case TreasureType::dragonHoard: t = "dragon hoard"; break;
           }
           std::string action = "PC picks up a " + t + ".";
           hero->setAction(action);
@@ -350,10 +349,12 @@ void Floor::attackEnemy( Direction dir ){
     Position heroPos = hero->getPos();
     //check if new position is valid
     if(heroPos.x < 0 || heroPos.y < 0 || heroPos.x > 24 || heroPos.y > 78){
+        hero->setAction("PC attaks an enemy that does not exists!");
       return;
     }
     //check if there is enemy at that position
     if(!enemies[heroPos.y][heroPos.x]){
+        hero->setAction("PC attaks an enemy that does not exists!");
       return;
     }else{
         // if target is a neutral merchant, hostile all merchants
@@ -365,13 +366,13 @@ void Floor::attackEnemy( Direction dir ){
         std::string e;
         EnemyType type = enemies[heroPos.y][heroPos.x]->getEnemyType();
         switch(type){
-          case EnemyType::human: e = "H";
-          case EnemyType::dwarf: e = "W";
-          case EnemyType::elf: e = "E";
-          case EnemyType::orcs: e = "O";
-          case EnemyType::merchant: e = "M";
-          case EnemyType::dragon: e = "D";
-          case EnemyType::halfling: e = "L";
+        case EnemyType::human: e = "H"; break;
+        case EnemyType::dwarf: e = "W"; break;
+        case EnemyType::elf: e = "E"; break;
+        case EnemyType::orcs: e = "O"; break;
+        case EnemyType::merchant: e = "M"; break;
+        case EnemyType::dragon: e = "D"; break;
+        case EnemyType::halfling: e = "L"; break;
         }
         std::string action = "PC deals " + std::to_string(dmg) + " damage to " + e + " (" + std::to_string(enemyHP) + ").";
         hero->setAction(action);
@@ -384,11 +385,11 @@ void Floor::usePotion( Direction dir ){
     //check if new position is valid
     Position newPos = getNewPos(heroPos, dir);
     if(newPos.x < 0 || newPos.y < 0 || newPos.x > 24 || newPos.y > 78){
-        //throw exception
+        hero->setAction("PC uses a potion that does not exist!");
       return;
     }
     if (!potions[newPos.x][newPos.y]) {
-        //throw exception
+        hero->setAction("PC uses a potion that does not exist!");
       return;
     }else{
         hero->usePotion(*potions[newPos.x][newPos.y]);
@@ -508,13 +509,13 @@ void Floor::turn(Action action, Direction dir) {
                   //set action
                   std::string e;
                   switch (enemies[i][j]->getEnemyType()){
-                      case EnemyType::human: e = "H";
-                      case EnemyType::dwarf: e = "W";
-                      case EnemyType::elf: e = "E";
-                      case EnemyType::orcs: e = "O";
-                      case EnemyType::merchant: e = "M";
-                      case EnemyType::dragon: e = "D";
-                      case EnemyType::halfling: e = "L";
+                  case EnemyType::human: e = "H"; break;
+                  case EnemyType::dwarf: e = "W"; break;
+                  case EnemyType::elf: e = "E"; break;
+                  case EnemyType::orcs: e = "O"; break;
+                  case EnemyType::merchant: e = "M"; break;
+                  case EnemyType::dragon: e = "D"; break;
+                  case EnemyType::halfling: e = "L"; break;
                   }
                   std::string action = "PC slains " + e + ".";
                   hero->setAction(hero->getAction() + " " + action);
@@ -525,13 +526,13 @@ void Floor::turn(Action action, Direction dir) {
                    std::string e;
                    EnemyType type = enemies[i][j]->getEnemyType();
                    switch(type){
-                      case EnemyType::human: e = "H";
-                      case EnemyType::dwarf: e = "W";
-                      case EnemyType::elf: e = "E";
-                      case EnemyType::orcs: e = "O";
-                      case EnemyType::merchant: e = "M";
-                      case EnemyType::dragon: e = "D";
-                      case EnemyType::halfling: e = "L";
+                   case EnemyType::human: e = "H"; break;
+                   case EnemyType::dwarf: e = "W"; break;
+                   case EnemyType::elf: e = "E"; break;
+                   case EnemyType::orcs: e = "O"; break;
+                   case EnemyType::merchant: e = "M"; break;
+                   case EnemyType::dragon: e = "D"; break;
+                   case EnemyType::halfling: e = "L"; break;
                    }
                    std::string action = e + " deals " + std::to_string(dmg) + " damage to PC.";
                    hero->setAction(hero->getAction() + " " + action);
