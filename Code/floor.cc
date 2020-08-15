@@ -204,7 +204,8 @@ void Floor::spawn(HeroType ht){
         Position p = getValidPos(validPos);
         if(p == validPos){
         }else{
-           auto dragon = std::make_shared<Dragon>(p, treasure);
+            auto tempDragonHoard = std::dynamic_pointer_cast<DragonHoard> (treasure);
+           auto dragon = std::make_shared<Dragon>(p, tempDragonHoard);
            enemies[p.x][p.y] = dragon;
            chambers[c].erase(find(chambers[c].begin(), chambers[c].end(), tiles[p.x][p.y]));
         }
