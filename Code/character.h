@@ -2,6 +2,8 @@
 #define CHARACTER_H
 #include <vector>
 #include <memory>
+#include <cstdlib>
+#include <ctime>
 #include "position.h"
 #include "subject.h"
 

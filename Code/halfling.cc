@@ -18,9 +18,10 @@ int Halfling::defend(Hero & hero){
 }
     
 int Halfling::attack(Shade & shade){
+    srand(time(0));
     int miss = std::rand()%2;
     if(!miss){
-        int dmg = ((100/(100+shade.getDef()))*(this->getAtk()));
+        int dmg = ((100*(this->getAtk()))/(100+shade.getDef()));
         shade.incHP(-dmg);
         return dmg;
     }else{
@@ -29,9 +30,10 @@ int Halfling::attack(Shade & shade){
 }
     
 int Halfling::attack(Drow & drow){
+    srand(time(0));
     int miss = std::rand()%2;
     if(!miss){
-        int dmg = ((100/(100+drow.getDef()))*(this->getAtk()));
+        int dmg = ((100*(this->getAtk()))/(100+drow.getDef()));
         drow.incHP(-dmg);
         return dmg;
     }else{
@@ -40,9 +42,10 @@ int Halfling::attack(Drow & drow){
 }
 
 int Halfling::attack(Vampire & vampire){
+    srand(time(0));
     int miss = std::rand()%2;
     if(!miss){
-        int dmg = ((100/(100+vampire.getDef()))*(this->getAtk()));
+        int dmg = ((100*(this->getAtk()))/(100+vampire.getDef()));
         vampire.incHP(-dmg);
         return dmg;
     }else{
@@ -51,9 +54,10 @@ int Halfling::attack(Vampire & vampire){
 }
 
 int Halfling::attack(Troll & troll){
+    srand(time(0));
     int miss = std::rand()%2;
     if(!miss){
-        int dmg = ((100/(100+troll.getDef()))*(this->getAtk()));
+        int dmg = ((100*(this->getAtk()))/(100+troll.getDef()));
         troll.incHP(-dmg);
         return dmg;
     }else{
@@ -62,9 +66,10 @@ int Halfling::attack(Troll & troll){
 }
 
 int Halfling::attack(Goblin & goblin){
+    srand(time(0));
     int miss = std::rand()%2;
     if(!miss){
-        int dmg = ((100/(100+goblin.getDef()))*(this->getAtk()));
+        int dmg = ((100*(this->getAtk()))/(100+goblin.getDef()));
         goblin.incHP(-dmg);
         return dmg;
     }else{

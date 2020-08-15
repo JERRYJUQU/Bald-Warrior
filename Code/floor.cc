@@ -208,6 +208,7 @@ void Floor::spawn(HeroType ht){
         }else{
             auto tempDragonHoard = std::dynamic_pointer_cast<DragonHoard> (treasure);
            auto dragon = std::make_shared<Dragon>(p, tempDragonHoard);
+           dragon->attach(td);
            enemies[p.x][p.y] = dragon;
            chambers[c].erase(find(chambers[c].begin(), chambers[c].end(), tiles[p.x][p.y]));
         }
@@ -347,24 +348,25 @@ void Floor::hostileMerchants(){
 
 void Floor::attackEnemy( Direction dir ){
     Position heroPos = hero->getPos();
+    Position newPos = getNewPos(heroPos, dir);
     //check if new position is valid
-    if(heroPos.x < 0 || heroPos.y < 0 || heroPos.x > 24 || heroPos.y > 78){
+    if(newPos.x < 0 || newPos.y < 0 || newPos.x > 24 || newPos.y > 78){
         hero->setAction("PC attaks an enemy that does not exists!");
       return;
     }
     //check if there is enemy at that position
-    if(!enemies[heroPos.y][heroPos.x]){
+    if(!enemies[newPos.x][newPos.y]){
         hero->setAction("PC attaks an enemy that does not exists!");
       return;
     }else{
         // if target is a neutral merchant, hostile all merchants
-        if(enemies[heroPos.y][heroPos.x]->getEnemyType() == EnemyType::merchant && enemies[heroPos.y][heroPos.x]->getNeutral()){
+        if(enemies[newPos.x][newPos.y]->getEnemyType() == EnemyType::merchant && enemies[newPos.x][newPos.y]->getNeutral()){
             hostileMerchants();
         }
-        int dmg = enemies[heroPos.y][heroPos.x]->defend(*hero);
-        int enemyHP = enemies[heroPos.y][heroPos.x]->getHP();
+        int dmg = enemies[newPos.x][newPos.y]->defend(*hero);
+        int enemyHP = enemies[newPos.x][newPos.y]->getHP();
         std::string e;
-        EnemyType type = enemies[heroPos.y][heroPos.x]->getEnemyType();
+        EnemyType type = enemies[newPos.x][newPos.y]->getEnemyType();
         switch(type){
         case EnemyType::human: e = "H"; break;
         case EnemyType::dwarf: e = "W"; break;
@@ -468,10 +470,13 @@ void Floor::turn(Action action, Direction dir) {
                       Position tempPos;
                       tempPos.x = i;
                       tempPos.y = j;
-                      auto tempTreasure = std::make_shared<SmallHoard>(tempPos);
+                      auto tempTreasure = std::make_shared<NormalHoard>(tempPos);
+                      tempTreasure->attach(td);
                       treasures[i][j] = tempTreasure;
                       tempPos = getValidPos(tempPos);
-                      treasures[i][j] = tempTreasure;
+                      tempTreasure = std::make_shared<NormalHoard>(tempPos);
+                      tempTreasure->attach(td);
+                      treasures[tempPos.x][tempPos.y] = tempTreasure;
                       break;
                   }
                   case EnemyType::dragon:

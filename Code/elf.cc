@@ -18,27 +18,29 @@ int Elf::defend(Hero & hero){
 }
     
 int Elf::attack(Shade & shade){
+    srand(time(0));
     int miss = std::rand()%2;
     int dmg;
     if(!miss){
-        dmg = ((100/(100+shade.getDef()))*(this->getAtk()));
+        dmg = ((100*(this->getAtk()))/(100+shade.getDef()));
         shade.incHP(-dmg);
     }else{
         dmg = 0;
     }
     miss = std::rand()%2;
     if(!miss){
-        dmg += ((100/(100+shade.getDef()))*(this->getAtk()));
+        dmg += ((100*(this->getAtk()))/(100+shade.getDef()));
         shade.incHP(-dmg);
     }
     return dmg;
 }
     
 int Elf::attack(Drow & drow){
+    srand(time(0));
     int miss = std::rand()%2;
     int dmg;
     if(!miss){
-        dmg = ((100/(100+drow.getDef()))*(this->getAtk()));
+        dmg = ((100*(this->getAtk()))/(100+drow.getDef()));
         drow.incHP(-dmg);
     }else{
         dmg = 0;
@@ -47,51 +49,54 @@ int Elf::attack(Drow & drow){
 }
 
 int Elf::attack(Vampire & vampire){
+    srand(time(0));
     int miss = std::rand()%2;
     int dmg;
     if(!miss){
-        dmg = ((100/(100+vampire.getDef()))*(this->getAtk()));
+        dmg = ((100*(this->getAtk()))/(100+vampire.getDef()));
         vampire.incHP(-dmg);
     }else{
         dmg = 0;
     }
     miss = std::rand()%2;
     if(!miss){
-        dmg += ((100/(100+vampire.getDef()))*(this->getAtk()));
+        dmg += ((100*(this->getAtk()))/(100+vampire.getDef()));
         vampire.incHP(-dmg);
     }
     return dmg;
 }
 
 int Elf::attack(Troll & troll){
+    srand(time(0));
     int miss = std::rand()%2;
     int dmg;
     if(!miss){
-        dmg = ((100/(100+troll.getDef()))*(this->getAtk()));
+        dmg = ((100*(this->getAtk()))/(100+troll.getDef()));
         troll.incHP(-dmg);
     }else{
         dmg = 0;
     }
     miss = std::rand()%2;
     if(!miss){
-        dmg += ((100/(100+troll.getDef()))*(this->getAtk()));
+        dmg += ((100*(this->getAtk()))/(100+troll.getDef()));
         troll.incHP(-dmg);
     }
     return dmg;
 }
 
 int Elf::attack(Goblin & goblin){
+    srand(time(0));
     int miss = std::rand()%2;
     int dmg;
     if(!miss){
-        dmg = ((100/(100+goblin.getDef()))*(this->getAtk()));
+        dmg = ((100*(this->getAtk()))/(100+goblin.getDef()));
         goblin.incHP(-dmg);
     }else{
         dmg = 0;
     }
     miss = std::rand()%2;
     if(!miss){
-        dmg += ((100/(100+goblin.getDef()))*(this->getAtk()));
+        dmg += ((100*(this->getAtk()))/(100+goblin.getDef()));
         goblin.incHP(-dmg);
     }
     return dmg;

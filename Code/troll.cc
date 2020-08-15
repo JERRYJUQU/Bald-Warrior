@@ -24,45 +24,46 @@ Troll::Troll(Position pos): Hero{pos, HeroType::troll} {
 }
 
  int Troll::attack(Human & human){
-    int dmg = ((100/(100+human.getDef()))*(this->getAtk()));
+    int dmg = ((100*(this->getAtk()))/(100+human.getDef()));
     human.incHP(-dmg);
     return dmg; 
 }
         
  int Troll::attack(Dwarf & dwarf){
-    int dmg = ((100/(100+dwarf.getDef()))*(this->getAtk()));
+    int dmg = ((100*(this->getAtk()))/(100+dwarf.getDef()));
     dwarf.incHP(-dmg);
     return dmg; 
 }
         
  int Troll::attack(Elf & elf){
-    int dmg = ((100/(100+elf.getDef()))*(this->getAtk()));
+    int dmg = ((100*(this->getAtk()))/(100+elf.getDef()));
     elf.incHP(-dmg);
     return dmg; 
 }
         
  int Troll::attack(Orcs & orcs){
-    int dmg = ((100/(100+orcs.getDef()))*(this->getAtk()));
+    int dmg = ((100*(this->getAtk()))/(100+orcs.getDef()));
     orcs.incHP(-dmg);
     return dmg; 
 }
         
  int Troll::attack(Merchant & merchant){
-    int dmg = ((100/(100+merchant.getDef()))*(this->getAtk()));
+    int dmg = ((100*(this->getAtk()))/(100+merchant.getDef()));
     merchant.incHP(-dmg);
     return dmg; 
 }
         
  int Troll::attack(Dragon & dragon){
-    int dmg = ((100/(100+dragon.getDef()))*(this->getAtk()));
+    int dmg = ((100*(this->getAtk()))/(100+dragon.getDef()));
     dragon.incHP(-dmg);
     return dmg; 
 }
         
  int Troll::attack(Halfling & halfling){
+    srand(time(0));
     int miss = std::rand() % 2;
     if(!miss){
-        int dmg = ((100/(100+halfling.getDef()))*(this->getAtk()));
+        int dmg = ((100*(this->getAtk()))/(100+halfling.getDef()));
         halfling.incHP(-dmg);
         return dmg; 
     }else{
