@@ -91,8 +91,9 @@ class Floor {
   Position getNewPos(Position oldPos, Direction dir);
   Position getValidPos(Position pos);
   void refreshDisplay();
-  bool heroAround(Enemy& enemy);
+  bool heroAround(std::shared_ptr<Enemy> enemy);
   template<typename T> T enumRand();
+  void hostileMerchants();
 
 public:
   Floor(int n);
