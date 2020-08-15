@@ -7,8 +7,8 @@ int main(){
   while (std::getline(ofile, l)) std::cout << l << std::endl;
   ofile.close();
 
-  std::cout << "There was a old story in UW about a chamber underneath..." << std::endl;
-  std::cout << "About heros deafeating monsters to acquire the final treasure: a GOLDEN GOOSE!" << std::endl;
+  std::cout << "There was an old story in UW about a chamber underneath..." << std::endl;
+  std::cout << "About heros defeating monsters to acquire the final treasure: A GOLDEN GOOSE!" << std::endl;
   std::cout << "However, strange happenings are afoot in the chamber this term." << std::endl;
   std::cout << "The monsters have revolted and demanded to be made the heroes due to their negative portrayal in previous iterations of CC3k!" << std::endl;
   std::cout << "" << std::endl;
