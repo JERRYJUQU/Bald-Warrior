@@ -26,7 +26,7 @@ int main(){
       cin.ignore();
     }
     std::getline(std::cin, line);
-    if ( std::cin.fail()) break;
+    if (std::cin.fail()) break;
     if(line.length() == 1){
       if(line[0] == 'f'){
         f.setPause();
