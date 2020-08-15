@@ -14,6 +14,8 @@ Basically, before reading this document, you should have successfully compiled t
 
 **Before running the actual program, we HIGHLY suggest you to resize the terminal window to 79*32 for the best view experience.**
 
+<div style="page-break-after: always"></div>
+
 ## CC3K
 Run the cc3k executable and the following should appear:
 ```
@@ -61,7 +63,9 @@ It asks for a race. A race for player is either one of:
 
 If you don't select one, we will pick shade as a default for you. It is recommanded to pick Troll for this demo for smoother experience. If you are a high-level player of CC3K you can ignore the previous sentence.
 
-Type the first letter of each race in lower case to select it. The following shold appear:
+<div style="page-break-after: always"></div>
+
+Type the first letter of each race in lower case to select it. The following should appear:
 ```
 > t
 |-----------------------------------------------------------------------------|
@@ -166,6 +170,8 @@ Enter your command:
 
 You can see that the Player Character(PC) has moved south by one block. You may also notice that enemies have moved. That's right! They can move! In each turn, they will move to one block radius around them, or they may stay. Luckily, they can't open doors, so you are safe in passages. BUT! If they see you in one block radius, they will attack instead! Be careful!
 
+<div style="page-break-after: always"></div>
+
 You can pause the movement of enemies by typing the command "**f**".
 ```
 > f
@@ -239,6 +245,8 @@ Action: PC picks up a small hoard.
 Enter your command:
 ```
 Notice that your gold increased by 1.
+
+<div style="page-break-after: always"></div>
 
 Now try to find a potion. For example, go to the one closest to you.
 ```
