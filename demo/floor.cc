@@ -121,6 +121,7 @@ void Floor::spawn(HeroType ht){
 
   //Generate stair
   int c = (rand()%5);
+  int stairChamber = c;
   int i = (rand()%(chambers[c].size()));
   stair = make_shared<Stair>( chambers[c][i]->getPos() );
   stair->attach(td);
@@ -128,6 +129,10 @@ void Floor::spawn(HeroType ht){
 
   //Generate Hero
   c = (rand()%5);
+  // hero cannot spawn in the same chamber as stairs
+  while(c == stairChamber){
+    c = (rand()%5);
+  }
   i = (rand()%chambers[c].size());
   switch(ht){
     case HeroType::shade: hero = make_shared<Shade>( chambers[c][i]->getPos() ); break;
@@ -281,6 +286,80 @@ Position Floor::getNewPos(Position oldPos, Direction dir){
     return newPos;
 }
 
+std::string Floor::seeAPotion(Potion & potion){
+    std::string s = "PC sees a";
+    if(!potion.getUsed()){
+        return (s+"n unknown potion ");
+    }else{
+        std::string potionTypeStr;
+        PotionType type = potion.getPotionType();
+        switch (type) {
+        case PotionType::restoreHealth:
+            potionTypeStr = "RH";
+            break;
+        case PotionType::posionHealth:
+            potionTypeStr = "PH";
+            break;
+        case PotionType::boostAtk:
+            potionTypeStr = "BA";
+            break;
+        case PotionType::woundAtk:
+            potionTypeStr = "WA";
+            break;
+        case PotionType::boostDef:
+            potionTypeStr = "BD";
+            break;
+        case PotionType::woundDef:
+            potionTypeStr = "WD";
+        }
+        return (s+" "+potionTypeStr+" potion ");
+    }
+}
+
+void Floor::seePotions(){
+    Position pos = hero->getPos();
+    if(potions[pos.x-1][pos.y]){
+       std::string action = seeAPotion(*(potions[pos.x-1][pos.y]));
+       action = action + "at North.";
+       hero->setAction(hero->getAction()+" "+action);
+    }
+    if(potions[pos.x+1][pos.y]){
+       std::string action = seeAPotion(*(potions[pos.x+1][pos.y]));
+       action = action + "at South.";
+       hero->setAction(hero->getAction()+" "+action);
+    }
+    if(potions[pos.x][pos.y-1]){
+       std::string action = seeAPotion(*(potions[pos.x][pos.y-1]));
+       action = action + "at West.";
+       hero->setAction(hero->getAction()+" "+action);
+    }
+    if(potions[pos.x][pos.y+1]){
+       std::string action = seeAPotion(*(potions[pos.x][pos.y+1]));
+       action = action + "at East.";
+       hero->setAction(hero->getAction()+" "+action);
+    }
+    if(potions[pos.x-1][pos.y-1]){
+       std::string action = seeAPotion(*(potions[pos.x-1][pos.y-1]));
+       action = action + "at North West.";
+       hero->setAction(hero->getAction()+" "+action);
+    }
+    if(potions[pos.x-1][pos.y+1]){
+       std::string action = seeAPotion(*(potions[pos.x-1][pos.y+1]));
+       action = action + "at North East.";
+       hero->setAction(hero->getAction()+" "+action);
+    }
+    if(potions[pos.x+1][pos.y-1]){
+       std::string action = seeAPotion(*(potions[pos.x+1][pos.y-1]));
+       action = action + "at South West.";
+       hero->setAction(hero->getAction()+" "+action);
+    }
+    if(potions[pos.x+1][pos.y+1]){
+       std::string action = seeAPotion(*(potions[pos.x+1][pos.y+1]));
+       action = action + "at South East.";
+       hero->setAction(hero->getAction()+" "+action);
+    }
+}
+
 void Floor::moveHero( Direction dir ){
 
     Position oldPos = hero->getPos();
@@ -322,6 +401,7 @@ void Floor::moveHero( Direction dir ){
           }
           std::string action = "PC picks up a " + t + ".";
           hero->setAction(action);
+          seePotions();
           // delete picked up treasure
           treasures[newPos.x][newPos.y] = nullptr;
           return;
@@ -333,6 +413,7 @@ void Floor::moveHero( Direction dir ){
     }
     else{
         hero->setPos(newPos);
+        seePotions();
         return;
     }
 }
@@ -374,7 +455,16 @@ void Floor::attackEnemy( Direction dir ){
     }
 }
 
-
+void Floor::revealPotion(Potion & potion){
+    PotionType type = potion.getPotionType();
+    for (int i = 0; i < 25; i++) {
+      for (int j = 0; j < 79; j++) {
+          if(potions[i][j] && potions[i][j]->getPotionType() == type){
+              potions[i][j]->setUsed(true);
+          }
+      }
+    }
+}
 void Floor::usePotion( Direction dir ){
     Position heroPos = hero->getPos();
     //check if new position is valid
@@ -388,6 +478,7 @@ void Floor::usePotion( Direction dir ){
       return;
     }else{
         hero->usePotion(*potions[newPos.x][newPos.y]);
+        revealPotion(*potions[newPos.x][newPos.y]);
         PotionType potionType = potions[newPos.x][newPos.y]->getPotionType();
         potions[newPos.x][newPos.y] = nullptr;
         std::string potionTypeStr;

@@ -94,6 +94,9 @@ class Floor {
   bool heroAround(std::shared_ptr<Enemy> enemy);
   template<typename T> T enumRand();
   void hostileMerchants();
+  void seePotions();
+  std::string seeAPotion(Potion & potion);
+  void revealPotion(Potion & potion);
 
 public:
   Floor(int n);
