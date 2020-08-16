@@ -20,7 +20,7 @@ int main(){
       std::cin >> command;
       if (std::cin.fail()) break;
       switch( command ) {
-        case 'q': exit(0);
+        case 'q': return 0;
         case 's': f.spawn(HeroType::shade); break;
         case 'd': f.spawn(HeroType::drow); break;
         case 'v': f.spawn(HeroType::vampire); break;
@@ -43,7 +43,7 @@ int main(){
       }else if(line[0] == 'r'){
         goto start;
       }else if(line[0] == 'q'){
-        exit(0);
+        return 0;
         break;
       }
     }else{
@@ -84,4 +84,5 @@ int main(){
   std::ifstream efile("ending.txt");
   while (std::getline(efile, l)) std::cout << l << std::endl;
   efile.close();
+  return 0;
 };
