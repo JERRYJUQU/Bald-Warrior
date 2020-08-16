@@ -286,7 +286,7 @@ Position Floor::getNewPos(Position oldPos, Direction dir){
     return newPos;
 }
 
-std::string seeAPotion(Potion & potion){
+std::string Floor::seeAPotion(Potion & potion){
     std::string s = "PC sees a";
     if(!potion.getUsed()){
         return (s+"n unknown potion ");
@@ -316,7 +316,7 @@ std::string seeAPotion(Potion & potion){
     }
 }
 
-void seePotions(){
+void Floor::seePotions(){
     Position pos = hero->getPos();
     if(potions[pos.x-1][pos.y]){
        std::string action = seeAPotion(*(potions[pos.x-1][pos.y]));
@@ -455,7 +455,7 @@ void Floor::attackEnemy( Direction dir ){
     }
 }
 
-void revealPotion(Potion & potion){
+void Floor::revealPotion(Potion & potion){
     PotionType type = potion.getPotionType();
     for (int i = 0; i < 25; i++) {
       for (int j = 0; j < 79; j++) {
