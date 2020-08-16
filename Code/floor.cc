@@ -319,7 +319,13 @@ void Floor::moveHero( Direction dir ){
           case TreasureType::dragonHoard: t = "dragon hoard"; break;
           }
           std::string action = "PC picks up a " + t + ".";
+<<<<<<< Updated upstream
           hero->setAction(action);
+=======
+          std::string tempAction = hero->getAction();
+          hero->setAction(tempAction + " " + action);
+          seePotions();
+>>>>>>> Stashed changes
           // delete picked up treasure
           treasures[newPos.x][newPos.y] = nullptr;
           return;
@@ -416,7 +422,8 @@ void Floor::usePotion( Direction dir ){
         case PotionType::woundDef:
             potionTypeStr = "WD";
         }
-        hero->setAction("PC uses " + potionTypeStr +".");
+        std::string tempAction = hero->getAction();
+        hero->setAction(tempAction + " PC uses " + potionTypeStr +".");
     }
 };
 
@@ -444,11 +451,17 @@ bool Floor::heroAround(std::shared_ptr<Enemy> enemy){
   }
 }
 
+<<<<<<< Updated upstream
 void Floor::turn(Action action, Direction dir) {
   switch(action){
     case Action::use: usePotion( dir ); break;
     case Action::attack: attackEnemy( dir ); break;
     case Action::move: moveHero( dir ); break;
+=======
+int Floor::turn(Action action, Direction dir) {
+  if(action == Action::attack) {
+    attackEnemy( dir );
+>>>>>>> Stashed changes
   }
 
   std::vector<std::shared_ptr<Enemy>> moved;
@@ -555,6 +568,8 @@ void Floor::turn(Action action, Direction dir) {
     // notify textdisplay
     return;
   }
+  if(action == Action::move) moveHero(dir);
+  else if(action == Action::use) usePotion(dir);
   //check whether hero is troll, regenerate 5 hp;
   if(hero->getHeroType() == HeroType::troll){
     hero->incHP(5);
