@@ -14,11 +14,11 @@ double Potion::getScale(Hero &hero){
 	}
 };
 
-void setUsed(bool b){
+void Potion::setUsed(bool b){
 	used = b;
 };
 
-bool getUsed(){
+bool Potion::getUsed(){
 	return used;
 };
 
