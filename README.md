@@ -12,7 +12,7 @@ This is an implementation of the game ChamberCrawler3000 for the final project o
 Final UML:
 ![](UML/UML_Final.jpeg)
 
-## Run
+## Compile
 To compile, use the provided Makefile in the Code directory:
 `
 make
