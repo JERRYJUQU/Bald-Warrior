@@ -1,4 +1,4 @@
-# Bald-Warrior ![](BaldWarrior.png)
+# ChamberCrawler3000 ![](BaldWarrior.png)
  CS246 final project
 
 ## Introduction
